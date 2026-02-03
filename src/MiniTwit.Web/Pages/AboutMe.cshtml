@@ -1,0 +1,91 @@
+@page "/AboutMe"
+@model MiniTwit.Web.Pages.AboutMe
+
+@{
+    ViewData["Title"] = "MiniTwit!";
+    Layout = "Shared/_Layout";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    @* The following code for layout is based upon the tutorial from W3Schools: https://www.w3schools.com/html/html_comments.asp --> *@
+    table {
+        font-family: 'Trebuchet MS', sans-serif;
+        border-collapse: collapse;
+        width: 90%;
+    }
+    td, th {
+        border: 1px solid #f5eeee;
+        text-align: left;
+        padding: 8px;
+        vertical-align: top;
+    }
+    tr:nth-child(even) {
+        background-color: #f5eeee;
+    }
+</style>
+</head>
+<body>
+<div>
+    <h1>About Me</h1>
+    <table>
+        <tr>
+            <th>Feature</th> 
+            <th>Information</th>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>@Model.DisplayName</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>@Model.Email</td>
+        </tr>
+        <tr>
+            <td>Following</td>
+            <td> @if (@Model.Following.Any())
+                 {
+                     @(string.Join(", ", Model.Following))
+                 }
+                 else
+                 {
+                     <p style="padding: 0; margin: 0">You are not following anyone.</p>  
+                 }</td>
+        </tr>
+        <tr>
+            <td>Cheeps</td>
+            <td>@if (Model.Cheeps!.Any())
+                {
+                    <ul id="messagelist" class="cheeps">
+                        @foreach (var cheep in Model.Cheeps!)
+                        {
+                            <li>
+                                <p>
+                                    <strong>
+                                        <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
+                                    </strong>
+                                    @cheep.Text
+                                    <small>&mdash; @cheep.CreatedAt</small>
+                                </p>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <em>There are no cheeps so far.</em>
+                }</td>
+        </tr>
+    </table>
+</div>
+<br/>
+<h2>Forget Me</h2>
+<p>Click the 'Forget me!' button to delete your account and the information tied to it. Warning this can't be reversed</p>
+<form method="post">
+    <button type="submit" asp-page-handler="AboutMe">Forget me!</button>
+</form>
+
+</body>
+</html>
