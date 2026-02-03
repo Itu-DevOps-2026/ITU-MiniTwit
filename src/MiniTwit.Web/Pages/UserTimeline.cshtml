@@ -1,9 +1,9 @@
 ﻿@page "/{author}"
 @using MiniTwit.Infrastructure.Entities
-@model Chirp.Web.Pages.UserTimelineModel
+@model MiniTwit.Web.Pages.UserTimelineModel
 @inject UserManager<Author> UserManager
 @{
-    ViewData["Title"] = "Chirp!";
+    ViewData["Title"] = "MiniTwit!";
     Layout = "Shared/_Layout";
     var routeName = HttpContext.GetRouteValue("author");
 }

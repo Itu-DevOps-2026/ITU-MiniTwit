@@ -1,4 +1,4 @@
-﻿using Chirp.Core.Interfaces;
+﻿using MiniTwit.Core.Interfaces;
 using MiniTwit.Infrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;

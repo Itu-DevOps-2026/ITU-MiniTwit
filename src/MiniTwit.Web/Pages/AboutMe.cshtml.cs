@@ -1,5 +1,5 @@
-using Chirp.Core.DTO;
-using Chirp.Core.Interfaces;
+using MiniTwit.Core.DTO;
+using MiniTwit.Core.Interfaces;
 using MiniTwit.Infrastructure.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;

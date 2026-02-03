@@ -1,4 +1,4 @@
-﻿using Chirp.Core.DTO;
+﻿using MiniTwit.Core.DTO;
 
 namespace MiniTwit.Core.Tests.DTO;
 

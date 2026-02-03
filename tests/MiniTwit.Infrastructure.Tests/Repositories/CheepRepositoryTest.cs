@@ -1,5 +1,5 @@
 using System.Data.Common;
-using Chirp.Core.DTO;
+using MiniTwit.Core.DTO;
 using MiniTwit.Infrastructure.Data;
 using MiniTwit.Infrastructure.Entities;
 using MiniTwit.Infrastructure.Repositories;
@@ -11,19 +11,19 @@ namespace MiniTwit.Infrastructure.Tests.Repositories;
 public class CheepRepositoryTest : IDisposable
 {
     private readonly DbConnection _connection;
-    private readonly DbContextOptions<ChirpDBContext> _options;
+    private readonly DbContextOptions<MiniTwitDBContext> _options;
 
     public CheepRepositoryTest()
     {
         _connection = new SqliteConnection("Filename=:memory:");
         _connection.Open();
 
-        _options = new DbContextOptionsBuilder<ChirpDBContext>()
+        _options = new DbContextOptionsBuilder<MiniTwitDBContext>()
             .UseSqlite(_connection)
             .Options;
     }
 
-    ChirpDBContext CreateDbContext() => new ChirpDBContext(_options);
+    MiniTwitDBContext CreateDbContext() => new MiniTwitDBContext(_options);
 
     public void Dispose() => _connection.Dispose();
 

@@ -15,19 +15,18 @@ public class DbInitializerTest : IDisposable
 {
     //the set-up is the same as in Chirp/tests/MiniTwit.Infrastructure.Tests/Repositories/AuthorRepositoryTest.cs
     private readonly DbConnection _connection;
-    private readonly DbContextOptions<ChirpDBContext> _options;
+    private readonly DbContextOptions<MiniTwitDBContext> _options;
 
     public DbInitializerTest()
     {
         _connection = new SqliteConnection("Filename=:memory:");
         _connection.Open();
 
-        _options = new DbContextOptionsBuilder<ChirpDBContext>()
-            .UseSqlite(_connection)
+        _options = new DbContextOptionsBuilder<MiniTwitDBContext>().UseSqlite(_connection)
             .Options;
     }
 
-    ChirpDBContext CreateDbContext() => new ChirpDBContext(_options);
+    MiniTwitDBContext CreateDbContext() => new MiniTwitDBContext(_options);
 
     public void Dispose() => _connection.Dispose();
     
