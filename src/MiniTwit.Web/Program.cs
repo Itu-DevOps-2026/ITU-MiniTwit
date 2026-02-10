@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MiniTwit.Core.Interfaces;
 using MiniTwit.Infrastructure.Data;
 using MiniTwit.Infrastructure.Entities;
@@ -6,6 +7,8 @@ using MiniTwit.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using DotNetEnv;
+using Microsoft.AspNetCore.Authentication;
+using MiniTwit.Web.Authentication;
 
 // Load OAuth secrets
 Env.Load();
@@ -40,6 +43,14 @@ builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.AddAuthentication("Basic")
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("SimulatorOnly", policy =>
+        policy.RequireClaim(ClaimTypes.Name, "simulator"));
+});
 
 bool gotClientId = Environment.GetEnvironmentVariable("AUTHENTICATION_GITHUB_CLIENTID") != null;
 bool gotClientSecret = Environment.GetEnvironmentVariable("AUTHENTICATION_GITHUB_CLIENTSECRET") != null;
