@@ -14,6 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using MiniTwit.Core.DTO;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
@@ -208,21 +209,22 @@ namespace Org.OpenAPITools.Controllers
         /// <param name="latest">Optional: &#x60;latest&#x60; value to update</param>
         /// <response code="204">No Content</response>
         /// <response code="403">Unauthorized - Must include correct Authorization header</response>
+        [Authorize(AuthenticationSchemes = "Basic",Policy = "SimulatorOnly")]
         [HttpPost]
         [Route("/msgs/{username}")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("PostMessagesPerUser")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
-        public virtual IActionResult PostMessagesPerUser([FromRoute (Name = "username")][Required]string username, [FromHeader (Name = "Authorization")][Required()]string authorization, [FromBody]PostMessage payload, [FromQuery (Name = "latest")]int? latest)
+        public virtual IActionResult PostMessagesPerUser([FromRoute][Required] string username, [FromQuery] int? latest, [FromBody]PostMessage payload)
         {
+            var author =  _authorService.GetAuthorByName(username).Result;
 
-            //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(204);
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403, default);
+            var cheep = new CheepDTO() { AuthorId = author!.Id,Text = payload.Content,CreatedAt = DateTime.Today};
+            
+            _cheepService.CreateCheepFromDTO(cheep);
 
-            throw new NotImplementedException();
+            return StatusCode(204);
         }
 
         /// <summary>
