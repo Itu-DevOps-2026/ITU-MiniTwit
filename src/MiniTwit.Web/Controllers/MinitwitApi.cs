@@ -19,6 +19,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
+using MiniTwit.Core.Interfaces;
 
 namespace Org.OpenAPITools.Controllers
 { 
@@ -27,7 +28,16 @@ namespace Org.OpenAPITools.Controllers
     /// </summary>
     [ApiController]
     public class MinitwitApiController : ControllerBase
-    { 
+    {
+        private readonly ICheepService _cheepService;
+        private readonly IAuthorService _authorService;
+
+        public MinitwitApiController(ICheepService cheepService, IAuthorService authorService)
+        {
+            _cheepService = cheepService;
+            _authorService = authorService;
+        }
+        
         /// <summary>
         /// 
         /// </summary>
@@ -148,7 +158,14 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
         public virtual IActionResult GetMessagesPerUser([FromRoute][Required] string username, [FromQuery] int? latest, [FromQuery] int? no)
         {
-            return Ok("test");
+
+            if (_authorService.GetAuthorByName(username).Result == null)
+            {
+                return NotFound();
+            }
+            
+            var cheeps = _cheepService.GetCheepsFromAuthorOnOnePage(username).Take(no ?? 100).ToArray();
+            return StatusCode(200, cheeps);
         }
 
         /// <summary>
