@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Controllers
         {
             try
             {
-                var response = new { latest = Latest };
+                var response = new LatestValue() {Latest = Latest};
                 return StatusCode(200, response);
             }
             catch (Exception e)
