@@ -196,6 +196,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="204">No Content</response>
         /// <response code="403">Unauthorized - Must include correct Authorization header</response>
         /// <response code="404">User not found (no response body)</response>
+        [Authorize(AuthenticationSchemes = "Basic",Policy = "SimulatorOnly")]
         [HttpPost]
         [Route("/fllws/{username}")]
         [Consumes("application/json")]
@@ -269,8 +270,9 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("PostRegister")]
         [SwaggerResponse(statusCode: 400, type: typeof(ErrorResponse), description: "Bad Request | Possible reasons:  - missing username  - invalid email  - password missing  - username already taken")]
-        public virtual async Task<IActionResult> PostRegister([FromBody]RegisterRequest payload, [FromQuery (Name = "latest")]int? latest)
+        public virtual async Task<IActionResult> PostRegister([FromBody]RegisterRequest payload,  [FromQuery] int? latest)
         {
+            _latestService.SetLatest(latest);
             var user = new Author
             {
                 UserName = payload.Username,
