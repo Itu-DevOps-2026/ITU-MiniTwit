@@ -57,6 +57,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="200">Success</response>
         /// <response code="403">Unauthorized - Must include correct Authorization header</response>
         /// <response code="404">User not found (no response body)</response>
+        [Authorize(AuthenticationSchemes = "Basic", Policy = "SimulatorOnly")]
         [HttpGet]
         [Route("/fllws/{username}")]
         [ValidateModelState]
@@ -64,23 +65,27 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(FollowsResponse), description: "Success")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
         public virtual IActionResult GetFollow([FromRoute (Name = "username")][Required]string username, [FromHeader (Name = "Authorization")][Required()]string authorization, [FromQuery (Name = "latest")]int? latest, [FromQuery (Name = "no")]int? no)
-        {
+        {  
+            // Update latest if provided
+            _latestService.SetLatest(latest);
 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default);
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403, default);
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-            string exampleJson = null;
-            exampleJson = "{\n  \"follows\" : [ \"Helge\", \"John\" ]\n}";
-            exampleJson = "{\n  \"error_msg\" : \"You are not authorized to use this resource!\",\n  \"status\" : 403\n}";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<FollowsResponse>(exampleJson)
-            : default;
-            //TODO: Change the data returned
-            return new ObjectResult(example);
+            var author = _authorService.GetAuthorByName(username).Result;
+            if (author == null)
+            {
+                return StatusCode(404);
+            }
+
+            // Get following list
+            var followingList = author.Following ?? new List<string>();
+
+            // Apply limit if provided
+            if (no.HasValue)
+            {
+                followingList = followingList.Take(no.Value).ToList();
+            }
+
+            var response = new FollowsResponse { Follows = followingList };
+            return StatusCode(200, response);
         }
 
         /// <summary>
@@ -194,15 +199,26 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
         public virtual IActionResult PostFollow([FromRoute (Name = "username")][Required]string username, [FromHeader (Name = "Authorization")][Required()]string authorization, [FromBody]FollowAction payload, [FromQuery (Name = "latest")]int? latest)
         {
+            _latestService.SetLatest(latest);
 
-            //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(204);
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403, default);
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
+            // Get the author by username
+            var author = _authorService.GetAuthorByName(username).Result;
+            if (author == null)
+            {
+                return StatusCode(404);
+            }
 
-            throw new NotImplementedException();
+            // Handle follow/unfollow action
+            if (!string.IsNullOrEmpty(payload.Follow))
+            {
+                _authorService.Follow(username, payload.Follow).Wait();
+            }
+            else if (!string.IsNullOrEmpty(payload.Unfollow))
+            {
+                _authorService.Unfollow(username, payload.Unfollow).Wait();
+            }
+
+            return StatusCode(204);
         }
 
         /// <summary>
