@@ -32,6 +32,8 @@ namespace Org.OpenAPITools.Controllers
     {
         private readonly ICheepService _cheepService;
         private readonly IAuthorService _authorService;
+        //latest contains the id of the lastest successful request
+        public int Latest;
 
         public MinitwitApiController(ICheepService cheepService, IAuthorService authorService)
         {
@@ -90,20 +92,19 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 500, type: typeof(ErrorResponse), description: "Internal Server Error")]
         public virtual IActionResult GetLatestValue()
         {
-
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default);
-            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(500, default);
-            string exampleJson = null;
-            exampleJson = "{\n  \"latest\" : 0\n}";
-            exampleJson = "{\n  \"error_msg\" : \"You are not authorized to use this resource!\",\n  \"status\" : 403\n}";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<LatestValue>(exampleJson)
-            : default;
-            //TODO: Change the data returned
-            return new ObjectResult(example);
+            try
+            {
+                var response = new LatestValue() {Latest = Latest};
+                return StatusCode(200, response);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new ErrorResponse
+                {
+                    Status = 500,
+                    ErrorMsg = "Internal Server Error"
+                });
+            }
         }
 
         /// <summary>

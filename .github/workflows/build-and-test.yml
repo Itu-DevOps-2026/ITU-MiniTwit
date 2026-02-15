@@ -24,4 +24,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test (Ignore playwright)
-      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~Chirp.Web.Tests"
+      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~MiniTwit.Web.Tests"
