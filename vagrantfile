@@ -23,10 +23,17 @@ Vagrant.configure("2") do |config|
       # The following addresses an issue in DO's Ubuntu images, which still contain a lock file
       sudo fuser -vk -TERM /var/lib/apt/lists/lock
       sudo apt-get update
-
+      sudo apt-get install -y wget apt-transport-https
+      
+      #Fix for .NET fail
+      echo "Adding Microsoft package repository..."
+      wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+      sudo dpkg -i packages-microsoft-prod.deb
+      rm packages-microsoft-prod.deb
+      
       # See installation instructions: https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu-install?tabs=dotnet10&pivots=os-linux-ubuntu-2404
       echo "Installing .NET"
-      # if it fails with 'Unable to locate package dotnet-sdk-8.0' it can't find Microsoft package feed - We need to add microsoft package repository
+      
       sudo apt-get update
       sudo apt-get install -y dotnet-sdk-8.0
       
