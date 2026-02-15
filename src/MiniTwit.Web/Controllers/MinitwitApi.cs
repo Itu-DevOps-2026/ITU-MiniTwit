@@ -241,6 +241,7 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
         public virtual IActionResult PostMessagesPerUser([FromRoute][Required] string username, [FromQuery] int? latest, [FromBody]PostMessage payload)
         {
+            _latestService.SetLatest(latest);
             var author =  _authorService.GetAuthorByName(username).Result;
 
             var cheep = new CheepDTO() { AuthorId = author!.Id,Text = payload.Content,CreatedAt = DateTime.Today};
