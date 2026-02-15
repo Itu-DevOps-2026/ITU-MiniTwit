@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using DotNetEnv;
 using Microsoft.AspNetCore.Authentication;
+using MiniTwit.Web;
 using MiniTwit.Web.Authentication;
 
 // Load OAuth secrets
@@ -40,6 +41,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddSingleton<LatestService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();

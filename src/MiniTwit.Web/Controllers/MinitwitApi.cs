@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
 using MiniTwit.Core.Interfaces;
+using MiniTwit.Web;
 
 namespace Org.OpenAPITools.Controllers
 { 
@@ -32,13 +33,17 @@ namespace Org.OpenAPITools.Controllers
     {
         private readonly ICheepService _cheepService;
         private readonly IAuthorService _authorService;
+        private readonly ILogger<MinitwitApiController> _logger;
         //latest contains the id of the lastest successful request
         public int Latest;
+        private readonly LatestService _latestService;
 
-        public MinitwitApiController(ICheepService cheepService, IAuthorService authorService)
+        public MinitwitApiController(ICheepService cheepService, IAuthorService authorService, LatestService latestService,ILogger<MinitwitApiController> logger)
         {
             _cheepService = cheepService;
             _authorService = authorService;
+            _latestService = latestService;
+            _logger = logger;
         }
         
         /// <summary>
@@ -94,7 +99,7 @@ namespace Org.OpenAPITools.Controllers
         {
             try
             {
-                var response = new LatestValue() {Latest = Latest};
+                var response = new LatestValue() {Latest = _latestService.GetLatest()};
                 return StatusCode(200, response);
             }
             catch (Exception e)
@@ -160,12 +165,12 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
         public virtual IActionResult GetMessagesPerUser([FromRoute][Required] string username, [FromQuery] int? latest, [FromQuery] int? no)
         {
-
+            _latestService.SetLatest(latest);
             if (_authorService.GetAuthorByName(username).Result == null)
             {
                 return NotFound();
             }
-            
+               
             var cheeps = _cheepService.GetCheepsFromAuthorOnOnePage(username).Take(no ?? 100).ToArray();
             return StatusCode(200, cheeps);
         }
