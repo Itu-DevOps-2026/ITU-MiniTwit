@@ -10,6 +10,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -75,8 +76,8 @@ namespace Org.OpenAPITools.Controllers
                 return StatusCode(404);
             }
 
-            // Get following list
-            var followingList = author.Following ?? new List<string>();
+            // Get following list (ensure correct types)
+            IList<string> followingList = author.Following ?? new List<string>();
 
             // Apply limit if provided
             if (no.HasValue)
@@ -84,7 +85,7 @@ namespace Org.OpenAPITools.Controllers
                 followingList = followingList.Take(no.Value).ToList();
             }
 
-            var response = new FollowsResponse { Follows = followingList };
+            var response = new FollowsResponse { Follows = followingList.ToList() };
             return StatusCode(200, response);
         }
 
