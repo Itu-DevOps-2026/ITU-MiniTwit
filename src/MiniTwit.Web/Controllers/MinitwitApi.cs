@@ -277,6 +277,7 @@ namespace Org.OpenAPITools.Controllers
                 Email = payload.Email,
                 Cheeps = new List<Cheep>(),
             };
+            user.Name = payload.Username; // Set username as the 'display' name as well
             user.Following = new List<string>();
             IdentityResult result;
             
