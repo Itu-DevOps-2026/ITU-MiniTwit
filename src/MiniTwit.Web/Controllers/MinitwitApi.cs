@@ -15,6 +15,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using MiniTwit.Core.DTO;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -22,6 +23,7 @@ using Newtonsoft.Json;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
 using MiniTwit.Core.Interfaces;
+using MiniTwit.Infrastructure.Entities;
 using MiniTwit.Web;
 
 namespace Org.OpenAPITools.Controllers
@@ -38,13 +40,15 @@ namespace Org.OpenAPITools.Controllers
         //latest contains the id of the lastest successful request
         public int Latest;
         private readonly LatestService _latestService;
+        private readonly UserManager<Author> _userManager;
 
-        public MinitwitApiController(ICheepService cheepService, IAuthorService authorService, LatestService latestService,ILogger<MinitwitApiController> logger)
+        public MinitwitApiController(ICheepService cheepService, IAuthorService authorService, LatestService latestService, ILogger<MinitwitApiController> logger, UserManager<Author> userManager)
         {
             _cheepService = cheepService;
             _authorService = authorService;
             _latestService = latestService;
             _logger = logger;
+            _userManager = userManager;
         }
         
         /// <summary>
@@ -265,15 +269,33 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("PostRegister")]
         [SwaggerResponse(statusCode: 400, type: typeof(ErrorResponse), description: "Bad Request | Possible reasons:  - missing username  - invalid email  - password missing  - username already taken")]
-        public virtual IActionResult PostRegister([FromBody]RegisterRequest payload, [FromQuery (Name = "latest")]int? latest)
+        public virtual async Task<IActionResult> PostRegister([FromBody]RegisterRequest payload, [FromQuery (Name = "latest")]int? latest)
         {
+            var user = new Author
+            {
+                UserName = payload.Username,
+                Email = payload.Email,
+                Cheeps = new List<Cheep>(),
+            };
+            user.Following = new List<string>();
+            IdentityResult result;
+            
+            result = await _userManager.CreateAsync(user, payload.Pwd);
 
+            if (result.Succeeded)
+            {
+                return StatusCode(204);
+            }
+            
+            return StatusCode(400, default);
+            
+            
             //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(204);
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default);
 
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }
