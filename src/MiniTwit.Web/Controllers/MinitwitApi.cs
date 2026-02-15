@@ -288,14 +288,6 @@ namespace Org.OpenAPITools.Controllers
             }
             
             return StatusCode(400, default);
-            
-            
-            //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(204);
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400, default);
-
-            //throw new NotImplementedException();
         }
     }
 }
