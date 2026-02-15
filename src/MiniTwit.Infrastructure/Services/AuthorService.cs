@@ -1,5 +1,6 @@
 ﻿using MiniTwit.Core.DTO;
 using MiniTwit.Core.Interfaces;
+using MiniTwit.Infrastructure.Entities;
 
 namespace MiniTwit.Infrastructure.Services;
 
@@ -10,6 +11,20 @@ public class AuthorService : IAuthorService
     public AuthorService(IAuthorRepository authorRepository)
     {
         _authorRepository = authorRepository;
+    }
+    
+    // Create a new author
+    public async Task CreateAuthor(string username, string email, string password)
+    {
+        AuthorDTO newAuthor = new AuthorDTO()
+        {
+            Id = "1", // 1 because id is thrown out and created properly by Identity
+            Name = username,
+            Email = email,
+            Cheeps = new List<CheepDTO>()
+        };
+        
+        await _authorRepository.CreateAuthor(newAuthor);
     }
     
     //Retrieves an author based on a username
