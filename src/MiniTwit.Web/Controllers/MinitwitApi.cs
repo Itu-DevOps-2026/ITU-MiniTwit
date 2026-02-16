@@ -247,8 +247,11 @@ namespace Org.OpenAPITools.Controllers
         {
             _latestService.SetLatest(latest);
             var author =  _authorService.GetAuthorByName(username).Result;
-
-            var cheep = new CheepDTO() { AuthorId = author!.Id,Text = payload.Content,CreatedAt = DateTime.Today};
+            if (author == null)
+            {
+                return StatusCode(404, "no user id");
+            }
+            var cheep = new CheepDTO() { AuthorId = author.Id,Text = payload.Content,CreatedAt = DateTime.Now};
             
             _cheepService.CreateCheepFromDTO(cheep);
 
