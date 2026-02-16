@@ -1,0 +1,50 @@
+﻿# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.synced_folder ".", "/vagrant", type: "rsync"
+
+  config.vm.define "droplet1", primary: true do |server|
+    server.vm.provider :digital_ocean do |provider, override|
+      override.vm.box = 'digital_ocean'
+      override.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+      override.ssh.private_key_path = '~/.ssh/id_rsa' #CHANGE THIS to where your ssh key is located
+      provider.ssh_key_name = ENV["SSH_KEY_NAME"]
+      provider.token = ENV["DIGITAL_OCEAN_TOKEN"]
+      provider.image = 'ubuntu-22-04-x64'
+      provider.region = 'fra1'
+      provider.size = 's-1vcpu-1gb'
+      provider.privatenetworking = true
+    end
+    
+    server.vm.hostname = "droplet1"    
+    
+    server.vm.provision "shell", inline: <<-SHELL
+      # The following addresses an issue in DO's Ubuntu images, which still contain a lock file
+      sudo fuser -vk -TERM /var/lib/apt/lists/lock
+      sudo apt-get update
+      sudo apt-get install -y wget apt-transport-https
+      
+      # Add Microsoft repository to download .NET sdk from
+      echo "Adding Microsoft package repository..."
+      wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+      sudo dpkg -i packages-microsoft-prod.deb
+      rm packages-microsoft-prod.deb
+      
+      # See installation instructions: https://learn.microsoft.com/en-us/dotnet/core/install/linux-ubuntu-install?tabs=dotnet10&pivots=os-linux-ubuntu-2404
+      echo "Installing .NET"
+      
+      sudo apt-get update
+      sudo apt-get install -y dotnet-sdk-8.0
+      
+      cp -r /vagrant/src/MiniTwit.Web/publish/* $HOME
+      nohup dotnet MiniTwit.Web.dll --urls "http://0.0.0.0:5000" > out.log &
+      echo "================================================================="
+      echo "=                            DONE                               ="
+      echo "================================================================="
+      echo "Navigate in your browser to:"
+      THIS_IP=$(curl -s ifconfig.me)
+      echo "http://${THIS_IP}:5000"
+    SHELL
+  end
+end
