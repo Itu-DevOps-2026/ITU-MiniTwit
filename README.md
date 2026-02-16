@@ -14,7 +14,7 @@ Load the variables
 `source .env`
 
 # Provision VM
-Run `vagrant up --provider=digital_ocean`
+Run `vagrant up`
 
 # Running locally
 Navigate to the `src/MiniTwit.Web` folder.
