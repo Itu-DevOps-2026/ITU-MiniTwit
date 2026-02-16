@@ -32,6 +32,7 @@ namespace Org.OpenAPITools.Controllers
     /// 
     /// </summary>
     [ApiController]
+    [Route("api/simulator")]
     public class MinitwitApiController : ControllerBase
     {
         private readonly ICheepService _cheepService;
@@ -63,8 +64,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="403">Unauthorized - Must include correct Authorization header</response>
         /// <response code="404">User not found (no response body)</response>
         [Authorize(AuthenticationSchemes = "Basic", Policy = "SimulatorOnly")]
-        [HttpGet]
-        [Route("/fllws/{username}")]
+        [HttpGet("/fllws/{username}")]
         [ValidateModelState]
         [SwaggerOperation("GetFollow")]
         [SwaggerResponse(statusCode: 200, type: typeof(FollowsResponse), description: "Success")]
@@ -99,8 +99,7 @@ namespace Org.OpenAPITools.Controllers
         /// <remarks>Returns the latest ID saved</remarks>
         /// <response code="200">Success</response>
         /// <response code="500">Internal Server Error</response>
-        [HttpGet]
-        [Route("/latest")]
+        [HttpGet("/latest")]
         [ValidateModelState]
         [SwaggerOperation("GetLatestValue")]
         [SwaggerResponse(statusCode: 200, type: typeof(LatestValue), description: "Success")]
@@ -131,8 +130,7 @@ namespace Org.OpenAPITools.Controllers
         /// <param name="no">Optional: &#x60;no&#x60; limits result count</param>
         /// <response code="200">Success</response>
         /// <response code="403">Unauthorized - Must include correct Authorization header</response>
-        [HttpGet]
-        [Route("/msgs")]
+        [HttpGet("/msgs")]
         [ValidateModelState]
         [SwaggerOperation("GetMessages")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Message>), description: "Success")]
@@ -166,8 +164,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="403">Unauthorized - Must include correct Authorization header</response>
         /// <response code="404">User not found (no response body)</response>
         [Authorize(AuthenticationSchemes = "Basic",Policy = "SimulatorOnly")]
-        [HttpGet]
-        [Route("/msgs/{username}")]
+        [HttpGet("/msgs/{username}")]
         [ValidateModelState]
         [SwaggerOperation("GetMessagesPerUser")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Message>), description: "Success")]
@@ -196,8 +193,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="403">Unauthorized - Must include correct Authorization header</response>
         /// <response code="404">User not found (no response body)</response>
         [Authorize(AuthenticationSchemes = "Basic",Policy = "SimulatorOnly")]
-        [HttpPost]
-        [Route("/fllws/{username}")]
+        [HttpPost("/fllws/{username}")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("PostFollow")]
@@ -237,8 +233,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="204">No Content</response>
         /// <response code="403">Unauthorized - Must include correct Authorization header</response>
         [Authorize(AuthenticationSchemes = "Basic",Policy = "SimulatorOnly")]
-        [HttpPost]
-        [Route("/msgs/{username}")]
+        [HttpPost("/msgs/{username}")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("PostMessagesPerUser")]
@@ -266,8 +261,7 @@ namespace Org.OpenAPITools.Controllers
         /// <param name="latest">Optional: &#x60;latest&#x60; value to update</param>
         /// <response code="204">No Content</response>
         /// <response code="400">Bad Request | Possible reasons:  - missing username  - invalid email  - password missing  - username already taken</response>
-        [HttpPost]
-        [Route("/register")]
+        [HttpPost("/register")]
         [Consumes("application/json")]
         [ValidateModelState]
         [SwaggerOperation("PostRegister")]
