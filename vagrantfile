@@ -8,10 +8,10 @@ Vagrant.configure("2") do |config|
     server.vm.provider :digital_ocean do |provider, override|
       override.vm.box = 'digital_ocean'
       override.vm.box_url = "https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-      override.ssh.private_key_path = '~/.ssh/id_ed25519' #CHANGE THIS to where your ssh key is located
-      provider.ssh_key_name = 'MiniTwit' #CHANGE THIS to the name of the key in Digital Ocean
+      override.ssh.private_key_path = '~/.ssh/id_rsa' #CHANGE THIS to where your ssh key is located
+      provider.ssh_key_name = ENV["SSH_KEY_NAME"]
       provider.token = ENV["DIGITAL_OCEAN_TOKEN"]
-      provider.image = 'ubuntu-22-04-x64' # could be a custom image created in Digital Ocean
+      provider.image = 'ubuntu-22-04-x64'
       provider.region = 'fra1'
       provider.size = 's-1vcpu-1gb'
       provider.privatenetworking = true
@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
       sudo apt-get update
       sudo apt-get install -y wget apt-transport-https
       
-      #Fix for .NET fail
+      # Add Microsoft repository to download .NET sdk from
       echo "Adding Microsoft package repository..."
       wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
       sudo dpkg -i packages-microsoft-prod.deb
@@ -37,8 +37,8 @@ Vagrant.configure("2") do |config|
       sudo apt-get update
       sudo apt-get install -y dotnet-sdk-8.0
       
-      cp -r /vagrant/* $HOME
-      nohup dotnet MiniTwit.Web > out.log &
+      cp -r /vagrant/src/MiniTwit.Web/publish/* $HOME
+      nohup dotnet MiniTwit.Web.dll --urls "http://0.0.0.0:5000" > out.log &
       echo "================================================================="
       echo "=                            DONE                               ="
       echo "================================================================="
@@ -48,6 +48,3 @@ Vagrant.configure("2") do |config|
     SHELL
   end
 end
-
-# if this does not work because it can't run dotnet MinitTwit.Web because it needs MiniTwit.Web.dll because it can't compile it
-# if this is the case then run dotnet publish locally and make sure it is placed in the root with the vagrantfile then change cp command to 'cp -r /vagrant/publish/* $HOME' the dotnet command to run the .dll file
