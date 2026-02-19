@@ -1,7 +1,7 @@
 ﻿#!/usr/bin/env bash
 
 echo "Building Minitwit Images"
-docker build -t $DOCKER_USERNAME/minitwitimage -f Dockerfile .
+docker build -t $DOCKER_USERNAME/minitwitimage -f Dockerfile-MiniTwit .
 
 echo "Login to Dockerhub, provide your password below..."
 read -s DOCKER_PASSWORD
