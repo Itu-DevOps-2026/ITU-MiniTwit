@@ -33,12 +33,6 @@
   </ItemGroup>
 
     <ItemGroup>
-        <Content Include="chirp.db">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\MiniTwit.Core\MiniTwit.Core.csproj" />
       <ProjectReference Include="..\MiniTwit.Infrastructure\MiniTwit.Infrastructure.csproj" />
     </ItemGroup>
