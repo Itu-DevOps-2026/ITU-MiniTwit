@@ -45,7 +45,6 @@ builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddSingleton<LatestService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
-builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddAuthentication("Basic")
     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
 
