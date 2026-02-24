@@ -24,7 +24,7 @@ jobs:
         run: dotnet build --no-restore --configuration Release
 
       - name: Run tests
-        run: dotnet test --no-build --configuration Release --verbosity normal --filter "FullyQualifiedName!~Chirp.Web.Tests"
+        run: dotnet test --no-build --configuration Release --verbosity normal --filter "FullyQualifiedName!~MiniTwit.Web.Tests"
 
 
   release:
@@ -45,31 +45,31 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "ASPNETCORE_ENVIRONMENT=Production" >> src/Chirp.Web/.env
-          echo "AUTHENTICATION_GITHUB_CLIENTID=clientID" >> src/Chirp.Web/.env
-          echo "AUTHENTICATION_GITHUB_CLIENTSECRET=clientSecret" >> src/Chirp.Web/.env
+          echo "ASPNETCORE_ENVIRONMENT=Production" >> src/MiniTwit.Web/.env
+          echo "AUTHENTICATION_GITHUB_CLIENTID=clientID" >> src/MiniTwit.Web/.env
+          echo "AUTHENTICATION_GITHUB_CLIENTSECRET=clientSecret" >> src/MiniTwit.Web/.env
 
       - name: Publish Linux
-        run: dotnet publish src/Chirp.Web/Chirp.Web.csproj -c Release -r linux-x64 --self-contained false /p:PublishSingleFile=true /p:UseAppHost=true -o out/linux
+        run: dotnet publish src/MiniTwit.Web/MiniTwit.Web.csproj -c Release -r linux-x64 --self-contained false /p:PublishSingleFile=true /p:UseAppHost=true -o out/linux
         
       - name: Publish Windows
-        run: dotnet publish src/Chirp.Web/Chirp.Web.csproj -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true /p:UseAppHost=true -o out/win
+        run: dotnet publish src/MiniTwit.Web/MiniTwit.Web.csproj -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true /p:UseAppHost=true -o out/win
 
       - name: Publish macOS
-        run: dotnet publish src/Chirp.Web/Chirp.Web.csproj -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true /p:UseAppHost=true -o out/macos
+        run: dotnet publish src/MiniTwit.Web/MiniTwit.Web.csproj -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true /p:UseAppHost=true -o out/macos
 
       - name: Copy .env to outputs
         run: |
-          cp src/Chirp.Web/.env out/linux/.env
-          cp src/Chirp.Web/.env out/win/.env
-          cp src/Chirp.Web/.env out/macos/.env
+          cp src/MiniTwit.Web/.env out/linux/.env
+          cp src/MiniTwit.Web/.env out/win/.env
+          cp src/MiniTwit.Web/.env out/macos/.env
 
       - name: Package executables
         run: |
           cd out
-          zip -r ../chirp-linux-x64.zip linux/
-          zip -r ../chirp-win-x64.zip win/
-          zip -r ../chirp-osx-x64.zip macos/
+          zip -r ../MiniTwit-linux-x64.zip linux/
+          zip -r ../MiniTwit-win-x64.zip win/
+          zip -r ../MiniTwit-osx-x64.zip macos/
 
       - name: Generate release date
         id: date
@@ -81,8 +81,8 @@ jobs:
         tag_name: tag_name: ${{ env.RELEASE_DATE }}
         Name: Weekly-release: ${{ env.RELEASE_DATE }}
           files: |
-            chirp-linux-x64.zip
-            chirp-win-x64.zip
-            chirp-osx-x64.zip
+            MiniTwit-linux-x64.zip
+            MiniTwit-win-x64.zip
+            MiniTwit-osx-x64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
