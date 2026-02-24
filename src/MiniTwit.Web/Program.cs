@@ -57,26 +57,6 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim(ClaimTypes.Name, "simulator"));
 });
 
-bool gotClientId = Environment.GetEnvironmentVariable("AUTHENTICATION_GITHUB_CLIENTID") != null;
-bool gotClientSecret = Environment.GetEnvironmentVariable("AUTHENTICATION_GITHUB_CLIENTSECRET") != null;
-
-// Add OAuth to the App
-if (gotClientId && gotClientSecret)
-{
-    builder.Services.AddAuthentication()
-        .AddCookie()
-        .AddGitHub(o =>
-        {
-            o.ClientId = Environment.GetEnvironmentVariable("AUTHENTICATION_GITHUB_CLIENTID")!;
-            o.ClientSecret = Environment.GetEnvironmentVariable("AUTHENTICATION_GITHUB_CLIENTSECRET")!;
-            o.CallbackPath = "/signin-github";
-        });
-}
-else
-{
-    Console.WriteLine("Could not find Github Client ID and or Github Client Secret. OAuth with Github will not be available");
-}
-
 var app = builder.Build();
 
 //Creates a scope to retrieve the database context, ensures the database exists, and seeds the database with example data
