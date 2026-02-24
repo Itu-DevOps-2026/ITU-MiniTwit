@@ -71,9 +71,15 @@ jobs:
           zip -r ../chirp-win-x64.zip win/
           zip -r ../chirp-osx-x64.zip macos/
 
+      - name: Generate release date
+        id: date
+        run: echo "RELEASE_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+        tag_name: tag_name: ${{ env.RELEASE_DATE }}
+        Name: Weekly-release: ${{ env.RELEASE_DATE }}
           files: |
             chirp-linux-x64.zip
             chirp-win-x64.zip
