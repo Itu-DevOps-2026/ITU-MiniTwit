@@ -24,11 +24,11 @@ builder.Services.AddDbContext<MiniTwitDBContext>(options => options.UseSqlite(co
 builder.Services.AddDefaultIdentity<Author>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;
-        options.Password.RequireDigit = true;
-        options.Password.RequireLowercase = true;
-        options.Password.RequireUppercase = true;
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
         options.Password.RequireNonAlphanumeric = false; // disables special character requirement
-        options.Password.RequiredLength = 6;
+        options.Password.RequiredLength = 1;
     }
 ).AddEntityFrameworkStores<MiniTwitDBContext>();
 

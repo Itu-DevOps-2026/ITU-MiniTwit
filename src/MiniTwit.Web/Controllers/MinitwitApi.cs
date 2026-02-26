@@ -266,24 +266,34 @@ namespace Org.OpenAPITools.Controllers
         public virtual async Task<IActionResult> PostRegister([FromBody]RegisterRequest payload,  [FromQuery] int? latest)
         {
             _latestService.SetLatest(latest);
-            var user = new Author
-            {
-                UserName = payload.Username,
-                Email = payload.Email,
-                Cheeps = new List<Cheep>(),
-            };
-            user.Name = payload.Username; // Set username as the 'display' name as well
-            user.Following = new List<string>();
-            IdentityResult result;
-            
-            result = await _userManager.CreateAsync(user, payload.Pwd);
+            var user = CreateUser();
 
+            user.UserName = payload.Email;
+            user.Email = payload.Email;
+            user.Name = payload.Username;
+            user.Following = new List<string>();
+            var result = await _userManager.CreateAsync(user, payload.Pwd);
+            _logger.LogInformation("{} and errors {}",result.Succeeded, result.Errors.FirstOrDefault()?.Description);
             if (result.Succeeded)
             {
+                _logger.LogInformation("added author {}", _authorService.GetAuthorByName(payload.Username).Result);
                 return StatusCode(204);
             }
-            
+
             return StatusCode(400, default);
+        }
+        private Author CreateUser()
+        {
+            try
+            {
+                return Activator.CreateInstance<Author>();
+            }
+            catch
+            {
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Author)}'. " +
+                                                    $"Ensure that '{nameof(Author)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                                                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+            }
         }
     }
 }
