@@ -44,7 +44,8 @@ builder.Services.AddSingleton<LatestService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddAuthentication()
-    .AddCookie();
+    .AddCookie().
+    AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
 
 
 builder.Services.AddEndpointsApiExplorer();
