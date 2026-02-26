@@ -67,6 +67,7 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
         public virtual IActionResult GetFollow([FromRoute (Name = "username")][Required]string username, [FromHeader (Name = "Authorization")][Required()]string authorization, [FromQuery (Name = "latest")]int? latest, [FromQuery (Name = "no")]int? no)
         {  
+            _logger.LogInformation("called get follows for user {user}",username);
             // Update latest if provided
             _latestService.SetLatest(latest);
 
@@ -103,6 +104,7 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 500, type: typeof(ErrorResponse), description: "Internal Server Error")]
         public virtual IActionResult GetLatestValue()
         {
+            _logger.LogInformation("called get latest value");
             try
             {
                 var response = new LatestValue() {Latest = _latestService.GetLatest()};
@@ -127,6 +129,7 @@ namespace Org.OpenAPITools.Controllers
         /// <param name="no">Optional: &#x60;no&#x60; limits result count</param>
         /// <response code="200">Success</response>
         /// <response code="403">Unauthorized - Must include correct Authorization header</response>
+        [Authorize(AuthenticationSchemes = "Basic",Policy = "SimulatorOnly")]
         [HttpGet("msgs")]
         [ValidateModelState]
         [SwaggerOperation("GetMessages")]
@@ -134,10 +137,7 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
         public virtual IActionResult GetMessages([FromHeader (Name = "Authorization")]string? authorization, [FromQuery (Name = "latest")]int? latest, [FromQuery (Name = "no")]int? no)
         {
-            if (authorization != "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh")
-            {
-                return StatusCode(403, default);
-            }
+            _logger.LogInformation("called get messages with amount {amount}",no ?? 100);
             
             _latestService.SetLatest(latest);
 
@@ -168,14 +168,19 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
         public virtual IActionResult GetMessagesPerUser([FromRoute][Required] string username, [FromQuery] int? latest, [FromQuery] int? no)
         {
+            _logger.LogInformation("called get messages per user with username {username} and amount {amount}",username, no ?? 100);
             _latestService.SetLatest(latest);
             if (_authorService.GetAuthorByName(username).Result == null)
             {
                 return NotFound();
             }
                
-            var cheeps = _cheepService.GetCheepsFromAuthorOnOnePage(username).Take(no ?? 100).ToArray();
-            return StatusCode(200, cheeps);
+            bool hasNext;
+            //get recent cheeps
+            var cheeps = _cheepService.GetCheepsFromAuthor(username,out hasNext, null);
+            var messages = cheeps.Take(no ?? 100).Select(c => new {content = c.Text,user = c.AuthorName,pub_date = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList();
+
+            return StatusCode(200, messages);
         }
 
         /// <summary>
@@ -197,6 +202,7 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
         public virtual IActionResult PostFollow([FromRoute (Name = "username")][Required]string username, [FromHeader (Name = "Authorization")][Required()]string authorization, [FromBody]FollowAction payload, [FromQuery (Name = "latest")]int? latest)
         {
+            _logger.LogInformation("called fllws post as {user} who wants to {fllws}", username, payload);
             _latestService.SetLatest(latest);
 
             // Get the author by username
@@ -237,13 +243,14 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
         public virtual IActionResult PostMessagesPerUser([FromRoute][Required] string username, [FromQuery] int? latest, [FromBody]PostMessage payload)
         {
+            _logger.LogInformation("called msgs post with {user} and content {content}",username, payload.Content);
             _latestService.SetLatest(latest);
             var author =  _authorService.GetAuthorByName(username).Result;
             if (author == null)
             {
                 return StatusCode(404, "no user id");
             }
-            var cheep = new CheepDTO() { AuthorId = author.Id,Text = payload.Content,CreatedAt = DateTime.Now};
+            var cheep = new CheepDTO() { AuthorId = author.Id,Text = payload.Content,CreatedAt = DateTime.UtcNow};
             
             _cheepService.CreateCheepFromDTO(cheep);
 
@@ -265,6 +272,7 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(ErrorResponse), description: "Bad Request | Possible reasons:  - missing username  - invalid email  - password missing  - username already taken")]
         public virtual async Task<IActionResult> PostRegister([FromBody]RegisterRequest payload,  [FromQuery] int? latest)
         {
+            _logger.LogInformation("called register with payload {payload}",payload);
             _latestService.SetLatest(latest);
             var user = CreateUser();
 
