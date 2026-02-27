@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerOperation("GetMessages")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Message>), description: "Success")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
-        public virtual IActionResult GetMessages([FromHeader (Name = "Authorization")]string? authorization, [FromQuery (Name = "latest")]int? latest, [FromQuery (Name = "no")]int? no)
+        public virtual IActionResult GetMessages([FromHeader (Name = "Authorization")][Required()]string authorization, [FromQuery (Name = "latest")]int? latest, [FromQuery (Name = "no")]int? no)
         {
             _logger.LogInformation("called get messages with amount {amount}",no ?? 100);
             
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerOperation("GetMessagesPerUser")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Message>), description: "Success")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
-        public virtual IActionResult GetMessagesPerUser([FromRoute][Required] string username, [FromQuery] int? latest, [FromQuery] int? no)
+        public virtual IActionResult GetMessagesPerUser([FromRoute][Required] string username, [FromHeader (Name = "Authorization")][Required()]string authorization, [FromQuery (Name = "latest")]int? latest, [FromQuery (Name = "no")]int? no)
         {
             _logger.LogInformation("called get messages per user with username {username} and amount {amount}",username, no ?? 100);
             _latestService.SetLatest(latest);
@@ -241,7 +241,7 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("PostMessagesPerUser")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
-        public virtual IActionResult PostMessagesPerUser([FromRoute][Required] string username, [FromQuery] int? latest, [FromBody]PostMessage payload)
+        public virtual IActionResult PostMessagesPerUser([FromRoute][Required] string username, [FromHeader (Name = "Authorization")][Required()]string authorization, [FromQuery (Name = "latest")]int? latest, [FromBody]PostMessage payload)
         {
             _logger.LogInformation("called msgs post with {user} and content {content}",username, payload.Content);
             _latestService.SetLatest(latest);
