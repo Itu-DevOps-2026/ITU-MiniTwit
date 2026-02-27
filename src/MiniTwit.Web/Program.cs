@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using DotNetEnv;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using MiniTwit.Web;
 using MiniTwit.Web.Authentication;
 
@@ -46,6 +47,7 @@ builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddAuthentication()
     .AddCookie().
     AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
+builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationResultHandler>();
 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -55,7 +57,7 @@ builder.Services.AddSwaggerGen();
  builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("SimulatorOnly", policy =>
-        policy.RequireClaim(ClaimTypes.Name, "simulator"));
+        policy.RequireClaim("Simulator", "true"));
 });
 
 var app = builder.Build();
