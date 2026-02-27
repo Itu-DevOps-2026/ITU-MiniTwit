@@ -81,13 +81,11 @@ namespace Org.OpenAPITools.Controllers
             IList<string> followingList = author.Following ?? new List<string>();
 
             // Apply limit if provided
-            if (no.HasValue)
-            {
-                followingList = followingList.Take(no.Value).ToList();
-            }
+            var limit = no ?? 100;
+            followingList = followingList.Take(limit).ToList();
 
             var response = new FollowsResponse { Follows = followingList.ToList() };
-            return StatusCode(200, response);
+            return StatusCode(200, response.ToJson());
         }
 
         /// <summary>
@@ -108,7 +106,7 @@ namespace Org.OpenAPITools.Controllers
             try
             {
                 var response = new LatestValue() {Latest = _latestService.GetLatest()};
-                return StatusCode(200, response);
+                return StatusCode(200, response.ToJson());
             }
             catch (Exception e)
             {
@@ -116,7 +114,7 @@ namespace Org.OpenAPITools.Controllers
                 {
                     Status = 500,
                     ErrorMsg = "Internal Server Error"
-                });
+                }.ToJson());
             }
         }
 
@@ -144,7 +142,7 @@ namespace Org.OpenAPITools.Controllers
             bool hasNext;
             //get recent cheeps
             var cheeps = _cheepService.GetCheeps(out hasNext, null);
-            var messages = cheeps.Take(no ?? 100).Select(c => new {content = c.Text,user = c.AuthorName,pub_date = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList();
+            var messages = cheeps.Take(no ?? 100).Select(c => new Message {Content = c.Text,User = c.AuthorName,PubDate = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}.ToJson()).ToList();
 
             return StatusCode(200, messages);
         }
@@ -166,7 +164,7 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerOperation("GetMessagesPerUser")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Message>), description: "Success")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
-        public virtual IActionResult GetMessagesPerUser([FromRoute][Required] string username, [FromQuery] int? latest, [FromQuery] int? no)
+        public virtual IActionResult GetMessagesPerUser([FromHeader (Name = "Authorization")][Required] string authorization, [FromRoute][Required] string username, [FromQuery] int? latest, [FromQuery] int? no)
         {
             _logger.LogInformation("called get messages per user with username {username} and amount {amount}",username, no ?? 100);
             _latestService.SetLatest(latest);
@@ -178,7 +176,7 @@ namespace Org.OpenAPITools.Controllers
             bool hasNext;
             //get recent cheeps
             var cheeps = _cheepService.GetCheepsFromAuthor(username,out hasNext, null);
-            var messages = cheeps.Take(no ?? 100).Select(c => new {content = c.Text,user = c.AuthorName,pub_date = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList();
+            var messages = cheeps.Take(no ?? 100).Select(c => new Message {Content = c.Text,User = c.AuthorName,PubDate = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}.ToJson()).ToList();
 
             return StatusCode(200, messages);
         }
@@ -211,7 +209,11 @@ namespace Org.OpenAPITools.Controllers
             {
                 return StatusCode(404);
             }
-
+            if ((string.IsNullOrEmpty(payload.Follow) && string.IsNullOrEmpty(payload.Unfollow)) ||
+                (!string.IsNullOrEmpty(payload.Follow) && !string.IsNullOrEmpty(payload.Unfollow)))
+            {
+                return BadRequest(new ErrorResponse { Status = 400, ErrorMsg = "Exactly one of 'follow' or 'unfollow' must be provided"}.ToJson());
+            }
             // Handle follow/unfollow action
             if (!string.IsNullOrEmpty(payload.Follow))
             {
@@ -241,14 +243,14 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("PostMessagesPerUser")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
-        public virtual IActionResult PostMessagesPerUser([FromRoute][Required] string username, [FromQuery] int? latest, [FromBody]PostMessage payload)
+        public virtual IActionResult PostMessagesPerUser([FromHeader (Name = "Authorization")][Required()]string authorization, [FromRoute][Required] string username, [FromQuery] int? latest, [FromBody]PostMessage payload)
         {
             _logger.LogInformation("called msgs post with {user} and content {content}",username, payload.Content);
             _latestService.SetLatest(latest);
             var author =  _authorService.GetAuthorByName(username).Result;
             if (author == null)
             {
-                return StatusCode(404, "no user id");
+                return StatusCode(404);
             }
             var cheep = new CheepDTO() { AuthorId = author.Id,Text = payload.Content,CreatedAt = DateTime.UtcNow};
             
@@ -288,7 +290,7 @@ namespace Org.OpenAPITools.Controllers
                 return StatusCode(204);
             }
 
-            return StatusCode(400, default);
+            return StatusCode(400, new ErrorResponse{Status = 400, ErrorMsg = "Bad Request | Possible reasons:  - missing username  - invalid email  - password missing  - username already taken"}.ToJson());
         }
         private Author CreateUser()
         {
