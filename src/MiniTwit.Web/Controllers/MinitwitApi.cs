@@ -248,7 +248,7 @@ namespace Org.OpenAPITools.Controllers
             var author =  _authorService.GetAuthorByName(username).Result;
             if (author == null)
             {
-                return StatusCode(404, "no user id");
+                return StatusCode(404);
             }
             var cheep = new CheepDTO() { AuthorId = author.Id,Text = payload.Content,CreatedAt = DateTime.UtcNow};
             
