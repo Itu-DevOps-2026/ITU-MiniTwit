@@ -20,42 +20,54 @@ public class BasicAuthenticationHandler(
     {
         if (!Request.Headers.ContainsKey("Authorization"))
         {
-            return Task.FromResult(AuthenticateResult.Fail("Missing Authorization Header"));
+            // Still return success but with no simulator claim
+            return Task.FromResult(CreateTicket(isSimulator: false));
         }
 
         try
         {
             var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]!);
-            if (!authHeader.Scheme.Equals("basic", StringComparison.OrdinalIgnoreCase))
+
+            if (!authHeader.Scheme.Equals("Basic", StringComparison.OrdinalIgnoreCase))
             {
-                return Task.FromResult(AuthenticateResult.Fail("Invalid scheme"));
+                return Task.FromResult(CreateTicket(isSimulator: false));
             }
 
             var credentialsBytes = Convert.FromBase64String(authHeader.Parameter!);
             var credentials = Encoding.UTF8.GetString(credentialsBytes).Split(':', 2);
+
+            if (credentials.Length != 2)
+                return Task.FromResult(CreateTicket(isSimulator: false));
+
             var username = credentials[0];
             var password = credentials[1];
-            
-            if (username != "simulator" && password != "super_safe!")
-            {
-                var claims = new[] { new Claim(ClaimTypes.Name, "invalid") };
-                var identity = new ClaimsIdentity(claims, Scheme.Name);
-                var principal = new ClaimsPrincipal(identity);
-                var ticket = new AuthenticationTicket(principal, Scheme.Name);
 
-                return Task.FromResult(AuthenticateResult.Success(ticket));
-            }
+            var isValid = username == "simulator" && password == "super_safe!";
 
-            var validClaims = new[] { new Claim(ClaimTypes.Name, username)};
-            var validIdentity = new ClaimsIdentity(validClaims, Scheme.Name);
-            var validPrincipal = new ClaimsPrincipal(validIdentity);
-            var validTicket = new AuthenticationTicket(validPrincipal, Scheme.Name);
-
-            return Task.FromResult(AuthenticateResult.Success(validTicket));
+            return Task.FromResult(CreateTicket(isValid));
         }
         catch
         {
-            return Task.FromResult(AuthenticateResult.Fail("Invalid Authorization Header"));
+            return Task.FromResult(CreateTicket(isSimulator: false));
         }
+    }
+
+    private AuthenticateResult CreateTicket(bool isSimulator)
+    {
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, "basic-user")
+        };
+
+        if (isSimulator)
+        {
+            claims.Add(new Claim("Simulator", "true"));
+        }
+
+        var identity = new ClaimsIdentity(claims, Scheme.Name);
+        var principal = new ClaimsPrincipal(identity);
+        var ticket = new AuthenticationTicket(principal, Scheme.Name);
+
+        return AuthenticateResult.Success(ticket);
     }
 }
