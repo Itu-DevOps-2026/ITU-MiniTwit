@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Controllers
             followingList = followingList.Take(limit).ToList();
 
             var response = new FollowsResponse { Follows = followingList.ToList() };
-            return StatusCode(200, response.ToJson());
+            return StatusCode(200, response);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Org.OpenAPITools.Controllers
             try
             {
                 var response = new LatestValue() {Latest = _latestService.GetLatest()};
-                return StatusCode(200, response.ToJson());
+                return StatusCode(200, response);
             }
             catch (Exception e)
             {
@@ -114,7 +114,7 @@ namespace Org.OpenAPITools.Controllers
                 {
                     Status = 500,
                     ErrorMsg = "Internal Server Error"
-                }.ToJson());
+                });
             }
         }
 
@@ -142,7 +142,7 @@ namespace Org.OpenAPITools.Controllers
             bool hasNext;
             //get recent cheeps
             var cheeps = _cheepService.GetCheeps(out hasNext, null);
-            var messages = cheeps.Take(no ?? 100).Select(c => new Message {Content = c.Text,User = c.AuthorName,PubDate = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}.ToJson()).ToList();
+            var messages = cheeps.Take(no ?? 100).Select(c => new {content = c.Text,user = c.AuthorName,pub_date = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList();
 
             return StatusCode(200, messages);
         }
@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Controllers
             bool hasNext;
             //get recent cheeps
             var cheeps = _cheepService.GetCheepsFromAuthor(username,out hasNext, null);
-            var messages = cheeps.Take(no ?? 100).Select(c => new Message {Content = c.Text,User = c.AuthorName,PubDate = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}.ToJson()).ToList();
+            var messages = cheeps.Take(no ?? 100).Select(c => new {content = c.Text,user = c.AuthorName,pub_date = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList();
 
             return StatusCode(200, messages);
         }
@@ -212,7 +212,7 @@ namespace Org.OpenAPITools.Controllers
             if ((string.IsNullOrEmpty(payload.Follow) && string.IsNullOrEmpty(payload.Unfollow)) ||
                 (!string.IsNullOrEmpty(payload.Follow) && !string.IsNullOrEmpty(payload.Unfollow)))
             {
-                return BadRequest(new ErrorResponse { Status = 400, ErrorMsg = "Exactly one of 'follow' or 'unfollow' must be provided"}.ToJson());
+                return BadRequest(new ErrorResponse { Status = 400, ErrorMsg = "Exactly one of 'follow' or 'unfollow' must be provided"});
             }
             // Handle follow/unfollow action
             if (!string.IsNullOrEmpty(payload.Follow))
@@ -290,7 +290,7 @@ namespace Org.OpenAPITools.Controllers
                 return StatusCode(204);
             }
 
-            return StatusCode(400, new ErrorResponse{Status = 400, ErrorMsg = "Bad Request | Possible reasons:  - missing username  - invalid email  - password missing  - username already taken"}.ToJson());
+            return StatusCode(400, new ErrorResponse{Status = 400, ErrorMsg = "Bad Request | Possible reasons:  - missing username  - invalid email  - password missing  - username already taken"});
         }
         private Author CreateUser()
         {

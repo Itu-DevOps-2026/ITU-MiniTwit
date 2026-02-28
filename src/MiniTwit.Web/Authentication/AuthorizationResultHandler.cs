@@ -27,7 +27,7 @@ public class AuthorizationResultHandler
             {
                 Status = 403,
                 ErrorMsg = "Unauthorized - Must include correct Authorization header"
-            }.ToJson();
+            };
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(error));
             return;
