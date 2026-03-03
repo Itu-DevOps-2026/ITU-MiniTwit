@@ -55,7 +55,7 @@ public class AuthorRepository : IAuthorRepository
                         Text = c.Text,
                         CreatedAt = c.Date
                     })
-                    .ToList()
+                    .ToList(), Following = author.Following.ToList()
             };
 
         var result =  query.ToList();
@@ -93,6 +93,7 @@ public class AuthorRepository : IAuthorRepository
         originalAuthor.Id = updatedAuthor.Id;
         originalAuthor.Name = updatedAuthor.Name;
         originalAuthor.Email = updatedAuthor.Email;
+        originalAuthor.Following = updatedAuthor.Following?.ToList() ?? new List<string>();
 
         ICollection<Cheep> cheeps = new List<Cheep>();
 
@@ -143,7 +144,8 @@ public class AuthorRepository : IAuthorRepository
                         Text = c.Text,
                         CreatedAt = c.Date
                     })
-                    .ToList()
+                    .ToList(),
+                Following = author.Following.ToList()
             };
         var result = query.FirstOrDefault();
         return result;
@@ -175,7 +177,7 @@ public class AuthorRepository : IAuthorRepository
                         Text = c.Text,
                         CreatedAt = c.Date
                     })
-                    .ToList()
+                    .ToList(), Following = author.Following.ToList()
             };
         var result = query.FirstOrDefault();
         return result;
