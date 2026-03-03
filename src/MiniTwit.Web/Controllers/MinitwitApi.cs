@@ -73,17 +73,26 @@ namespace Org.OpenAPITools.Controllers
             _latestService.SetLatest(latest);
 
             var author = _authorService.GetAuthorByName(username).Result;
+            Console.WriteLine("Debug " + author.Name + " " + author.Id + " " + author.Email + " " + author.Cheeps.Count + " " +  author.Following.Count);
+
             if (author == null)
             {
                 return StatusCode(404);
             }
-
+            
             // Get following list (ensure correct types)
             IList<string> followingList = author.Following ?? new List<string>();
+            
 
             // Apply limit if provided
-            var limit = no ?? 100;
-            followingList = followingList.Take(limit).ToList();
+           //var limit = no ?? 100;
+            //followingList = followingList.Take(limit).ToList(); todo: add filter back in
+            followingList = followingList.ToList();
+            if (followingList.Count == 0)
+            {
+                return StatusCode(404, "list is empty");
+                
+            }
 
             var response = new FollowsResponse { Follows = followingList.ToList() };
             return StatusCode(200, response);
