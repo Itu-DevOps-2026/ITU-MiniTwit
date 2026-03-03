@@ -86,11 +86,6 @@ namespace Org.OpenAPITools.Controllers
             // Apply limit if provided
            var limit = no ?? 100;
             followingList = followingList.Take(limit).ToList();
-            if (followingList.Count == 0)
-            {
-                return StatusCode(404, "list is empty");
-                
-            }
 
             var response = new FollowsResponse { Follows = followingList.ToList() };
             return StatusCode(200, response);
