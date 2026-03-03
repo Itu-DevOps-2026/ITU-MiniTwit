@@ -3,6 +3,8 @@ name: automatic-weekly-release
 on:
   schedule:
     - cron: "0 8 * * TUE"
+      # allow manual triggers for now too
+  workflow_dispatch:
 
 jobs:
   build-and-test:
