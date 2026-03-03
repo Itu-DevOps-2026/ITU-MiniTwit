@@ -177,7 +177,7 @@ namespace Org.OpenAPITools.Controllers
             bool hasNext;
             //get recent cheeps
             var cheeps = _cheepService.GetCheepsFromAuthor(username,out hasNext, null);
-            var messages = cheeps.Take(no ?? 100).Select(c => new {content = c.Text,user = c.AuthorName,pub_date = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList();
+            var messages = cheeps.Take(no ?? 100).Select(c => new {content = c.Text,user = c.AuthorName,pub_date = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList().ToJson();
 
             return StatusCode(200, messages);
         }
