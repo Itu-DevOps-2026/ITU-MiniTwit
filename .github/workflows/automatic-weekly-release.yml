@@ -79,7 +79,7 @@ jobs:
 
       - name: Generate release date
         id: date
-        run: echo "RELEASE_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        run: echo "RELEASE_DATE=$(date +'%Y-%m-%d-%H%M%S')" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
