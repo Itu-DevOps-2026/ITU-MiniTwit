@@ -225,7 +225,7 @@ namespace Org.OpenAPITools.Controllers
                 _authorService.Unfollow(username, payload.Unfollow).Wait();
             }
 
-            return StatusCode(204);
+            return StatusCode(204, "");
         }
 
         /// <summary>
