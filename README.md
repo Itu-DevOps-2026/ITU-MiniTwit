@@ -3,7 +3,7 @@ You need to have vagrant version 2.4.9 & dotnet 8 installed.
 <br>
 Ensure you have a Digital Ocean token and SSH key.
 
-# Cloning the repsository
+# Cloning the repository
 Run `git clone git@github.com:Itu-DevOps-2026/ITU-MiniTwit.git`
 <br>
 `cd ITU-MiniTwit` 
