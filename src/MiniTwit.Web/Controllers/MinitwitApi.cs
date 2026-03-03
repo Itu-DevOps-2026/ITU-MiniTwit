@@ -72,8 +72,7 @@ namespace Org.OpenAPITools.Controllers
             // Update latest if provided
             _latestService.SetLatest(latest);
 
-            var author = _authorService.GetAuthorByName(username).Result;
-            Console.WriteLine("Debug " + author.Name + " " + author.Id + " " + author.Email + " " + author.Cheeps.Count + " " +  author.Following.Count);
+            var author = _authorService.GetAuthorByName(username).Result;            
 
             if (author == null)
             {
@@ -81,7 +80,7 @@ namespace Org.OpenAPITools.Controllers
             }
             
             // Get following list (ensure correct types)
-            IList<string> followingList = author.Following ?? new List<string>();
+            IList<string> followingList = author.Following; //todo: deleted ?? new List<string>()
             
 
             // Apply limit if provided
