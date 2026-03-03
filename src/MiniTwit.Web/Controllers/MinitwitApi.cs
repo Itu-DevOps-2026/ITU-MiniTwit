@@ -257,7 +257,7 @@ namespace Org.OpenAPITools.Controllers
             
             _cheepService.CreateCheepFromDTO(cheep);
 
-            return StatusCode(204);
+            return StatusCode(204, "");
         }
 
         /// <summary>
