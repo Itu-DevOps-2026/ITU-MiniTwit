@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
 
     # The following address an issue in DO's Ubuntu images, which still contain a lock file
     sudo killall apt apt-get
-    sudo rm /var/lib/dpkg/lock-frontend
+    sudo rm -f /var/lib/dpkg/lock-frontend
 
     # Install docker and docker compose
     sudo apt-get install -y docker.io docker-compose-v2
