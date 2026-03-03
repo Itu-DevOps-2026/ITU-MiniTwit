@@ -80,13 +80,12 @@ namespace Org.OpenAPITools.Controllers
             }
             
             // Get following list (ensure correct types)
-            IList<string> followingList = author.Following; //todo: deleted ?? new List<string>()
+            IList<string> followingList = author.Following;
             
 
             // Apply limit if provided
-           //var limit = no ?? 100;
-            //followingList = followingList.Take(limit).ToList(); todo: add filter back in
-            followingList = followingList.ToList();
+           var limit = no ?? 100;
+            followingList = followingList.Take(limit).ToList();
             if (followingList.Count == 0)
             {
                 return StatusCode(404, "list is empty");
