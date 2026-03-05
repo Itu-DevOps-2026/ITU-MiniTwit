@@ -147,7 +147,7 @@ namespace Org.OpenAPITools.Controllers
             var cheeps = _cheepService.GetCheeps(out hasNext, null);
             var messages = cheeps.Take(no ?? 100).Select(c => new Message
                     { Content = c.Text, User = c.AuthorName, PubDate = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss") })
-                .ToList();
+                .ToList().ToJson();
 
             return StatusCode(200, messages);
         }
@@ -181,7 +181,7 @@ namespace Org.OpenAPITools.Controllers
             bool hasNext;
             //get recent cheeps
             var cheeps = _cheepService.GetCheepsFromAuthor(username,out hasNext, null);
-            var messages = cheeps.Take(no ?? 100).Select(c => new {content = c.Text,user = c.AuthorName,pub_date = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList().ToJson();
+            var messages = cheeps.Take(no ?? 100).Select(c => new Message() {Content = c.Text,User = c.AuthorName,PubDate = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList().ToJson();
 
             return StatusCode(200, messages);
         }
