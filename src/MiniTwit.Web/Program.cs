@@ -12,8 +12,11 @@ using Microsoft.AspNetCore.Authorization;
 using MiniTwit.Web;
 using MiniTwit.Web.Authentication;
 
+
+
 ILogger<Program> logger = new LoggerFactory().CreateLogger<Program>();
 var builder = WebApplication.CreateBuilder(args);
+Env.Load();
 
 string? connectionString =
     Environment.GetEnvironmentVariable("DB_CONNECTION")
@@ -22,7 +25,7 @@ builder.Services.AddDbContext<MiniTwitDBContext>(options =>
 {
     options.UseMySql(
         connectionString,
-        ServerVersion.AutoDetect(connectionString)
+        new MySqlServerVersion(new Version(8, 0, 36))
     );
 });
 
