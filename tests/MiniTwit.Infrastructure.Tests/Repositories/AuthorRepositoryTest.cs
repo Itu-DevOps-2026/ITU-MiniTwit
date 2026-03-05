@@ -24,8 +24,12 @@ public class AuthorRepositoryTest : IDisposable
             .Options;
     }
 
-    MiniTwitDBContext CreateDbContext() => new (_options);
-
+    private MiniTwitDBContext CreateDbContext()
+    {
+        var context = new MiniTwitDBContext(_options);
+        context.Database.EnsureCreated();
+        return context;
+    }
     public void Dispose() => _connection.Dispose();
 
     [Fact]
