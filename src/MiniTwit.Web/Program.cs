@@ -12,12 +12,22 @@ using Microsoft.AspNetCore.Authorization;
 using MiniTwit.Web;
 using MiniTwit.Web.Authentication;
 
+
+
 ILogger<Program> logger = new LoggerFactory().CreateLogger<Program>();
 var builder = WebApplication.CreateBuilder(args);
+Env.Load();
 
-// Load database connection via configuration - from slides session 6
-string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<MiniTwitDBContext>(options => options.UseSqlite(connectionString));
+string? connectionString =
+    Environment.GetEnvironmentVariable("DB_CONNECTION")
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<MiniTwitDBContext>(options =>
+{
+    options.UseMySql(
+        connectionString,
+        new MySqlServerVersion(new Version(8, 0, 36))
+    );
+});
 
 // Add EF Core Identity to the app
 builder.Services.AddDefaultIdentity<Author>(options =>
