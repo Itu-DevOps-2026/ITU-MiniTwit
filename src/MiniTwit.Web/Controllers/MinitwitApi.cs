@@ -65,13 +65,13 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerOperation("GetFollow")]
         [SwaggerResponse(statusCode: 200, type: typeof(FollowsResponse), description: "Success")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
-        public virtual IActionResult GetFollow([FromRoute (Name = "username")][Required]string username, [FromHeader (Name = "Authorization")][Required()]string authorization, [FromQuery (Name = "latest")]int? latest, [FromQuery (Name = "no")]int? no)
+        public virtual async Task<IActionResult> GetFollow([FromRoute (Name = "username")][Required]string username, [FromHeader (Name = "Authorization")][Required()]string authorization, [FromQuery (Name = "latest")]int? latest, [FromQuery (Name = "no")]int? no)
         {  
             _logger.LogInformation("called get follows for user {user}",username);
             // Update latest if provided
             _latestService.SetLatest(latest);
 
-            var author = _authorService.GetAuthorByName(username).Result;
+            var author = await _authorService.GetAuthorByName(username);
             if (author == null)
             {
                 return StatusCode(404);
@@ -164,11 +164,11 @@ namespace Org.OpenAPITools.Controllers
         [SwaggerOperation("GetMessagesPerUser")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<Message>), description: "Success")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
-        public virtual IActionResult GetMessagesPerUser([FromHeader (Name = "Authorization")][Required] string authorization, [FromRoute][Required] string username, [FromQuery] int? latest, [FromQuery] int? no)
+        public virtual async Task<IActionResult> GetMessagesPerUser([FromHeader (Name = "Authorization")][Required] string authorization, [FromRoute][Required] string username, [FromQuery] int? latest, [FromQuery] int? no)
         {
             _logger.LogInformation("called get messages per user with username {username} and amount {amount}",username, no ?? 100);
             _latestService.SetLatest(latest);
-            if (_authorService.GetAuthorByName(username).Result == null)
+            if (await _authorService.GetAuthorByName(username) == null)
             {
                 return NotFound();
             }
@@ -198,13 +198,13 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("PostFollow")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
-        public virtual IActionResult PostFollow([FromRoute (Name = "username")][Required]string username, [FromHeader (Name = "Authorization")][Required()]string authorization, [FromBody]FollowAction payload, [FromQuery (Name = "latest")]int? latest)
+        public virtual async Task<IActionResult> PostFollow([FromRoute (Name = "username")][Required]string username, [FromHeader (Name = "Authorization")][Required()]string authorization, [FromBody]FollowAction payload, [FromQuery (Name = "latest")]int? latest)
         {
             _logger.LogInformation("called fllws post as {user} who wants to {fllws}", username, payload);
             _latestService.SetLatest(latest);
 
             // Get the author by username
-            var author = _authorService.GetAuthorByName(username).Result;
+            var author = await _authorService.GetAuthorByName(username);
             if (author == null)
             {
                 return StatusCode(404);
@@ -217,7 +217,7 @@ namespace Org.OpenAPITools.Controllers
             // Handle follow/unfollow action
             if (!string.IsNullOrEmpty(payload.Follow))
             {
-                _authorService.Follow(username, payload.Follow).Wait();
+                await _authorService.Follow(username, payload.Follow);
             }
             else if (!string.IsNullOrEmpty(payload.Unfollow))
             {
@@ -243,18 +243,18 @@ namespace Org.OpenAPITools.Controllers
         [ValidateModelState]
         [SwaggerOperation("PostMessagesPerUser")]
         [SwaggerResponse(statusCode: 403, type: typeof(ErrorResponse), description: "Unauthorized - Must include correct Authorization header")]
-        public virtual IActionResult PostMessagesPerUser([FromHeader (Name = "Authorization")][Required()]string authorization, [FromRoute][Required] string username, [FromQuery] int? latest, [FromBody]PostMessage payload)
+        public virtual async Task<IActionResult> PostMessagesPerUser([FromHeader (Name = "Authorization")][Required()]string authorization, [FromRoute][Required] string username, [FromQuery] int? latest, [FromBody]PostMessage payload)
         {
             _logger.LogInformation("called msgs post with {user} and content {content}",username, payload.Content);
             _latestService.SetLatest(latest);
-            var author =  _authorService.GetAuthorByName(username).Result;
+            var author = await _authorService.GetAuthorByName(username);
             if (author == null)
             {
                 return StatusCode(404);
             }
             var cheep = new CheepDTO() { AuthorId = author.Id,Text = payload.Content,CreatedAt = DateTime.UtcNow};
             
-            _cheepService.CreateCheepFromDTO(cheep);
+            await _cheepService.CreateCheepFromDTO(cheep);
 
             return StatusCode(204);
         }
