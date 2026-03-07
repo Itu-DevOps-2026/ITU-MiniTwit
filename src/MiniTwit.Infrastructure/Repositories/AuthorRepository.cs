@@ -80,14 +80,14 @@ public class AuthorRepository : IAuthorRepository
         }
 
         // Call to utility method that updates the properties of the original author
-        UpdateAuthor(originalAuthor, updatedAuthor);
+        await UpdateAuthor(originalAuthor, updatedAuthor);
 
         // Saves changes
         await _context.SaveChangesAsync();
     }
 
     // Utility method: set the new properties of the Author
-    private void UpdateAuthor(Author originalAuthor, AuthorDTO updatedAuthor)
+    private async Task UpdateAuthor(Author originalAuthor, AuthorDTO updatedAuthor)
     {
         // Sets the new properties
         originalAuthor.Id = updatedAuthor.Id;
@@ -98,7 +98,7 @@ public class AuthorRepository : IAuthorRepository
 
         foreach (var cheep in updatedAuthor.Cheeps)
         {
-            Cheep newCheep = FromCheepDtoToCheep(cheep).Result;
+            Cheep newCheep = await FromCheepDtoToCheep(cheep);
             cheeps.Add(newCheep);
         }
         

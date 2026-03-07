@@ -163,14 +163,14 @@ public class CheepRepository : ICheepRepository
         }
         
         // Call to utility method that updates the properties of the original cheep
-        UpdateCheep(originalCheep, alteredCheep);
+        await UpdateCheep(originalCheep, alteredCheep);
         
         // Saves changes
         await _context.SaveChangesAsync();
     }
     
     // Utility method: set the new properties of the Cheep
-    private async void UpdateCheep(Cheep originalCheep, CheepDTO alteredCheep)
+    private async Task UpdateCheep(Cheep originalCheep, CheepDTO alteredCheep)
     {
         // Find the author object of the alteredCheep
         var author = await FindAuthor(alteredCheep.AuthorId);
