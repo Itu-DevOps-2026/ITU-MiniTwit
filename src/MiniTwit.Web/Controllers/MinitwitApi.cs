@@ -25,6 +25,7 @@ using Org.OpenAPITools.Models;
 using MiniTwit.Core.Interfaces;
 using MiniTwit.Infrastructure.Entities;
 using MiniTwit.Web;
+using NuGet.Protocol;
 
 namespace Org.OpenAPITools.Controllers
 { 
@@ -76,12 +77,13 @@ namespace Org.OpenAPITools.Controllers
             {
                 return StatusCode(404);
             }
-
+            
             // Get following list (ensure correct types)
-            IList<string> followingList = author.Following ?? new List<string>();
+            IList<string> followingList = author.Following;
+            
 
             // Apply limit if provided
-            var limit = no ?? 100;
+           var limit = no ?? 100;
             followingList = followingList.Take(limit).ToList();
 
             var response = new FollowsResponse { Follows = followingList.ToList() };
@@ -142,7 +144,9 @@ namespace Org.OpenAPITools.Controllers
             bool hasNext;
             //get recent cheeps
             var cheeps = _cheepService.GetCheeps(out hasNext, null);
-            var messages = cheeps.Take(no ?? 100).Select(c => new {content = c.Text,user = c.AuthorName,pub_date = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList();
+            var messages = cheeps.Take(no ?? 100).Select(c => new Message
+                    { Content = c.Text, User = c.AuthorName, PubDate = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss") })
+                .ToList().ToJson();
 
             return StatusCode(200, messages);
         }
@@ -176,7 +180,7 @@ namespace Org.OpenAPITools.Controllers
             bool hasNext;
             //get recent cheeps
             var cheeps = _cheepService.GetCheepsFromAuthor(username,out hasNext, null);
-            var messages = cheeps.Take(no ?? 100).Select(c => new {content = c.Text,user = c.AuthorName,pub_date = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList();
+            var messages = cheeps.Take(no ?? 100).Select(c => new Message() {Content = c.Text,User = c.AuthorName,PubDate = c.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")}).ToList().ToJson();
 
             return StatusCode(200, messages);
         }
@@ -224,7 +228,7 @@ namespace Org.OpenAPITools.Controllers
                 _authorService.Unfollow(username, payload.Unfollow).Wait();
             }
 
-            return StatusCode(204);
+            return StatusCode(204, "");
         }
 
         /// <summary>
@@ -256,7 +260,7 @@ namespace Org.OpenAPITools.Controllers
             
             await _cheepService.CreateCheepFromDTO(cheep);
 
-            return StatusCode(204);
+            return StatusCode(204, "");
         }
 
         /// <summary>
