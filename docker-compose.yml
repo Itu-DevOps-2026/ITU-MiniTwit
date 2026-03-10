@@ -1,12 +1,13 @@
-﻿version: '3.5'
-
-networks:
+﻿networks:
   main:
     name: MiniTwit
 
 services:
   
   minitwitimage-e:
+    build:
+      context: .
+      dockerfile: Dockerfile-MiniTwit
     image: marieitu/minitwitimage-e
     container_name: minitwit
     networks:
@@ -20,10 +21,13 @@ services:
       - prometheus
   
   prometheus:
-    image: prom/prometheus
+    build:
+      dockerfile: ./Dockerfile
+      context: ./monitoring/prometheus
+    image: prometheus_image
     container_name: prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
     ports:
       - "9090:9090"
     networks:
@@ -31,8 +35,17 @@ services:
 
 
   grafana:
-    image: grafana/grafana:12.4.1
+    build:
+      dockerfile: ./Dockerfile
+      context: ./monitoring/grafana
+    image: grafana_image
+    container_name: grafana
     ports:
       - "3000:3000"
     networks:
       - main
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  grafana-storage: { }
