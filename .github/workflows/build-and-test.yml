@@ -24,14 +24,20 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-
-      # FORMATTER CSharpier (install locally also)
+    
+    # FORMATTER CSharpier (install locally also)
     - name: Install CSharpier
       run: dotnet tool install dotnet-csharpier --global
     - name: Check Formatting (CSharpier)
       run: dotnet-csharpier --check .
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    # LINTER: C# Roslyn Analyzers
+    # force fail of build on warnings
+    - name: Build and Lint C#
+      run: dotnet build --no-restore -c Release /p:TreatWarningsAsErrors=true
 
     - name: Clean build
       run: dotnet clean
