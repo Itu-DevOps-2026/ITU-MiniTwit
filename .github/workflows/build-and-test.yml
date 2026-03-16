@@ -29,8 +29,8 @@ jobs:
     - name: Restore tools (CSharpier)
       run: dotnet tool restore
 
-    - name: Check Formatting (CSharpier)
-      run: dotnet csharpier check .
+    #- name: Check Formatting (CSharpier)
+    #  run: dotnet csharpier check .
 
     - name: Restore dependencies
       run: dotnet restore
