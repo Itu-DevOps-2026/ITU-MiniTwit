@@ -27,7 +27,7 @@ jobs:
     
     # FORMATTER CSharpier (install locally also)
     - name: Install CSharpier
-      run: dotnet tool install dotnet-csharpier --global
+      run: dotnet tool install csharpier --global
     - name: Check Formatting (CSharpier)
       run: dotnet-csharpier --check .
 
