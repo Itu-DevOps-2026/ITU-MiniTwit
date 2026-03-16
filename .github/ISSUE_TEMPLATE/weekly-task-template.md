@@ -13,3 +13,6 @@ assignees: ''
 ## Acceptance criteria
 - [ ] Criteria 1
 - [ ] Criteria 2
+
+## Time
+/Timespent **add amount**
