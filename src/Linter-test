@@ -1,0 +1,7 @@
+void TestMethod() {
+    int unusedVariable = 500; // The linter hates unused variables
+    Console.WriteLine(
+        
+        
+        unusedVariable);
+}
