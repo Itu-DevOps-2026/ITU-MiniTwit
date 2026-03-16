@@ -18,7 +18,7 @@ jobs:
     - name: Lint Dockerfiles
       uses: hadolint/hadolint-action@v3.1.0
       with:
-        dockerfile: Dockerfile-MiniTwit
+        dockerfile: Dockerfile-MiniTwit # Our dockerfile path
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -29,7 +29,8 @@ jobs:
     - name: Install CSharpier
       run: |
         dotnet tool install csharpier --global
-        echo "/home/runner/.dotnet/tools" >> $GITHUB_PATH
+        echo "/home/runner/.dotnet/tools" >> $GITHUB_PATH 
+    # needed because github gets angry for some reason
 
     - name: Check Formatting (CSharpier)
       run: dotnet csharpier --check .
