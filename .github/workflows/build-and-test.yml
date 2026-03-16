@@ -2,9 +2,9 @@ name: Build and test
 
 on:
   push:
-    branches: main
+    branches: 7.1.-Enhance-your-CI-Pipelines-with-at-least-three-static-analysis-tools
   pull_request:
-    branches: main
+    branches: 7.1.-Enhance-your-CI-Pipelines-with-at-least-three-static-analysis-tools
 
 jobs:
   build-and-test:
