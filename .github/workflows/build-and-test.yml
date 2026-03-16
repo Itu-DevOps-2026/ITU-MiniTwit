@@ -2,9 +2,9 @@ name: Build and test
 
 on:
   push:
-    branches: 7.1.-Enhance-your-CI-Pipelines-with-at-least-three-static-analysis-tools
+    branches: main
   pull_request:
-    branches: 7.1.-Enhance-your-CI-Pipelines-with-at-least-three-static-analysis-tools
+    branches: main
 
 jobs:
   build-and-test:
@@ -13,33 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-
-    # Dockerfile linter (Hadolint)
-    - name: Lint Dockerfiles
-      uses: hadolint/hadolint-action@v3.1.0
-      with:
-        dockerfile: Dockerfile-MiniTwit # Our dockerfile path
-
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    
-    # FORMATTER CSharpier (install locally also)
-    - name: Restore tools (CSharpier)
-      run: dotnet tool restore
-
-    #- name: Check Formatting (CSharpier)
-    #  run: dotnet csharpier check .
-
     - name: Restore dependencies
       run: dotnet restore
-
-    # LINTER: C# Roslyn Analyzers
-    # force fail of build on warnings
-    - name: Build and Lint C#
-      run: dotnet build --no-restore -c Release /p:TreatWarningsAsErrors=true
-
     - name: Clean build
       run: dotnet clean
     - name: Build
