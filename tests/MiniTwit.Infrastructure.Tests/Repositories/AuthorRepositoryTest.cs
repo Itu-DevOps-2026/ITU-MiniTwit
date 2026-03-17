@@ -1,10 +1,10 @@
 using System.Data.Common;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using MiniTwit.Core.DTO;
 using MiniTwit.Infrastructure.Data;
 using MiniTwit.Infrastructure.Entities;
 using MiniTwit.Infrastructure.Repositories;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 
 namespace MiniTwit.Infrastructure.Tests.Repositories;
 
@@ -19,9 +19,7 @@ public class AuthorRepositoryTest : IDisposable
         _connection = new SqliteConnection("DataSource=:memory:");
         _connection.Open();
 
-        _options = new DbContextOptionsBuilder<MiniTwitDBContext>()
-            .UseSqlite(_connection)
-            .Options;
+        _options = new DbContextOptionsBuilder<MiniTwitDBContext>().UseSqlite(_connection).Options;
     }
 
     private MiniTwitDBContext CreateDbContext()
@@ -30,6 +28,7 @@ public class AuthorRepositoryTest : IDisposable
         context.Database.EnsureCreated();
         return context;
     }
+
     public void Dispose() => _connection.Dispose();
 
     [Fact]
@@ -46,7 +45,7 @@ public class AuthorRepositoryTest : IDisposable
             Id = "1",
             Name = "John Doe",
             Email = "test@itu.dk",
-            Cheeps = new List<CheepDTO>()
+            Cheeps = new List<CheepDTO>(),
         };
 
         await repository.CreateAuthor(authorDTOTest);
@@ -73,15 +72,15 @@ public class AuthorRepositoryTest : IDisposable
             Id = "1",
             Name = "John Doe",
             Email = "test@itu.dk",
-            Cheeps = new List<CheepDTO>()
+            Cheeps = new List<CheepDTO>(),
         };
-        
+
         var sameNameAuthor = new AuthorDTO()
         {
             Id = "2",
             Name = "John Doe",
             Email = "tester@itu.dk",
-            Cheeps = new List<CheepDTO>()
+            Cheeps = new List<CheepDTO>(),
         };
 
         await repository.CreateAuthor(authorDTOTest);
@@ -89,7 +88,7 @@ public class AuthorRepositoryTest : IDisposable
 
         var authors = await repository.GetAllAuthors();
         Assert.DoesNotContain(authors, a => a.Id == "2");
-        
+
         //Clean up
         Dispose();
     }
@@ -101,9 +100,27 @@ public class AuthorRepositoryTest : IDisposable
         using var context = CreateDbContext();
         context.Database.EnsureCreated();
         context.Authors.AddRange(
-            new Author { Id = "1", Cheeps = new List<Cheep>(), Email = "test1@itu.dk", Name = "Test1" },
-            new Author { Id = "2", Cheeps = new List<Cheep>(), Email = "test2@itu.dk", Name = "Test2" },
-            new Author { Id = "3", Cheeps = new List<Cheep>(), Email = "test3@itu.dk", Name = "Test3" }
+            new Author
+            {
+                Id = "1",
+                Cheeps = new List<Cheep>(),
+                Email = "test1@itu.dk",
+                Name = "Test1",
+            },
+            new Author
+            {
+                Id = "2",
+                Cheeps = new List<Cheep>(),
+                Email = "test2@itu.dk",
+                Name = "Test2",
+            },
+            new Author
+            {
+                Id = "3",
+                Cheeps = new List<Cheep>(),
+                Email = "test3@itu.dk",
+                Name = "Test3",
+            }
         );
         context.SaveChanges();
 
@@ -129,11 +146,22 @@ public class AuthorRepositoryTest : IDisposable
 
         context.Database.EnsureCreated();
         context.Authors.AddRange(
-            new Author { Id = "1", Cheeps = new List<Cheep>(), Email = "test1@itu.dk", Name = "Test1" },
-            new Author { Id = "2", Cheeps = new List<Cheep>(), Email = "test2@itu.dk", Name = "Test2" }
+            new Author
+            {
+                Id = "1",
+                Cheeps = new List<Cheep>(),
+                Email = "test1@itu.dk",
+                Name = "Test1",
+            },
+            new Author
+            {
+                Id = "2",
+                Cheeps = new List<Cheep>(),
+                Email = "test2@itu.dk",
+                Name = "Test2",
+            }
         );
         context.SaveChanges();
-
 
         // Act
         var repository = new AuthorRepository(context);
@@ -142,14 +170,15 @@ public class AuthorRepositoryTest : IDisposable
             Id = "1",
             Name = "John Doe",
             Email = "test@itu.dk",
-            Cheeps = new List<CheepDTO>()
+            Cheeps = new List<CheepDTO>(),
         };
 
         await repository.UpdateAuthor(authorDtoTest);
 
         // Assert
         Assert.True(context.Authors.Any(a => a.Name == "John Doe"));
-        var queryToFindUpdatedAuthor = from Author in context.Authors
+        var queryToFindUpdatedAuthor =
+            from Author in context.Authors
             where Author.Id == "1"
             select Author;
         var updatedAuthor = queryToFindUpdatedAuthor.Single();
@@ -168,23 +197,53 @@ public class AuthorRepositoryTest : IDisposable
     {
         //Arrange
         using var context = CreateDbContext();
-        context.Database.EnsureCreated(); 
-        var a1 = new Author { Id = "1", Name = "test1", Email = "test1@itu.dk", Cheeps = new List<Cheep>() };
-        var a2 = new Author { Id = "2", Name = "test2",   Email = "test2@itu.dk",   Cheeps = new List<Cheep>() };
+        context.Database.EnsureCreated();
+        var a1 = new Author
+        {
+            Id = "1",
+            Name = "test1",
+            Email = "test1@itu.dk",
+            Cheeps = new List<Cheep>(),
+        };
+        var a2 = new Author
+        {
+            Id = "2",
+            Name = "test2",
+            Email = "test2@itu.dk",
+            Cheeps = new List<Cheep>(),
+        };
         context.Authors.AddRange(a1, a2);
-        
+
         context.Cheeps.AddRange(
-            new Cheep { Author = a1, Text = "hello", Date = new DateTime(2025, 10, 10),LikedBy = new List<string>() },
-            new Cheep { Author = a1, Text = "world", Date = new DateTime(2025, 10, 11),LikedBy = new List<string>() },
-            new Cheep { Author = a2, Text = "cheep", Date = new DateTime(2025, 10, 12),LikedBy = new List<string>() }
+            new Cheep
+            {
+                Author = a1,
+                Text = "hello",
+                Date = new DateTime(2025, 10, 10),
+                LikedBy = new List<string>(),
+            },
+            new Cheep
+            {
+                Author = a1,
+                Text = "world",
+                Date = new DateTime(2025, 10, 11),
+                LikedBy = new List<string>(),
+            },
+            new Cheep
+            {
+                Author = a2,
+                Text = "cheep",
+                Date = new DateTime(2025, 10, 12),
+                LikedBy = new List<string>(),
+            }
         );
         context.SaveChanges();
-        
+
         var repository = new AuthorRepository(context);
-        
+
         //Act
-        var dto =  await repository.FindByName("test1");
-        
+        var dto = await repository.FindByName("test1");
+
         //Assert
         Assert.NotNull(dto);
         Assert.Equal("test1", dto.Name);
@@ -200,22 +259,52 @@ public class AuthorRepositoryTest : IDisposable
     {
         //Arrange
         using var context = CreateDbContext();
-        context.Database.EnsureCreated(); 
-        var a1 = new Author { Id = "1", Name = "test1", Email = "test1@itu.dk", Cheeps = new List<Cheep>() };
-        var a2 = new Author { Id = "2", Name = "test2",   Email = "test2@itu.dk",   Cheeps = new List<Cheep>() };
+        context.Database.EnsureCreated();
+        var a1 = new Author
+        {
+            Id = "1",
+            Name = "test1",
+            Email = "test1@itu.dk",
+            Cheeps = new List<Cheep>(),
+        };
+        var a2 = new Author
+        {
+            Id = "2",
+            Name = "test2",
+            Email = "test2@itu.dk",
+            Cheeps = new List<Cheep>(),
+        };
         context.Authors.AddRange(a1, a2);
-        
+
         context.Cheeps.AddRange(
-            new Cheep { Author = a1, Text = "hello", Date = new DateTime(2025, 10, 10),LikedBy = new List<string>() },
-            new Cheep { Author = a1, Text = "world", Date = new DateTime(2025, 10, 11),LikedBy = new List<string>() },
-            new Cheep { Author = a2, Text = "cheep", Date = new DateTime(2025, 10, 12),LikedBy = new List<string>() }
+            new Cheep
+            {
+                Author = a1,
+                Text = "hello",
+                Date = new DateTime(2025, 10, 10),
+                LikedBy = new List<string>(),
+            },
+            new Cheep
+            {
+                Author = a1,
+                Text = "world",
+                Date = new DateTime(2025, 10, 11),
+                LikedBy = new List<string>(),
+            },
+            new Cheep
+            {
+                Author = a2,
+                Text = "cheep",
+                Date = new DateTime(2025, 10, 12),
+                LikedBy = new List<string>(),
+            }
         );
         context.SaveChanges();
         var repository = new AuthorRepository(context);
-        
+
         //Act
-        var dto =  await repository.FindByEmail("test1@itu.dk");
-        
+        var dto = await repository.FindByEmail("test1@itu.dk");
+
         //Assert
         Assert.NotNull(dto);
         Assert.Equal("test1", dto.Name);
@@ -232,8 +321,22 @@ public class AuthorRepositoryTest : IDisposable
         //Arrange
         using var context = CreateDbContext();
         context.Database.EnsureCreated();
-        var a1 = new Author { Id = "1", Name = "test1", Email = "test1@itu.dk", Cheeps = new List<Cheep>(),Following = new List<string>()};
-        var a2 = new Author { Id = "2", Name = "test2",   Email = "test2@itu.dk",   Cheeps = new List<Cheep>(),Following = new List<string>() };
+        var a1 = new Author
+        {
+            Id = "1",
+            Name = "test1",
+            Email = "test1@itu.dk",
+            Cheeps = new List<Cheep>(),
+            Following = new List<string>(),
+        };
+        var a2 = new Author
+        {
+            Id = "2",
+            Name = "test2",
+            Email = "test2@itu.dk",
+            Cheeps = new List<Cheep>(),
+            Following = new List<string>(),
+        };
         context.Authors.AddRange(a1, a2);
         context.SaveChanges();
         var repository = new AuthorRepository(context);
@@ -241,9 +344,16 @@ public class AuthorRepositoryTest : IDisposable
         //Act
         await repository.FollowUser(
             new AuthorDTO()
-                { Cheeps = new List<CheepDTO>(), Email = a1.Email, Following = a1.Following, Id = a1.Id, Name = a1.Name },
-            a2.Name);
-        
+            {
+                Cheeps = new List<CheepDTO>(),
+                Email = a1.Email,
+                Following = a1.Following,
+                Id = a1.Id,
+                Name = a1.Name,
+            },
+            a2.Name
+        );
+
         //Assert
         Assert.True(a1.Following.Contains(a2.Name));
 
@@ -257,8 +367,22 @@ public class AuthorRepositoryTest : IDisposable
         //Arrange
         using var context = CreateDbContext();
         context.Database.EnsureCreated();
-        var a1 = new Author { Id = "1", Name = "test1", Email = "test1@itu.dk", Cheeps = new List<Cheep>(),Following = new List<string>()};
-        var a2 = new Author { Id = "2", Name = "test2",   Email = "test2@itu.dk",   Cheeps = new List<Cheep>(),Following = new List<string>() };
+        var a1 = new Author
+        {
+            Id = "1",
+            Name = "test1",
+            Email = "test1@itu.dk",
+            Cheeps = new List<Cheep>(),
+            Following = new List<string>(),
+        };
+        var a2 = new Author
+        {
+            Id = "2",
+            Name = "test2",
+            Email = "test2@itu.dk",
+            Cheeps = new List<Cheep>(),
+            Following = new List<string>(),
+        };
         context.Authors.AddRange(a1, a2);
         context.SaveChanges();
         var repository = new AuthorRepository(context);
@@ -266,14 +390,27 @@ public class AuthorRepositoryTest : IDisposable
         //Act
         await repository.FollowUser(
             new AuthorDTO()
-                { Cheeps = new List<CheepDTO>(), Email = a1.Email, Following = a1.Following, Id = a1.Id, Name = a1.Name },
-            a2.Name);
-
-        await repository.UnFollowUser(new AuthorDTO()
             {
-                Cheeps = new List<CheepDTO>(), Email = a1.Email, Following = a1.Following, Id = a1.Id, Name = a1.Name
+                Cheeps = new List<CheepDTO>(),
+                Email = a1.Email,
+                Following = a1.Following,
+                Id = a1.Id,
+                Name = a1.Name,
             },
-            a2.Name);
+            a2.Name
+        );
+
+        await repository.UnFollowUser(
+            new AuthorDTO()
+            {
+                Cheeps = new List<CheepDTO>(),
+                Email = a1.Email,
+                Following = a1.Following,
+                Id = a1.Id,
+                Name = a1.Name,
+            },
+            a2.Name
+        );
 
         //Assert
         Assert.False(a1.Following.Contains(a2.Name));
@@ -291,11 +428,19 @@ public class AuthorRepositoryTest : IDisposable
         var repository = new AuthorRepository(context);
         var a1 = new Author
         {
-            Id = "1", Name = "test1", Email = "test1@itu.dk", Cheeps = new List<Cheep>(), Following = new List<string>()
+            Id = "1",
+            Name = "test1",
+            Email = "test1@itu.dk",
+            Cheeps = new List<Cheep>(),
+            Following = new List<string>(),
         };
         var a2 = new Author
         {
-            Id = "2", Name = "test2", Email = "test2@itu.dk", Cheeps = new List<Cheep>(), Following = new List<string>()
+            Id = "2",
+            Name = "test2",
+            Email = "test2@itu.dk",
+            Cheeps = new List<Cheep>(),
+            Following = new List<string>(),
         };
         context.Authors.AddRange(a1, a2);
         context.SaveChanges();
@@ -305,9 +450,9 @@ public class AuthorRepositoryTest : IDisposable
             Id = "1",
             Name = "John Doe",
             Email = "test@itu.dk",
-            Cheeps = new List<CheepDTO>()
+            Cheeps = new List<CheepDTO>(),
         };
-       
+
         var authorsBefore = await repository.GetAllAuthors();
         var numberOfAuthorsBefore = authorsBefore.Count();
         Assert.Equal(2, numberOfAuthorsBefore);
@@ -322,6 +467,5 @@ public class AuthorRepositoryTest : IDisposable
 
         //Clean up
         Dispose();
-
     }
 }

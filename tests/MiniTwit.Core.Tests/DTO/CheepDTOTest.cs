@@ -1,5 +1,4 @@
-﻿
-using MiniTwit.Core.DTO;
+﻿using MiniTwit.Core.DTO;
 
 namespace MiniTwit.Core.Tests.DTO;
 
@@ -13,9 +12,9 @@ public class CheepDTOTest
             Id = 1,
             AuthorId = "Tester",
             Text = "This is a test",
-            CreatedAt = new DateTime(2025, 1, 1)
+            CreatedAt = new DateTime(2025, 1, 1),
         };
-        
+
         Assert.Equal(1, cheepDTO.Id);
         Assert.Equal("Tester", cheepDTO.AuthorId);
         Assert.Equal("This is a test", cheepDTO.Text);
