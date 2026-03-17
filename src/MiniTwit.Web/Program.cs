@@ -73,22 +73,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-//Setup metrics
-var responseCounter = Metrics.CreateCounter(
-    "minitwit_http_responses_total",
-    "The count of HTTP responses sent."
-);
-
-var requestDuration = Metrics.CreateHistogram(
-    "minitwit_request_duration_milliseconds",
-    "Request duration distribution in milliseconds."
-);
-
-var inProgressRequests = Metrics.CreateGauge(
-    "minitwit_requests_in_progress",
-    "Current number of requests being processed."
-);
-
 //Creates a scope to retrieve the database context, ensures the database exists, and seeds the database with example data
 //Code from https://learn.microsoft.com/en-us/aspnet/core/data/ef-rp/intro?view=aspnetcore-8.0&tabs=visual-studio-code#seed-the-database
 using (var scope = app.Services.CreateScope())
@@ -114,6 +98,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseHttpMetrics();
 
 app.UseAuthentication();
 app.UseAuthorization();
