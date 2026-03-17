@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         /// <param name="obj">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is null)
                 return false;
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         /// <param name="other">Instance of ErrorResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ErrorResponse other)
+        public bool Equals(ErrorResponse? other)
         {
             if (other is null)
                 return false;
