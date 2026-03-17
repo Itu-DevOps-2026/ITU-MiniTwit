@@ -24,7 +24,7 @@ namespace Org.OpenAPITools.Models
     ///
     /// </summary>
     [DataContract]
-    public partial class FollowAction : IEquatable<FollowAction>
+    public partial class FollowAction : IEquatable<FollowAction?>
     {
         /// <summary>
         /// Username to follow (optional, either this or \&quot;unfollow\&quot;)
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         /// <param name="obj">Object to be compared</param>
         /// <returns>Boolean</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is null)
                 return false;
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         /// <param name="other">Instance of FollowAction to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(FollowAction other)
+        public bool Equals(FollowAction? other)
         {
             if (other is null)
                 return false;

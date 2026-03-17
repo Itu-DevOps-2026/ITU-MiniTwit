@@ -32,7 +32,7 @@ namespace Org.OpenAPITools.Models
         /// <value>List of usernames the user is following</value>
         /* <example>[&quot;Helge&quot;,&quot;John&quot;]</example> */
         [DataMember(Name = "follows", EmitDefaultValue = false)]
-        public List<string> Follows { get; set; }
+        public List<string> Follows { get; set; } = default!;
 
         /// <summary>
         /// Returns the string presentation of the object
