@@ -61,7 +61,6 @@ namespace Org.OpenAPITools.Authentication
         private void SucceedRequirementIfApiKeyPresentAndValid(
             AuthorizationHandlerContext context,
             ApiKeyRequirement requirement
-        )
-        { }
+        ) { }
     }
 }
