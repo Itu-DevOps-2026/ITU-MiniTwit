@@ -58,9 +58,9 @@ namespace Org.OpenAPITools.Models
         {
             var sb = new StringBuilder();
             sb.Append("class RegisterRequest {\n");
-            sb.Append("  Username: ").Append(Username).Append("\n");
-            sb.Append("  Email: ").Append(Email).Append("\n");
-            sb.Append("  Pwd: ").Append(Pwd).Append("\n");
+            sb.Append("  Username: ").Append(Username).Append('\n');
+            sb.Append("  Email: ").Append(Email).Append('\n');
+            sb.Append("  Pwd: ").Append(Pwd).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }

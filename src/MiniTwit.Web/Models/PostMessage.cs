@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Models
         {
             var sb = new StringBuilder();
             sb.Append("class PostMessage {\n");
-            sb.Append("  Content: ").Append(Content).Append("\n");
+            sb.Append("  Content: ").Append(Content).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }

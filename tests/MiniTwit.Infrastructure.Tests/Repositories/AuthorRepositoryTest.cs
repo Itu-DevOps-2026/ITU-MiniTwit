@@ -52,7 +52,7 @@ public class AuthorRepositoryTest : IDisposable
 
         // Assert
         var cheeps = await repository.GetAllAuthors();
-        var numberOfCheeps = cheeps.Count();
+        var numberOfCheeps = cheeps.Count;
         Assert.Equal(1, numberOfCheeps);
 
         //Clean up
@@ -184,9 +184,9 @@ public class AuthorRepositoryTest : IDisposable
         var updatedAuthor = queryToFindUpdatedAuthor.Single();
         Assert.NotNull(updatedAuthor);
         Assert.Equal("test@itu.dk", updatedAuthor.Email);
-        Assert.True(updatedAuthor.Cheeps.Count == 0);
+        Assert.Empty(updatedAuthor.Cheeps);
         Assert.False(context.Authors.Any(a => a.Name == "Test1"));
-        Assert.True(context.Authors.Count() == 2);
+        Assert.Equal(2, context.Authors.Count());
 
         //Clean up
         Dispose();
@@ -454,7 +454,7 @@ public class AuthorRepositoryTest : IDisposable
         };
 
         var authorsBefore = await repository.GetAllAuthors();
-        var numberOfAuthorsBefore = authorsBefore.Count();
+        var numberOfAuthorsBefore = authorsBefore.Count;
         Assert.Equal(2, numberOfAuthorsBefore);
 
         //Act
@@ -462,7 +462,7 @@ public class AuthorRepositoryTest : IDisposable
 
         //Assert
         var authorsAfter = await repository.GetAllAuthors();
-        var numberOfAuthorsAfter = authorsAfter.Count();
+        var numberOfAuthorsAfter = authorsAfter.Count;
         Assert.Equal(1, numberOfAuthorsAfter);
 
         //Clean up

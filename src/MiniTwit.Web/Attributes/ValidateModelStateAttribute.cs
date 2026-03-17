@@ -36,10 +36,10 @@ namespace Org.OpenAPITools.Attributes
                     object? args = null;
                     if (
                         parameter.Name != null
-                        && context.ActionArguments.ContainsKey(parameter.Name)
+                        && context.ActionArguments.TryGetValue(parameter.Name, out object? value)
                     )
                     {
-                        args = context.ActionArguments[parameter.Name];
+                        args = value;
                     }
 
                     ValidateAttributes(parameter, args, context.ModelState);
@@ -52,7 +52,7 @@ namespace Org.OpenAPITools.Attributes
             }
         }
 
-        private void ValidateAttributes(
+        private static void ValidateAttributes(
             ParameterInfo parameter,
             object? args,
             ModelStateDictionary modelState

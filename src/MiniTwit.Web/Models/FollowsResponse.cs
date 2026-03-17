@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Models
         {
             var sb = new StringBuilder();
             sb.Append("class FollowsResponse {\n");
-            sb.Append("  Follows: ").Append(Follows).Append("\n");
+            sb.Append("  Follows: ").Append(Follows).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }

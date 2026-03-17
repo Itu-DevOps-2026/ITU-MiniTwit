@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.OpenApi
                     .ToArray();
 
                 return new StringBuilder(typeName)
-                    .Replace($"`{genericArgumentIds.Count()}", string.Empty)
+                    .Replace($"`{genericArgumentIds.Length}", string.Empty)
                     .Append($"[{string.Join(",", genericArgumentIds).TrimEnd(',')}]")
                     .ToString();
             }

@@ -19,7 +19,7 @@ public class CheepService : ICheepService
     {
         var cheeps = _cheepRepository.GetAllCheeps(page).Result;
 
-        hasNext = cheeps.Count() == 32;
+        hasNext = cheeps.Count == 32;
 
         return cheeps;
     }
@@ -29,7 +29,7 @@ public class CheepService : ICheepService
     {
         var cheeps = _cheepRepository.ReadCheepsBy(author, page).Result;
 
-        hasNext = cheeps.Count() == 32;
+        hasNext = cheeps.Count == 32;
         return cheeps;
     }
 
@@ -50,7 +50,7 @@ public class CheepService : ICheepService
     {
         var cheeps = _cheepRepository.ReadCheepsBySelfAndOthers(authors, page).Result;
 
-        hasNext = cheeps.Count() == 32;
+        hasNext = cheeps.Count == 32;
         return cheeps;
     }
 

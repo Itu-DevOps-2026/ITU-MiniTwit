@@ -54,7 +54,7 @@ public class CheepRepositoryTest : IDisposable
 
         //Assert
         var cheeps = await repository.GetAllCheeps();
-        var numberOfCheeps = cheeps.Count();
+        var numberOfCheeps = cheeps.Count;
         Assert.Equal(1, numberOfCheeps);
 
         // Clean up
@@ -146,9 +146,9 @@ public class CheepRepositoryTest : IDisposable
 
         // Act, assert
         var firstPage = await repository.GetAllCheeps(1);
-        Assert.Equal(32, firstPage.Count());
+        Assert.Equal(32, firstPage.Count);
         var secondPage = await repository.GetAllCheeps(2);
-        Assert.Equal(8, secondPage.Count());
+        Assert.Equal(8, secondPage.Count);
 
         // Clean up
         Dispose();
@@ -234,9 +234,9 @@ public class CheepRepositoryTest : IDisposable
 
         // Act, assert
         var firstPage = await repository.ReadCheepsBy(author.Name, 1);
-        Assert.Equal(32, firstPage.Count());
+        Assert.Equal(32, firstPage.Count);
         var secondPage = await repository.ReadCheepsBy(author.Name, 2);
-        Assert.Equal(18, secondPage.Count());
+        Assert.Equal(18, secondPage.Count);
 
         // Clean up
         Dispose();
@@ -384,8 +384,8 @@ public class CheepRepositoryTest : IDisposable
 
         var savedCheep = await repository.GetCheep(cheepId);
 
-        Assert.True(cheep.Text == "old text");
-        Assert.True(cheep.Author.Email == "test@test");
+        Assert.Equal("old text", cheep.Text);
+        Assert.Equal("test@test", cheep.Author.Email);
         Assert.True(cheep.Date == new DateTime(2025, 10, 10));
         Assert.True(cheep.CheepId == cheepId);
     }

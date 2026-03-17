@@ -50,8 +50,8 @@ namespace Org.OpenAPITools.Models
         {
             var sb = new StringBuilder();
             sb.Append("class FollowAction {\n");
-            sb.Append("  Follow: ").Append(Follow).Append("\n");
-            sb.Append("  Unfollow: ").Append(Unfollow).Append("\n");
+            sb.Append("  Follow: ").Append(Follow).Append('\n');
+            sb.Append("  Unfollow: ").Append(Unfollow).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }

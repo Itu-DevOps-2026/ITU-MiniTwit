@@ -50,8 +50,8 @@ namespace Org.OpenAPITools.Models
         {
             var sb = new StringBuilder();
             sb.Append("class ErrorResponse {\n");
-            sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  ErrorMsg: ").Append(ErrorMsg).Append("\n");
+            sb.Append("  Status: ").Append(Status).Append('\n');
+            sb.Append("  ErrorMsg: ").Append(ErrorMsg).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }

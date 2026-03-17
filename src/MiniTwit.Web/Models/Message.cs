@@ -58,9 +58,9 @@ namespace Org.OpenAPITools.Models
         {
             var sb = new StringBuilder();
             sb.Append("class Message {\n");
-            sb.Append("  Content: ").Append(Content).Append("\n");
-            sb.Append("  PubDate: ").Append(PubDate).Append("\n");
-            sb.Append("  User: ").Append(User).Append("\n");
+            sb.Append("  Content: ").Append(Content).Append('\n');
+            sb.Append("  PubDate: ").Append(PubDate).Append('\n');
+            sb.Append("  User: ").Append(User).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }

@@ -41,7 +41,7 @@ namespace Org.OpenAPITools.Models
         {
             var sb = new StringBuilder();
             sb.Append("class LatestValue {\n");
-            sb.Append("  Latest: ").Append(Latest).Append("\n");
+            sb.Append("  Latest: ").Append(Latest).Append('\n');
             sb.Append("}\n");
             return sb.ToString();
         }
