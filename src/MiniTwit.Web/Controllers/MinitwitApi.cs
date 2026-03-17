@@ -78,8 +78,8 @@ namespace Org.OpenAPITools.Controllers
             description: "Unauthorized - Must include correct Authorization header"
         )]
         public virtual async Task<IActionResult> GetFollow(
-            [FromRoute(Name = "username")][Required] string username,
-            [FromHeader(Name = "Authorization")][Required()] string authorization,
+            [FromRoute(Name = "username")] [Required] string username,
+            [FromHeader(Name = "Authorization")] [Required()] string authorization,
             [FromQuery(Name = "latest")] int? latest,
             [FromQuery(Name = "no")] int? no
         )
@@ -207,8 +207,8 @@ namespace Org.OpenAPITools.Controllers
             description: "Unauthorized - Must include correct Authorization header"
         )]
         public virtual async Task<IActionResult> GetMessagesPerUser(
-            [FromHeader(Name = "Authorization")][Required] string authorization,
-            [FromRoute][Required] string username,
+            [FromHeader(Name = "Authorization")] [Required] string authorization,
+            [FromRoute] [Required] string username,
             [FromQuery] int? latest,
             [FromQuery] int? no
         )
@@ -263,8 +263,8 @@ namespace Org.OpenAPITools.Controllers
             description: "Unauthorized - Must include correct Authorization header"
         )]
         public virtual async Task<IActionResult> PostFollow(
-            [FromRoute(Name = "username")][Required] string username,
-            [FromHeader(Name = "Authorization")][Required()] string authorization,
+            [FromRoute(Name = "username")] [Required] string username,
+            [FromHeader(Name = "Authorization")] [Required()] string authorization,
             [FromBody] FollowAction payload,
             [FromQuery(Name = "latest")] int? latest
         )
@@ -331,8 +331,8 @@ namespace Org.OpenAPITools.Controllers
             description: "Unauthorized - Must include correct Authorization header"
         )]
         public virtual async Task<IActionResult> PostMessagesPerUser(
-            [FromHeader(Name = "Authorization")][Required()] string authorization,
-            [FromRoute][Required] string username,
+            [FromHeader(Name = "Authorization")] [Required()] string authorization,
+            [FromRoute] [Required] string username,
             [FromQuery] int? latest,
             [FromBody] PostMessage payload
         )

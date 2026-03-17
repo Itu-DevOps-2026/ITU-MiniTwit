@@ -59,7 +59,8 @@ builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, Authorizati
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAuthorizationBuilder()
+builder
+    .Services.AddAuthorizationBuilder()
     .AddPolicy("SimulatorOnly", policy => policy.RequireClaim("Simulator", "true"));
 
 var app = builder.Build();
