@@ -8,12 +8,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-MiniTwit
-    image: marieitu/minitwitimage-e
+    image: sarabagger/minitwitimage-e
     container_name: minitwit
     networks:
       - main
     ports:
-      - '5000:8080'
+      - '5001:8080'
     environment:
       - DB_CONNECTION=${DB_CONNECTION}
     depends_on:

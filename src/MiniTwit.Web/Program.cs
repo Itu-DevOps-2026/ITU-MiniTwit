@@ -121,6 +121,6 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 
-app.MapMetrics();
+app.MapGet("/metrics", () => app.MapMetrics());
 
 app.Run();
