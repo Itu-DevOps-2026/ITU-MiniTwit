@@ -30,11 +30,13 @@ Vagrant.configure("2") do |config|
 
     server.vm.provision "shell", inline: <<-SHELL
 
-    sudo apt-get update
 
     # The following address an issue in DO's Ubuntu images, which still contain a lock file
     sudo killall apt apt-get 2>/dev/null || true
     sudo rm -f /var/lib/dpkg/lock-frontend
+    
+    # Run after remove lock removal
+    sudo apt-get update
 
     # Install docker and docker compose
     command -v docker >/dev/null 2>&1 || sudo apt-get install -y docker.io docker-compose-v2
