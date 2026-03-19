@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using MiniTwit.Infrastructure.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MiniTwit.Infrastructure.Entities;
 
 namespace MiniTwit.Web.Areas.Identity.Pages.Account
 {
@@ -27,12 +27,12 @@ namespace MiniTwit.Web.Areas.Identity.Pages.Account
         {
             // Sign out identity
             await _signInManager.SignOutAsync();
-            
+
             // Sign out OAuth
-            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);      // "Identity.Application"
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);         // "Identity.External"
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme); // "Identity.Application"
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme); // "Identity.External"
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); // default cookie
-            
+
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {

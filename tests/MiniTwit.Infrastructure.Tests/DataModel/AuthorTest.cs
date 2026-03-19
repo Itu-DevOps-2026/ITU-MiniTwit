@@ -11,8 +11,7 @@ public class AuthorTest
         {
             Id = "1",
             Name = "Test",
-            Email = "test@itu.dk"
-            
+            Email = "test@itu.dk",
         };
 
         var cheeps = new List<Cheep>
@@ -23,11 +22,11 @@ public class AuthorTest
                 Text = "This is a test",
                 Date = new DateTime(2025, 1, 1),
                 Author = new Author() { Name = "Test", Email = "test@itu.dk" },
-                LikedBy = []
-            }
+                LikedBy = [],
+            },
         };
         author.Cheeps = cheeps;
-        
+
         Assert.Equal("1", author.Id);
         Assert.Equal("Test", author.Name);
         Assert.Equal("test@itu.dk", author.Email);

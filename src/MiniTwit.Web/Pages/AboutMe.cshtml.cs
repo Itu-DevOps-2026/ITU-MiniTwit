@@ -1,11 +1,11 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using MiniTwit.Core.DTO;
 using MiniTwit.Core.Interfaces;
 using MiniTwit.Infrastructure.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MiniTwit.Web.Pages;
 
@@ -20,7 +20,12 @@ public class AboutMe : PageModel
     public List<CheepDTO>? Cheeps { get; set; }
     public IList<string> Following { get; set; }
 
-    public AboutMe(ICheepService cheepService, IAuthorService authorService, UserManager<Author> userManager, SignInManager<Author> signInManager)
+    public AboutMe(
+        ICheepService cheepService,
+        IAuthorService authorService,
+        UserManager<Author> userManager,
+        SignInManager<Author> signInManager
+    )
     {
         _cheepService = cheepService;
         _authorService = authorService;
@@ -29,11 +34,11 @@ public class AboutMe : PageModel
         Cheeps = new List<CheepDTO>();
         Following = new List<String>();
     }
-    
+
     // Handle GET requests
     public async Task<IActionResult> OnGet()
     {
-        if (User.Identity!.IsAuthenticated) //if the user is logged in, it will show the information about them that is stored in the application 
+        if (User.Identity!.IsAuthenticated) //if the user is logged in, it will show the information about them that is stored in the application
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null)
@@ -45,7 +50,6 @@ public class AboutMe : PageModel
             Email = currentUser.Email;
             Cheeps = _cheepService.GetCheepsFromAuthorOnOnePage(DisplayName);
             Following = currentUser.Following;
-            
         }
         else
         {
@@ -62,7 +66,7 @@ public class AboutMe : PageModel
         // Delete Author
         var author = await _userManager.GetUserAsync(HttpContext.User);
         await _authorService.DeleteAuthor(author!.Name);
-        
+
         // Sign out identity
         await _signInManager.SignOutAsync();
 

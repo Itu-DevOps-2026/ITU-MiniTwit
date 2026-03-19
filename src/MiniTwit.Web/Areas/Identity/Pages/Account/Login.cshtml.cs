@@ -3,11 +3,11 @@
 #nullable disable
 
 using System.ComponentModel.DataAnnotations;
-using MiniTwit.Infrastructure.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MiniTwit.Infrastructure.Entities;
 
 namespace MiniTwit.Web.Areas.Identity.Pages.Account
 {
@@ -17,7 +17,11 @@ namespace MiniTwit.Web.Areas.Identity.Pages.Account
         private readonly UserManager<Author> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<Author> signInManager,UserManager<Author> userManager, ILogger<LoginModel> logger)
+        public LoginModel(
+            SignInManager<Author> signInManager,
+            UserManager<Author> userManager,
+            ILogger<LoginModel> logger
+        )
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -93,7 +97,9 @@ namespace MiniTwit.Web.Areas.Identity.Pages.Account
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins = (
+                await _signInManager.GetExternalAuthenticationSchemesAsync()
+            ).ToList();
 
             ReturnUrl = returnUrl;
         }
@@ -103,11 +109,12 @@ namespace MiniTwit.Web.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins = (
+                await _signInManager.GetExternalAuthenticationSchemesAsync()
+            ).ToList();
 
             if (ModelState.IsValid)
             {
-                
                 // Fetch user display name
                 var user = await _userManager.FindByEmailAsync(Input.Email);
 
@@ -116,10 +123,15 @@ namespace MiniTwit.Web.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
-                
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(
+                    Input.Email,
+                    Input.Password,
+                    Input.RememberMe,
+                    lockoutOnFailure: false
+                );
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -128,7 +140,10 @@ namespace MiniTwit.Web.Areas.Identity.Pages.Account
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    return RedirectToPage(
+                        "./LoginWith2fa",
+                        new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe }
+                    );
                 }
                 if (result.IsLockedOut)
                 {

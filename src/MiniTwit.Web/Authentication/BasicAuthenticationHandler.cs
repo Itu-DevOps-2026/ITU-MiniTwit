@@ -8,13 +8,11 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
 
-
 public class BasicAuthenticationHandler(
     IOptionsMonitor<AuthenticationSchemeOptions> options,
     ILoggerFactory logger,
-    UrlEncoder encoder,
-    ISystemClock clock)
-    : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder, clock)
+    UrlEncoder encoder
+) : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
@@ -26,7 +24,7 @@ public class BasicAuthenticationHandler(
 
         try
         {
-            var authHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]!);
+            var authHeader = AuthenticationHeaderValue.Parse(Request.Headers.Authorization!);
 
             if (!authHeader.Scheme.Equals("Basic", StringComparison.OrdinalIgnoreCase))
             {
@@ -54,10 +52,7 @@ public class BasicAuthenticationHandler(
 
     private AuthenticateResult CreateTicket(bool isSimulator)
     {
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, "basic-user")
-        };
+        var claims = new List<Claim> { new Claim(ClaimTypes.Name, "basic-user") };
 
         if (isSimulator)
         {
