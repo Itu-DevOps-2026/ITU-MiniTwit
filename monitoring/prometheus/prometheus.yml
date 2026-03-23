@@ -1,3 +1,4 @@
+# Almost exactly the same as the corresponding file in the exercise example for session6
 global:
   scrape_interval:     15s # By default, scrape targets every 15 seconds.
   evaluation_interval: 15s # Evaluate rules every 15 seconds.
