@@ -5,15 +5,12 @@
 services:
   
   minitwitimage-e:
-    build:
-      context: .
-      dockerfile: Dockerfile-MiniTwit
-    image: sarabagger/minitwitimage-e
+    image: ${DOCKER_USERNAME}/minitwitimage-e
     container_name: minitwit
     networks:
       - main
     ports:
-      - '5001:8080'
+      - '5000:5000'
     environment:
       - DB_CONNECTION=${DB_CONNECTION}
     depends_on:
