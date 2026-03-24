@@ -1,6 +1,4 @@
-﻿version: '3.5'
-
-networks:
+﻿networks:
   main:
     name: MiniTwit
 
@@ -12,6 +10,39 @@ services:
     networks:
       - main
     ports:
-      - '5000:5000'
+      - '5000:8080'
     environment:
       - DB_CONNECTION=${DB_CONNECTION}
+    depends_on:
+      - grafana
+      - prometheus
+  
+  prometheus:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./monitoring/prometheus
+    image: prometheus_image
+    container_name: prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
+    networks:
+      - main
+
+
+  grafana:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./monitoring/grafana
+    image: grafana_image
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - main
+    volumes:
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  grafana-storage: { }

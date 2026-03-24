@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using MiniTwit.Web;
 using MiniTwit.Web.Authentication;
+using Prometheus;
 
 
 
@@ -97,6 +98,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseHttpMetrics();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -104,5 +106,6 @@ app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllers();
 
+app.MapMetrics();
 
 app.Run();
