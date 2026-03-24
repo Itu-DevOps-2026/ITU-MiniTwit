@@ -8,4 +8,10 @@ datasources:
     url: http://prometheus:9090
     isDefault: true
     editable: false
-    "uid": ffgrs1bgeercwe
+    "uid": ffgrs1bgeercwe # Might need to be changes upon new dashboard exports from Grafana
+  - name: Loki
+    type: loki
+    access: proxy
+    url: http://loki:3100
+    isDefault: true
+    editable: true
