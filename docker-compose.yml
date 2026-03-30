@@ -4,8 +4,35 @@
 
 services:
   
+  whoami:
+    image: traefik/whoami
+    container_name: whoami
+    networks:
+      - main
+    ports:
+      - "8888:80"
+  
+  nginx:
+    image: nginx
+    container_name: nginx
+    networks:
+      - main
+    ports:
+      - "80:80"
+    volumes:
+      - ./tls/nginxConfiguration:/etc/nginx/conf.d/default.conf
+      - certbot_webroot:/var/www/certbot
+      - letsencrypt:/etc/letsencrypt
+        
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot
+    volumes:
+      - certbot_webroot:/var/www/certbot
+      - letsencrypt:/etc/letsencrypt
+    
   minitwitimage-e:
-    image: ${DOCKER_USERNAME}/minitwitimage-e
+    image: ${DOCKER_USERNAME:-gartner1et}/minitwitimage-e
     container_name: minitwit
     networks:
       - main
@@ -46,3 +73,5 @@ services:
 
 volumes:
   grafana-storage: { }
+  certbot_webroot:
+  letsencrypt:
