@@ -9,7 +9,7 @@ public interface IAuthorRepository
     Task UpdateAuthor(AuthorDTO updatedAuthor);
     Task<AuthorDTO?> FindByName(string name);
     Task<AuthorDTO?> FindByEmail(string email);
-    Task FollowUser(AuthorDTO self,string followAuthorUsername);
-    Task UnFollowUser(AuthorDTO self,string followAuthorUsername);
+    Task FollowUser(AuthorDTO self, string followAuthorUsername);
+    Task UnFollowUser(AuthorDTO self, string followAuthorUsername);
     Task DeleteAuthor(AuthorDTO author);
 }

@@ -1,19 +1,17 @@
 using System.Security.Claims;
+using DotNetEnv;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MiniTwit.Core.Interfaces;
 using MiniTwit.Infrastructure.Data;
 using MiniTwit.Infrastructure.Entities;
 using MiniTwit.Infrastructure.Repositories;
 using MiniTwit.Infrastructure.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using DotNetEnv;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using MiniTwit.Web;
 using MiniTwit.Web.Authentication;
 using Prometheus;
-
-
 
 ILogger<Program> logger = new LoggerFactory().CreateLogger<Program>();
 var builder = WebApplication.CreateBuilder(args);
@@ -24,14 +22,12 @@ string? connectionString =
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<MiniTwitDBContext>(options =>
 {
-    options.UseMySql(
-        connectionString,
-        new MySqlServerVersion(new Version(8, 0, 36))
-    );
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36)));
 });
 
 // Add EF Core Identity to the app
-builder.Services.AddDefaultIdentity<Author>(options =>
+builder
+    .Services.AddDefaultIdentity<Author>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;
         options.Password.RequireDigit = false;
@@ -39,8 +35,8 @@ builder.Services.AddDefaultIdentity<Author>(options =>
         options.Password.RequireUppercase = false;
         options.Password.RequireNonAlphanumeric = false; // disables special character requirement
         options.Password.RequiredLength = 1;
-    }
-).AddEntityFrameworkStores<MiniTwitDBContext>();
+    })
+    .AddEntityFrameworkStores<MiniTwitDBContext>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -55,21 +51,18 @@ builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddSingleton<LatestService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
-builder.Services.AddAuthentication()
-    .AddCookie().
-    AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
+builder
+    .Services.AddAuthentication()
+    .AddCookie()
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
 builder.Services.AddSingleton<IAuthorizationMiddlewareResultHandler, AuthorizationResultHandler>();
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
- builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("SimulatorOnly", policy =>
-        policy.RequireClaim("Simulator", "true"));
-});
+builder
+    .Services.AddAuthorizationBuilder()
+    .AddPolicy("SimulatorOnly", policy => policy.RequireClaim("Simulator", "true"));
 
 var app = builder.Build();
 
@@ -87,7 +80,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}   
+}
 else
 {
     app.UseExceptionHandler("/Error");

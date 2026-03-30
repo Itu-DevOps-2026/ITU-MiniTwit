@@ -1,11 +1,11 @@
-using MiniTwit.Core.DTO;
-using MiniTwit.Infrastructure.Entities;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel.DataAnnotations;
+using MiniTwit.Core.DTO;
 using MiniTwit.Core.Interfaces;
-using Microsoft.AspNetCore.Authentication;
+using MiniTwit.Infrastructure.Entities;
 
 namespace MiniTwit.Web.Pages.Shared;
 
@@ -14,26 +14,33 @@ public class TimelineBaseModel : PageModel
     protected readonly ICheepService _cheepService;
     protected readonly IAuthorService _authorService;
     public List<CheepDTO>? Cheeps { get; set; }
+
     [BindProperty]
-    [Required(ErrorMessage ="Your cheep can't be empty.")]
+    [Required(ErrorMessage = "Your cheep can't be empty.")]
     [StringLength(160, ErrorMessage = "Your cheep is too long. Maximum length is 160 characters.")]
     public required string CheepText { get; set; }
+
     [BindProperty]
     public string? UserId { get; set; }
     public string? DisplayName { get; set; }
+
     [TempData]
     public string? StatusMessage { get; set; }
-    
+
     protected readonly UserManager<Author> UserManager;
     public string? ErrorMessage { get; set; }
-    
+
     //Inject the cheep service, sets a specific "model"
-    public TimelineBaseModel(ICheepService cheepService, IAuthorService authorService, UserManager<Author> userManager)
+    public TimelineBaseModel(
+        ICheepService cheepService,
+        IAuthorService authorService,
+        UserManager<Author> userManager
+    )
     {
         _cheepService = cheepService;
         _authorService = authorService;
         UserManager = userManager;
-        //Changed form CheepViewModel to CheepDTO to better support like functionality 
+        //Changed form CheepViewModel to CheepDTO to better support like functionality
         Cheeps = new List<CheepDTO>();
     }
 
@@ -64,34 +71,34 @@ public class TimelineBaseModel : PageModel
         {
             return;
         }
-        
+
         ErrorMessage = error;
         if (ErrorMessage == "empty_cheep")
         {
             ErrorMessage = "Your cheep can't be empty.";
         }
     }
-    
+
     //Post method for creating a cheep (unless the ModelState is invalid, then it will show an error message)
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
         {
-            return Redirect(Request.Path + "?error=empty_cheep"); 
+            return Redirect(Request.Path + "?error=empty_cheep");
         }
         //Create CheepDTO
         var cheepDTO = new CheepDTO()
         {
             CreatedAt = DateTime.Now,
             Text = CheepText,
-            AuthorId = UserId!
+            AuthorId = UserId!,
         };
-       
+
         //Call the repository method for creating a cheep
         await _cheepService.CreateCheepFromDTO(cheepDTO);
-        
+
         StatusMessage = "MiniTwit was successfully created!";
-        
+
         return RedirectToPage();
     }
 }

@@ -8,7 +8,6 @@ using NUnit.Framework;
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
 [Category("Playwright")]
-
 public class PlaywrightUiTest : PageTest
 {
     [Test]
@@ -23,14 +22,14 @@ public class PlaywrightUiTest : PageTest
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
         await Page.GetByPlaceholder("name@example.com").FillAsync("robert@test.dk");
         await Page.GetByPlaceholder("password").FillAsync("Robert@test.dk1");
-        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();        
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
         // Go back to homepage after login
         await Page.GotoAsync("https://bdsa2024group8chirprazor2025.azurewebsites.net/");
         // CheepBox should be visible
         cheepBox = Page.Locator("#CheepText");
         await Expect(cheepBox).ToBeVisibleAsync();
     }
-    
+
     [Test]
     public async Task BehaviourWhenCheepIsLongerThan160Chars()
     {

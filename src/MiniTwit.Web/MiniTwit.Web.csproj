@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -11,7 +10,10 @@
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.3.0" />
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.21" />
+    <PackageReference
+      Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"
+      Version="8.0.21"
+    />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.21" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.8" />
@@ -35,15 +37,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.2" />
   </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\MiniTwit.Core\MiniTwit.Core.csproj" />
-      <ProjectReference Include="..\MiniTwit.Infrastructure\MiniTwit.Infrastructure.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiniTwit.Core\MiniTwit.Core.csproj" />
+    <ProjectReference Include="..\MiniTwit.Infrastructure\MiniTwit.Infrastructure.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <Content Remove="appsettings.Development.json" />
-    </ItemGroup>
-    
-
-
+  <ItemGroup>
+    <Content Remove="appsettings.Development.json" />
+  </ItemGroup>
 </Project>

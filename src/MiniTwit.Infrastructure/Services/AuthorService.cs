@@ -12,7 +12,7 @@ public class AuthorService : IAuthorService
     {
         _authorRepository = authorRepository;
     }
-    
+
     // Create a new author
     public async Task CreateAuthor(string username, string email, string password)
     {
@@ -21,19 +21,19 @@ public class AuthorService : IAuthorService
             Id = "1", // 1 because id is thrown out and created properly by Identity
             Name = username,
             Email = email,
-            Cheeps = new List<CheepDTO>()
+            Cheeps = new List<CheepDTO>(),
         };
-        
+
         await _authorRepository.CreateAuthor(newAuthor);
     }
-    
+
     //Retrieves an author based on a username
     public async Task<AuthorDTO?> GetAuthorByName(string authorUsername)
     {
         return await _authorRepository.FindByName(authorUsername);
     }
-    
-    //Follows an author 
+
+    //Follows an author
     public async Task Follow(string thisUsername, string otherUsername)
     {
         AuthorDTO? self = await GetAuthorByName(thisUsername);
