@@ -14,9 +14,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MiniTwit.Core.DTO;
+using Swashbuckle.AspNetCore.Annotations;
+using Org.OpenAPITools.Attributes;
+using Org.OpenAPITools.Models;
 using MiniTwit.Core.Interfaces;
 using MiniTwit.Infrastructure.Entities;
 using MiniTwit.Web;
@@ -392,7 +396,7 @@ namespace Org.OpenAPITools.Controllers
             user.Following = new List<string>();
             var result = await _userManager.CreateAsync(user, payload.Pwd);
             _logger.LogInformation(
-                "{} and errors {}",
+                "{s} and errors {e}",
                 result.Succeeded,
                 result.Errors.FirstOrDefault()?.Description
             );

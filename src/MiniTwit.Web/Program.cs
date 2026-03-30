@@ -9,8 +9,14 @@ using MiniTwit.Infrastructure.Data;
 using MiniTwit.Infrastructure.Entities;
 using MiniTwit.Infrastructure.Repositories;
 using MiniTwit.Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using DotNetEnv;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using MiniTwit.Web;
 using MiniTwit.Web.Authentication;
+using Prometheus;
 
 ILogger<Program> logger = new LoggerFactory().CreateLogger<Program>();
 var builder = WebApplication.CreateBuilder(args);
@@ -90,11 +96,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseHttpMetrics();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
+
+app.MapMetrics();
 
 app.Run();
