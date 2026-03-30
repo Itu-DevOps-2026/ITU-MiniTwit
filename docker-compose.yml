@@ -32,7 +32,7 @@ services:
     volumes:
       - certbot_webroot:/var/www/certbot
       - letsencrypt:/etc/letsencrypt
-    entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;"
+    entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h & wait $${!}; done;"
     
   minitwitimage-e:
     image: ${DOCKER_USERNAME:-gartner1et}/minitwitimage-e
