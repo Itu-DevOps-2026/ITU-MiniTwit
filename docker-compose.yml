@@ -9,8 +9,6 @@ services:
     container_name: whoami
     networks:
       - main
-    ports:
-      - "8888:80"
   
   nginx:
     image: nginx
