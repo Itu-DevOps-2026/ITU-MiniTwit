@@ -12,10 +12,9 @@ using Microsoft.AspNetCore.Authorization;
 using MiniTwit.Web;
 using MiniTwit.Web.Authentication;
 using Prometheus;
+using Serilog;
+using Serilog.Sinks.Grafana.Loki;
 
-
-
-ILogger<Program> logger = new LoggerFactory().CreateLogger<Program>();
 var builder = WebApplication.CreateBuilder(args);
 Env.Load();
 
@@ -29,6 +28,24 @@ builder.Services.AddDbContext<MiniTwitDBContext>(options =>
         new MySqlServerVersion(new Version(8, 0, 36))
     );
 });
+
+// Logging
+//ILogger<Program> logger = new LoggerFactory().CreateLogger<Program>();
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.GrafanaLoki(
+        "http://loki:3100",
+        labels: new[]
+        {
+            new LokiLabel { Key = "app", Value = "minitwit" }
+        }
+    )
+    .CreateLogger();
+
+builder.Host.UseSerilog(); // replace default logging
 
 // Add EF Core Identity to the app
 builder.Services.AddDefaultIdentity<Author>(options =>

@@ -9,6 +9,16 @@ discovery.docker "containers" {
 loki.source.docker "containers" {
   host       = "unix:///var/run/docker.sock"
   targets    = discovery.docker.containers.targets
+  forward_to = [loki.process.add_labels.receiver]
+}
+
+loki.process "add_labels" {
+  stage.static_labels {
+    values = {
+      app = "minitwit",
+    }
+  }
+
   forward_to = [loki.write.default.receiver]
 }
 
