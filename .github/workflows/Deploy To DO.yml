@@ -45,8 +45,26 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/minitwitimage-e:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage-e:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/minitwitimage-e:webbuildcache,mode=max
-
-
+          
+      - name: Build and push grafanaimage
+        uses: docker/build-push-action@v6
+        with:
+          context: ./monitoring/grafana
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/grafanaimage-e:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/grafanaimage-e:webbuildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/grafanaimage-e:webbuildcache,mode=max
+      
+      - name: Build and push prometheusimage
+        uses: docker/build-push-action@v6
+        with:
+          context: ./monitoring/prometheus
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/prometheusimage-e:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/prometheusimage-e:webbuildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/prometheusimage-e:webbuildcache,mode=max
 
       - name: Copy Docker-compose file
         uses: appleboy/scp-action@v0.1.7
