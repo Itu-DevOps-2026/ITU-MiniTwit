@@ -4,12 +4,6 @@
 
 services:
   
-  whoami:
-    image: traefik/whoami
-    container_name: whoami
-    networks:
-      - main
-  
   nginx:
     image: nginx
     container_name: nginx
@@ -24,7 +18,7 @@ services:
       - letsencrypt:/etc/letsencrypt 
     command: /bin/sh -c "while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g 'daemon off;'"
     depends_on:
-      - whoami
+      - minitwitimage-e
         
   certbot:
     image: certbot/certbot:latest
