@@ -29,10 +29,7 @@ builder.Services.AddDbContext<MiniTwitDBContext>(options =>
     );
 });
 
-// Logging
-//ILogger<Program> logger = new LoggerFactory().CreateLogger<Program>();
-
-// Configure Serilog
+// Configure Serilog logging
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console()
@@ -40,12 +37,12 @@ Log.Logger = new LoggerConfiguration()
         "http://loki:3100",
         labels: new[]
         {
-            new LokiLabel { Key = "app", Value = "minitwit" }
+            new LokiLabel { Key = "service_name", Value = "minitwit" }
         }
     )
     .CreateLogger();
 
-builder.Host.UseSerilog(); // replace default logging
+builder.Host.UseSerilog();
 
 // Add EF Core Identity to the app
 builder.Services.AddDefaultIdentity<Author>(options =>
