@@ -56,6 +56,19 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
 
+      - name: Sync deployment files to server
+        run: |
+          rsync -avz \
+            -e "ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no" \
+            docker-compose.yml \
+            deploy.sh \
+            tls/ \
+            $SSH_USER@$SSH_HOST:/minitwit/
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+
+
       - name: Deploy to server
         # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
         run: >
