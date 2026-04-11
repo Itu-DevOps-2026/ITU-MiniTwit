@@ -42,6 +42,10 @@ Log.Logger = new LoggerConfiguration()
     )
     .CreateLogger();
 
+Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine(msg));
+
+builder.Logging.ClearProviders();
+
 builder.Host.UseSerilog();
 
 // Add EF Core Identity to the app
