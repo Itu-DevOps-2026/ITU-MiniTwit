@@ -67,7 +67,7 @@ jobs:
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/prometheusimage-e:webbuildcache,mode=max
 
       - name: Copy Docker-compose file
-        uses: appleboy/scp-action@v0ff4204d59e8e51228ff73bce53f80d53301dee2
+        uses: appleboy/scp-action@0ff4204d59e8e51228ff73bce53f80d53301dee2
         with:
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USERNAME}}
