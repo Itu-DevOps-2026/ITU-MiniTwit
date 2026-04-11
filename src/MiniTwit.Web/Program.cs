@@ -27,10 +27,7 @@ builder.Services.AddDbContext<MiniTwitDBContext>(options =>
 });
 
 // Configure Serilog logging
-Log.Logger = new LoggerConfiguration()
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .CreateLogger();
+Log.Logger = new LoggerConfiguration().Enrich.FromLogContext().WriteTo.Console().CreateLogger();
 
 builder.Logging.ClearProviders();
 
