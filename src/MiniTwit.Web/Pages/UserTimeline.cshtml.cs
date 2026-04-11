@@ -1,7 +1,7 @@
-﻿using MiniTwit.Core.Interfaces;
-using MiniTwit.Infrastructure.Entities;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
+using MiniTwit.Core.Interfaces;
+using MiniTwit.Infrastructure.Entities;
 using MiniTwit.Web.Pages.Shared;
 
 namespace MiniTwit.Web.Pages;
@@ -11,24 +11,31 @@ public class UserTimelineModel : TimelineBaseModel
 {
     [BindProperty]
     public string? UserName { get; set; }
-    
+
     //Inherits from parent class TimelineBaseModel, which injects the cheep service and sets a model
-    public UserTimelineModel(ICheepService cheepService,IAuthorService authorService, UserManager<Author> userManager) : base(cheepService,authorService, userManager)
-    {
-    }
-    
+    public UserTimelineModel(
+        ICheepService cheepService,
+        IAuthorService authorService,
+        UserManager<Author> userManager
+    )
+        : base(cheepService, authorService, userManager) { }
+
     // Used for page links
     public int PageNumber { get; set; }
     public bool HasMorePages { get; set; }
 
     //Gets all cheeps from a specific author
-    public async Task<ActionResult> OnGet(string author, [FromQuery] string? error, [FromQuery] int page = 1)
+    public async Task<ActionResult> OnGet(
+        string author,
+        [FromQuery] string? error,
+        [FromQuery] int page = 1
+    )
     {
         HandleError(error);
-        
+
         //Call base method to get user info
         await GetUserInformation();
-        
+
         var currentUser = await UserManager.GetUserAsync(User);
         if (currentUser != null)
         {
@@ -47,7 +54,7 @@ public class UserTimelineModel : TimelineBaseModel
                 // Used to show/hide next-page button
                 HasMorePages = hasNext;
             }
-        }            
+        }
         else
         {
             Cheeps = _cheepService.GetCheepsFromAuthor(author, out bool hasNext, page);
@@ -57,10 +64,10 @@ public class UserTimelineModel : TimelineBaseModel
 
         // Used for page links
         PageNumber = page;
-        
+
         return Page();
     }
-    
+
     //OnPost-method for liking a cheep
     public async Task<ActionResult> OnPostLikeAsync(int cheep, string returnUrl)
     {
@@ -70,7 +77,7 @@ public class UserTimelineModel : TimelineBaseModel
     }
 
     //OnPost-method for unliking a cheep
-    public async Task<ActionResult> OnPostUnLikeAsync(int cheep,string returnUrl)
+    public async Task<ActionResult> OnPostUnLikeAsync(int cheep, string returnUrl)
     {
         var currentUser = await UserManager.GetUserAsync(User);
         await _cheepService.UnLikeCheep(cheep, currentUser!.Name);

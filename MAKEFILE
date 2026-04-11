@@ -1,0 +1,14 @@
+﻿Formatters and linitng commands
+
+Roslyn:
+dotnet format
+
+Csharpier:
+
+dotnet csharpier check
+dotnet csharpier format
+
+Hadolint:
+hadolint <Dokcerfile>
+
+

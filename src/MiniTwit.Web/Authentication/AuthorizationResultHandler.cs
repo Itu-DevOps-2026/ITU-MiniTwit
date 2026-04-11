@@ -1,22 +1,22 @@
 ﻿using Org.OpenAPITools.Models;
 
 namespace MiniTwit.Web.Authentication;
+
+using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Policy;
 using Microsoft.AspNetCore.Http;
-using System.Text.Json;
 
-public class AuthorizationResultHandler
-    : IAuthorizationMiddlewareResultHandler
+public class AuthorizationResultHandler : IAuthorizationMiddlewareResultHandler
 {
-    private readonly AuthorizationMiddlewareResultHandler _defaultHandler 
-        = new();
+    private readonly AuthorizationMiddlewareResultHandler _defaultHandler = new();
 
     public async Task HandleAsync(
         RequestDelegate next,
         HttpContext context,
         AuthorizationPolicy policy,
-        PolicyAuthorizationResult authorizeResult)
+        PolicyAuthorizationResult authorizeResult
+    )
     {
         if (authorizeResult.Forbidden)
         {
@@ -26,7 +26,7 @@ public class AuthorizationResultHandler
             var error = new ErrorResponse
             {
                 Status = 403,
-                ErrorMsg = "Unauthorized - Must include correct Authorization header"
+                ErrorMsg = "Unauthorized - Must include correct Authorization header",
             };
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(error));

@@ -16,14 +16,14 @@ public class PlaywrightEndToEndTest : PageTest
     // Helpers
     // Registering with test user
 
-    private async Task <(string Email, string Password)> Register()
+    private async Task<(string Email, string Password)> Register()
     {
         // Generate unique suffix
         var unique = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        
+
         var uniqueUsername = $"Test{unique}";
         var uniqueEmail = $"{uniqueUsername}@test.dk";
-        
+
         await Page.GotoAsync(HomePage);
         await Page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
         await Page.GetByPlaceholder("Username").FillAsync(uniqueUsername);
@@ -35,16 +35,14 @@ public class PlaywrightEndToEndTest : PageTest
         return (uniqueEmail, TestPassword);
     }
 
-// Log in with test user
+    // Log in with test user
     private async Task Login(string email, string password)
     {
-        
         await Page.GotoAsync(HomePage);
         await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
         await Page.GetByPlaceholder("name@example.com").FillAsync(email);
         await Page.GetByPlaceholder("password").FillAsync(password);
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
-
     }
 
     private async Task PostCheep(string cheep)
@@ -53,14 +51,13 @@ public class PlaywrightEndToEndTest : PageTest
         await Page.Locator("#CheepText").FillAsync(cheep);
         await Page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
     }
-    
-    
+
     [Test]
     public async Task RegisterNewUser_AllowsCheeping()
     {
         var (email, password) = await Register();
         await PostCheep("Hi I'm a newly registered user");
-         
+
         Assert.That(await Page.ContentAsync(), Does.Contain("Hi I'm a newly registered user"));
     }
 
@@ -102,23 +99,23 @@ public class PlaywrightEndToEndTest : PageTest
 
         // Stored in DB: navigate to About me and confirm the cheep is listed
         await Page.GetByRole(AriaRole.Link, new() { Name = "About me" }).ClickAsync();
-        await Expect(Page.GetByText(msg)).ToBeVisibleAsync(new() {Timeout = 15000
-        });
+        await Expect(Page.GetByText(msg)).ToBeVisibleAsync(new() { Timeout = 15000 });
     }
-    
+
     [Test]
     public async Task UnauthenticatedUser_CannotCheep()
     {
         await Page.GotoAsync(HomePage);
-        
+
         // Public timeline is visible
-        await Expect(Page.GetByRole(AriaRole.Link, new() { Name = "Public timeline"})).ToBeVisibleAsync();
-        
+        await Expect(Page.GetByRole(AriaRole.Link, new() { Name = "Public timeline" }))
+            .ToBeVisibleAsync();
+
         // Cheepbox is not visible
         await Expect(Page.Locator("#CheepText")).Not.ToBeVisibleAsync();
-        
+
         //Like is not visible
-        await Expect(Page.GetByRole(AriaRole.Button, new() { Name = "Like"})).Not.ToBeVisibleAsync();
+        await Expect(Page.GetByRole(AriaRole.Button, new() { Name = "Like" }))
+            .Not.ToBeVisibleAsync();
     }
-    
 }

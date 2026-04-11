@@ -1,7 +1,7 @@
 namespace MiniTwit.Web.Tests.PlaywrightUITests;
 
-using Microsoft.Playwright.NUnit;
 using Microsoft.Playwright;
+using Microsoft.Playwright.NUnit;
 using NUnit.Framework;
 
 [TestFixture]
@@ -46,7 +46,7 @@ public class PlaywrightFollowTest : PageTest
         return cheep.GetByRole(AriaRole.Link, new() { Name = "Unfollow" });
     }
 
-        private async Task GoToPageWhereAuthorIsVisible(string authorName)
+    private async Task GoToPageWhereAuthorIsVisible(string authorName)
     {
         // Start from the public timeline
         await Page.GotoAsync(HomePage);
@@ -73,12 +73,12 @@ public class PlaywrightFollowTest : PageTest
             }
         }
     }
-    
+
     private async Task GoToPrivateTimeline()
     {
         await Page.GetByRole(AriaRole.Link, new() { Name = "my timeline" }).ClickAsync();
     }
-    
+
     [Test]
     public async Task FollowButtonAppearsOnPublicTimeline()
     {
@@ -124,11 +124,11 @@ public class PlaywrightFollowTest : PageTest
             await existingUnfollow.First.ClickAsync();
             await FollowLinkForAuthor(Author).First.WaitForAsync();
         }
-        
+
         // Follow Jacqualine
         var followLink = FollowLinkForAuthor(Author);
         await followLink.First.ClickAsync();
-        
+
         // Click unfollow
         var unfollowLink = UnfollowLinkForAuthor(Author);
         await unfollowLink.First.WaitForAsync();
@@ -139,6 +139,7 @@ public class PlaywrightFollowTest : PageTest
         await newFollowLinks.First.WaitForAsync();
         Assert.That(await newFollowLinks.CountAsync(), Is.GreaterThan(0));
     }
+
     [Test]
     public async Task Login_FollowUser_CheepsAppearInTimeline()
     {
@@ -156,7 +157,11 @@ public class PlaywrightFollowTest : PageTest
 
         // Click Follow for that author
         var followLink = FollowLinkForAuthor(Author);
-        Assert.That(await followLink.CountAsync(), Is.GreaterThan(0), "Expected a Follow link before following.");
+        Assert.That(
+            await followLink.CountAsync(),
+            Is.GreaterThan(0),
+            "Expected a Follow link before following."
+        );
         await followLink.First.ClickAsync();
 
         //Go to private timeline
@@ -164,8 +169,11 @@ public class PlaywrightFollowTest : PageTest
 
         //Assert the author shows up on private timeline
         var privateCheepsByAuthor = Page.Locator("p").Filter(new() { HasText = Author });
-        Assert.That(await privateCheepsByAuthor.CountAsync(), Is.GreaterThan(0),
-            "Expected followed author's cheeps on private timeline.");
+        Assert.That(
+            await privateCheepsByAuthor.CountAsync(),
+            Is.GreaterThan(0),
+            "Expected followed author's cheeps on private timeline."
+        );
 
         //change page on private timeline (if paging exists)
         var nextLink = Page.GetByRole(AriaRole.Link, new() { Name = "next" });
@@ -178,12 +186,13 @@ public class PlaywrightFollowTest : PageTest
             Assert.That(await privateCheepsPage2.CountAsync(), Is.GreaterThanOrEqualTo(0));
         }
     }
+
     [Test]
     public async Task UnfollowingAuthor_RemovesCheepsFromTimeline()
     {
         await LoginHelperTestUser();
         await GoToPageWhereAuthorIsVisible(Author);
-        
+
         //ensure already following
         var followLink = FollowLinkForAuthor(Author);
         if (await followLink.CountAsync() > 0)
@@ -194,20 +203,29 @@ public class PlaywrightFollowTest : PageTest
         //go to private timeline, ensuring cheeps appeared
         await GoToPrivateTimeline();
         var cheepsByAuthorOnPrivate = Page.Locator("p").Filter(new() { HasText = Author });
-        Assert.That(await cheepsByAuthorOnPrivate.CountAsync(), Is.GreaterThan(0),
-            $"Expected to see {Author}'s cheeps on private timeline after following.");
+        Assert.That(
+            await cheepsByAuthorOnPrivate.CountAsync(),
+            Is.GreaterThan(0),
+            $"Expected to see {Author}'s cheeps on private timeline after following."
+        );
 
         // Now go back to public timeline and unfollow
         await GoToPageWhereAuthorIsVisible(Author);
         var unfollowLink = UnfollowLinkForAuthor(Author);
-        Assert.That(await unfollowLink.CountAsync(), Is.GreaterThan(0),
-            $"Expected an Unfollow link for {Author} on public timeline.");
+        Assert.That(
+            await unfollowLink.CountAsync(),
+            Is.GreaterThan(0),
+            $"Expected an Unfollow link for {Author} on public timeline."
+        );
         await unfollowLink.First.ClickAsync();
 
         // Back to private timeline – author should be gone
         await GoToPrivateTimeline();
         var cheepsAfterUnfollow = Page.Locator("p").Filter(new() { HasText = Author });
-        Assert.That(await cheepsAfterUnfollow.CountAsync(), Is.EqualTo(0),
-            $"Expected NOT to see {Author}'s cheeps on private timeline after unfollowing.");
+        Assert.That(
+            await cheepsAfterUnfollow.CountAsync(),
+            Is.EqualTo(0),
+            $"Expected NOT to see {Author}'s cheeps on private timeline after unfollowing."
+        );
     }
 }
