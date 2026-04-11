@@ -30,16 +30,7 @@ builder.Services.AddDbContext<MiniTwitDBContext>(options =>
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .WriteTo.Console()
-    .WriteTo.GrafanaLoki(
-        "http://loki:3100",
-        labels: new[]
-        {
-            new LokiLabel { Key = "service_name", Value = "minitwit" },
-        }
-    )
     .CreateLogger();
-
-Serilog.Debugging.SelfLog.Enable(msg => Console.WriteLine(msg));
 
 builder.Logging.ClearProviders();
 
