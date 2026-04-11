@@ -34,7 +34,7 @@ Log.Logger = new LoggerConfiguration()
         "http://loki:3100",
         labels: new[]
         {
-            new LokiLabel { Key = "service_name", Value = "minitwit" }
+            new LokiLabel { Key = "service_name", Value = "minitwit" },
         }
     )
     .CreateLogger();
