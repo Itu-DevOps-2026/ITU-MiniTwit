@@ -1,5 +1,5 @@
 ---
-name: Stageing Deployment
+name: Staging Deployment
 
 on:
   pull_request:
@@ -83,7 +83,7 @@ jobs:
       - name: Copy Docker-compose file
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{secrets.SSH_HOST}}
+          host: ${{secrets.SSH_HOST_STAGING}}
           username: ${{secrets.SSH_USERNAME}}
           key: ${{secrets.SSH_KEY}}
           source: "docker-compose.yml"
@@ -92,7 +92,7 @@ jobs:
       - name: Deploy to server
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{secrets.SSH_HOST_STAGEING}}
+          host: ${{secrets.SSH_HOST_STAGING}}
           username: ${{secrets.SSH_USERNAME}}
           key: ${{secrets.SSH_KEY}}
           script: |
