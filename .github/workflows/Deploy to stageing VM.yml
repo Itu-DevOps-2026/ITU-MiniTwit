@@ -47,7 +47,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./grafana
-          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/grafanaimage-e:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/grafanaimage-e:webbuildcache
