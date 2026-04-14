@@ -48,6 +48,7 @@ services:
     container_name: prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=3d"
     ports:
       - "9090:9090"
     networks:
@@ -66,3 +67,4 @@ services:
 volumes:
   loki-data: { }
   grafana-storage: { }
+  prometheus-data: { }
