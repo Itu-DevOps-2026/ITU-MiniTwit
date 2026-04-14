@@ -89,7 +89,8 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST_STAGING }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          key: |
+            ${{ secrets.SSH_KEY }}
           source: "docker-compose.yml"
           target: "/minitwit"
 
@@ -98,7 +99,8 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST_STAGING }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          key: |
+            ${{ secrets.SSH_KEY }}
           script: |
             cd /minitwit
             docker compose -f docker-compose.yml pull
