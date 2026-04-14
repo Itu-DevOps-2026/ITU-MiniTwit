@@ -80,6 +80,10 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alloyimage-e:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alloyimage-e:webbuildcache,mode=max
 
+      - name: Debug SSH key
+        run: |
+          echo "${{ secrets.SSH_KEY }}" | head -n 3
+
       - name: Copy Docker-compose file
         uses: appleboy/scp-action@v0.1.7
         with:
