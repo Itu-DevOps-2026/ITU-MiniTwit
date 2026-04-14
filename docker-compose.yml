@@ -32,7 +32,7 @@ services:
       - main
   
   alloy:
-    image: grafana/alloy:latest
+    image: ${DOCKER_USERNAME:-user}/alloyimage-e
     container_name: alloy
     volumes:
       - ./alloy/config.alloy:/etc/alloy/config.alloy
