@@ -74,7 +74,7 @@ jobs:
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/lokiimage-e:webbuildcache,mode=max
 
       - name: Copy Docker-compose file
-        uses: appleboy/scp-action@0ff4204d59e8e51228ff73bce53f80d53301dee2
+        uses: appleboy/scp-action@v1.0.3
         with:
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.SSH_USERNAME}}
@@ -83,7 +83,7 @@ jobs:
           target: "/minitwit"
 
       - name: Deploy to server
-        uses: appleboy/scp-action@0ff4204d59e8e51228ff73bce53f80d53301dee2
+        uses: appleboy/scp-action@v1.0.3
         with:
           host: ${{secrets.SSH_HOST_STAGEING}}
           username: ${{secrets.SSH_USERNAME}}
