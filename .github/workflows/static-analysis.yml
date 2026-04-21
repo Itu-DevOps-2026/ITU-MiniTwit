@@ -48,7 +48,7 @@ jobs:
     
     # Log into Docker Hub (for Docker Scout)
     - name: Log into Docker Hub
-      uses: docker/login-action@v3
+      uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
@@ -56,15 +56,19 @@ jobs:
     # Docker scout vulnerability scan
     - name: Build and push Docker image
       run: |
-        docker build -f Dockerfile-MiniTwit -t ${{ secrets.DOCKER_USERNAME }}/minitwit-app:latest .
-        docker push ${{ secrets.DOCKER_USERNAME }}/minitwit-app:latest
+        docker build -f Dockerfile-MiniTwit -t ${{ env.DOCKER_USERNAME }}/minitwit-app:latest .
+        docker push ${{ env.DOCKER_USERNAME }}/minitwit-app:latest
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
 
     - name: Docker Scout Vulnerability Scan
       uses: docker/scout-action@bacf462e8d090c09660de30a6ccc718035f961e3
       with:
         command: cves
-        image: ${{ secrets.DOCKER_USERNAME }}/minitwit-app:latest
+        image: ${{ env.DOCKER_USERNAME }}/minitwit-app:latest
         only-severities: critical,high
         exit-code: true # Fails the pipeline if vulnerabilities are found
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
     
     
