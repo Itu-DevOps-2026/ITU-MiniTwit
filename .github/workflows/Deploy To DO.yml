@@ -107,7 +107,7 @@ jobs:
           # run the deploy script
           bash /minitwit/deploy.sh
           EOF
-      env:
-        SSH_USER: ${{ secrets.SSH_USER }}
-        SSH_HOST: ${{ secrets.SSH_HOST }}
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
             
