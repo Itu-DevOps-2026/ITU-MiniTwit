@@ -88,23 +88,24 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
 
-      - name: Sync files to VM
+      - name: Sync deployment files to server
         run: |
-          rsync -avz --delete \
-            -e "ssh -i ~/.ssh/id_rsa" \
-            remote_files/ \
+          rsync -avz \
+            -e "ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no" \
+            docker-compose.yml \
+            remote_files/deploy.sh \
             $SSH_USER@$SSH_HOST:/minitwit/
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          
-      - name: Run deploy script
-        run: |
-          ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
-            cd ~/app
-            chmod +x deploy.sh
-            ./deploy.sh
-          EOF
+
+
+      - name: Deploy to server
+        # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
+        run: >
+          ssh $SSH_USER@$SSH_HOST
+          -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no
+          '/minitwit/deploy.sh'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
