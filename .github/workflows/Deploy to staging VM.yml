@@ -80,31 +80,32 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alloyimage-e:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alloyimage-e:webbuildcache,mode=max
 
-      - name: Configure SSH
+      - name: Setup SSH key
         run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/do_ssh_key
-          chmod 600 ~/.ssh/do_ssh_key
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
 
-      - name: Sync deployment files to server
+      - name: Sync files to VM
         run: |
-          rsync -avz --delete --checksum \
-          -e "ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no" \
-          docker-compose.yml \
-          remote_files/deploy.sh \
-          $SSH_USER@$SSH_HOST:/minitwit/
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/id_rsa" \
+            remote_files/ \
+            $SSH_USER@$SSH_HOST:/minitwit/
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
           
-      - name: Deploy to server
-        # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
-        run: >
-          ssh $SSH_USER@$SSH_HOST
-          -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no
-          '/minitwit/deploy.sh'
+      - name: Run deploy script
+        run: |
+          ssh -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
+            cd ~/app
+            chmod +x deploy.sh
+            ./deploy.sh
+          EOF
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
