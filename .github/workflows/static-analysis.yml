@@ -39,3 +39,9 @@ jobs:
       run: dotnet restore
     - name: Roslyn Static Analysis
       run: dotnet build --no-restore -c Release /p:TreatWarningsAsErrors=true
+    
+    # CodeQL Analysis
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+    
+    
