@@ -80,32 +80,32 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alloyimage-e:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alloyimage-e:webbuildcache,mode=max
 
-      - name: Configure SSH
+      - name: Write SSH key
         run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/do_ssh_key
-          chmod 600 ~/.ssh/do_ssh_key
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
+          echo "${{ secrets.SSH_KEY }}" > key.pem
+          chmod 600 key.pem
 
-      - name: Sync deployment files to server
-        run: |
-          rsync -avz \
-            -e "ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no" \
-            docker-compose.yml \
-            remote_files/deploy.sh \
-            $SSH_USER@$SSH_HOST:/minitwit/
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-
+      - name: Copy Docker-compose file
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          key_path: key.pem
+          host: ${{ secrets.SSH_HOST_STAGING }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: |
+            ${{ secrets.SSH_KEY }}
+          source: "docker-compose.yml"
+          target: "/minitwit"
 
       - name: Deploy to server
-        # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
-        run: >
-          ssh $SSH_USER@$SSH_HOST
-          -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no
-          '/minitwit/deploy.sh'
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          key_path: key.pem
+          host: ${{ secrets.SSH_HOST_STAGING }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: |
+            ${{ secrets.SSH_KEY }}
+          script: |
+            cd /minitwit
+            docker compose -f docker-compose.yml pull
+            docker compose -f docker-compose.yml up -d
+            
