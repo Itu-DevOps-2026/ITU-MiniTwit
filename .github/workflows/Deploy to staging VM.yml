@@ -94,7 +94,7 @@ jobs:
             -e "ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no" \
             docker-compose.yml \
             remote_files/deploy.sh \
-            tls/ \
+            tls \
             $SSH_USER@$SSH_HOST:/minitwit/
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
