@@ -44,4 +44,16 @@ jobs:
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
     
+    # Docker scout vulnerability scan
+    - name: Build local Docker image
+      run: docker build -f Dockerfile-MiniTwit -t minitwit-app:latest .
+
+    - name: Docker Scout Vulnerability Scan
+      uses: docker/scout-action@v1
+      with:
+        command: cves
+        image: minitwit-app:latest
+        only-severities: critical,high
+        exit-code: true # Fails the pipeline if vulnerabilities are found
+    
     
