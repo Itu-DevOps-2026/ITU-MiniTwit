@@ -28,6 +28,12 @@ jobs:
     - name: Check Formatting
       run: dotnet csharpier check .
 
+    # Initialize CodeQL
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: 'csharp'
+
     # C# Linter: Roslyn (Strict Linting)
     - name: Restore dependencies
       run: dotnet restore
