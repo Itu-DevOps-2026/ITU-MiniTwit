@@ -101,11 +101,17 @@ jobs:
 
 
       - name: Deploy to server
-        # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
-        run: >
-          ssh $SSH_USER@$SSH_HOST
-          -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no
-          'DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} DB_CONNECTION=${{secrets.DB_CONNECTION}} bash /minitwit/deploy.sh'
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST_STAGING }}
+        run: |
+          ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST 'bash -s' <<'EOF'
+          set -euo pipefail
+          # Values are interpolated by Actions (masked in logs) and sent via stdin to the remote shell.
+          DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}"
+          DB_CONNECTION="${{ secrets.DB_CONNECTION }}"
+          export DOCKER_USERNAME DB_CONNECTION
+
+          # run the deploy script
+          bash /minitwit/deploy.sh
+          EOF
+      env:
+        SSH_USER: ${{ secrets.SSH_USER }}
+        SSH_HOST: ${{ secrets.SSH_HOST_STAGING }}
