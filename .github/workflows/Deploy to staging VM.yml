@@ -105,7 +105,7 @@ jobs:
         run: >
           ssh $SSH_USER@$SSH_HOST
           -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no
-          'bash /minitwit/deploy.sh'
+          'DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} DB_CONNECTION=${{secrets.DB_CONNECTION}} bash /minitwit/deploy.sh'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST_STAGING }}
