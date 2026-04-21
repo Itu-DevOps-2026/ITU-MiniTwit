@@ -8,6 +8,8 @@ on:
 jobs:
   quality-check:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
     - uses: actions/checkout@v4
 
@@ -58,7 +60,7 @@ jobs:
         docker push ${{ secrets.DOCKER_USERNAME }}/minitwit-app:latest
 
     - name: Docker Scout Vulnerability Scan
-      uses: docker/scout-action@v1
+      uses: docker/scout-action@bacf462e8d090c09660de30a6ccc718035f961e3
       with:
         command: cves
         image: ${{ secrets.DOCKER_USERNAME }}/minitwit-app:latest
