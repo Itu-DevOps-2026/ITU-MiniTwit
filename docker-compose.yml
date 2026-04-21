@@ -3,7 +3,7 @@
     name: MiniTwit
 
 services:
-  
+  #the overrite of docker compose file worked
   minitwitimage-e:
     image: ${DOCKER_USERNAME:-user}/minitwitimage-e
     container_name: minitwit
@@ -68,3 +68,5 @@ volumes:
   loki-data: { }
   grafana-storage: { }
   prometheus-data: { }
+
+#the overrite of docker compose file worked
