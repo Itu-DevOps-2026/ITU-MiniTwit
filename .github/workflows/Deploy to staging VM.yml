@@ -90,15 +90,12 @@ jobs:
 
       - name: Sync deployment files to server
         run: |
-          rsync -avz \
-            -e "ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no" \
-            docker-compose.yml \
-            remote_files/deploy.sh \
-            $SSH_USER@$SSH_HOST:/minitwit/
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-
+          rsync -avz --delete --checksum \
+          -e "ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no" \
+          docker-compose.yml \
+          deploy.sh \
+          tls/ \
+          $SSH_USER@$SSH_HOST:/minitwit/
 
       - name: Deploy to server
         # Configure the ~./bash_profile and deploy.sh file on the Vagrantfile
