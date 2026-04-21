@@ -3,5 +3,5 @@ source ~/.bash_profile
 
 cd /minitwit
 export DOCKER_USERNAME=$DOCKER_USERNAME
-docker-compose -f /minitwit/docker-compose.yml pull
-docker-compose -f /minitwit/docker-compose.yml up -d
+docker compose -f /minitwit/docker-compose.yml pull
+docker compose -f /minitwit/docker-compose.yml up -d
