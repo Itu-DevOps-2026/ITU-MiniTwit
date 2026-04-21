@@ -3,7 +3,7 @@
     name: MiniTwit
 
 services:
-  
+  #the overrite of docker compose file worked
   minitwitimage-e:
     image: ${DOCKER_USERNAME}/minitwitimage-e
     container_name: minitwit
@@ -16,26 +16,46 @@ services:
     depends_on:
       - grafana
       - prometheus
+      - loki
+      - alloy
+  
+  loki:
+    image: ${DOCKER_USERNAME}/lokiimage-e
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki-data:/loki
+    command:
+      - "--config.file=/etc/loki/loki-config.yml"
+    networks:
+      - main
+  
+  alloy:
+    image: ${DOCKER_USERNAME}/alloyimage-e
+    container_name: alloy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    command: run /etc/alloy/config.alloy
+    networks:
+      - main
+    depends_on:
+      - loki
   
   prometheus:
-    build:
-      dockerfile: ./Dockerfile
-      context: ./monitoring/prometheus
-    image: prometheus_image
+    image: ${DOCKER_USERNAME}/prometheusimage-e
     container_name: prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=3d"
     ports:
       - "9090:9090"
     networks:
       - main
 
-
   grafana:
-    build:
-      dockerfile: ./Dockerfile
-      context: ./monitoring/grafana
-    image: grafana_image
+    image: ${DOCKER_USERNAME}/grafanaimage-e
     container_name: grafana
     ports:
       - "3000:3000"
@@ -45,4 +65,8 @@ services:
       - grafana-storage:/var/lib/grafana
 
 volumes:
+  loki-data: { }
   grafana-storage: { }
+  prometheus-data: { }
+
+#the overrite of docker compose file worked

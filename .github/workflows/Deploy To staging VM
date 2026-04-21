@@ -2,11 +2,8 @@
 name: Continuous Deployment
 
 on:
-  push:
-    # Run workflow every time something is pushed to the main branch
-    branches:
-      - main
-      - master
+  pull_request:
+    branches: main
   # allow manual triggers for now too
   workflow_dispatch:
     manual: true
@@ -75,39 +72,24 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/lokiimage-e:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/lokiimage-e:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/lokiimage-e:webbuildcache,mode=max
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/do_ssh_key
-          chmod 600 ~/.ssh/do_ssh_key
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
 
-      - name: Sync deployment files to server
-        run: |
-          rsync -avz \
-            -e "ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no" \
-            docker-compose.yml \
-            remote_files/deploy.sh \
-            $SSH_USER@$SSH_HOST:/minitwit/
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-
+      - name: Copy Docker-compose file
+        uses: appleboy/scp-action@0ff4204d59e8e51228ff73bce53f80d53301dee2
+        with:
+          host: ${{secrets.SSH_HOST}}
+          username: ${{secrets.SSH_USERNAME}}
+          key: ${{secrets.SSH_KEY}}
+          source: "docker-compose.yml"
+          target: "/minitwit"
 
       - name: Deploy to server
-        run: |
-          ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST 'bash -s' <<'EOF'
-          set -euo pipefail
-          # Values are interpolated by Actions (masked in logs) and sent via stdin to the remote shell.
-          DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}"
-          DB_CONNECTION="${{ secrets.DB_CONNECTION }}"
-          export DOCKER_USERNAME DB_CONNECTION
-
-          # run the deploy script
-          bash /minitwit/deploy.sh
-          EOF
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
+        uses: appleboy/scp-action@0ff4204d59e8e51228ff73bce53f80d53301dee2
+        with:
+          host: ${{secrets.SSH_HOST_STAGEING}}
+          username: ${{secrets.SSH_USERNAME}}
+          key: ${{secrets.SSH_KEY}}
+          script: |
+            cd /minitwit
+            docker compose -f docker-compose.yml pull
+            docker compose -f docker-compose.yml up -d
             

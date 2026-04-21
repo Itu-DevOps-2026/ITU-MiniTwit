@@ -1,12 +1,9 @@
 ---
-name: Continuous Deployment
+name: Staging Deployment
 
 on:
-  push:
-    # Run workflow every time something is pushed to the main branch
-    branches:
-      - main
-      - master
+  pull_request:
+    branches: main
   # allow manual triggers for now too
   workflow_dispatch:
     manual: true
@@ -50,7 +47,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./grafana
-          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/grafanaimage-e:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/grafanaimage-e:webbuildcache
@@ -60,7 +56,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./prometheus
-          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/prometheusimage-e:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/prometheusimage-e:webbuildcache
@@ -70,11 +65,21 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./loki
-          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/lokiimage-e:latest
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/lokiimage-e:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/lokiimage-e:webbuildcache,mode=max
+
+          
+      - name: Build and push alloyimage
+        uses: docker/build-push-action@v6
+        with:
+          context: ./alloy
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/alloyimage-e:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alloyimage-e:webbuildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alloyimage-e:webbuildcache,mode=max
+
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -92,7 +97,7 @@ jobs:
             $SSH_USER@$SSH_HOST:/minitwit/
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_HOST: ${{ secrets.SSH_HOST_STAGING }}
 
 
       - name: Deploy to server
@@ -109,5 +114,4 @@ jobs:
           EOF
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-            
+          SSH_HOST: ${{ secrets.SSH_HOST_STAGING }}
