@@ -12,8 +12,9 @@ using MiniTwit.Infrastructure.Services;
 using MiniTwit.Web;
 using MiniTwit.Web.Authentication;
 using Prometheus;
+using Serilog;
+using Serilog.Sinks.Grafana.Loki;
 
-ILogger<Program> logger = new LoggerFactory().CreateLogger<Program>();
 var builder = WebApplication.CreateBuilder(args);
 Env.Load();
 
@@ -24,6 +25,13 @@ builder.Services.AddDbContext<MiniTwitDBContext>(options =>
 {
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 36)));
 });
+
+// Configure Serilog logging
+Log.Logger = new LoggerConfiguration().Enrich.FromLogContext().WriteTo.Console().CreateLogger();
+
+builder.Logging.ClearProviders();
+
+builder.Host.UseSerilog();
 
 // Add EF Core Identity to the app
 builder

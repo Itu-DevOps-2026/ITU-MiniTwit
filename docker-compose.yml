@@ -4,6 +4,31 @@
 
 services:
   
+  nginx:
+    image: nginx
+    container_name: nginx
+    networks:
+      - main
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./tls/nginxConfiguration:/etc/nginx/conf.d/default.conf
+      - certbot_webroot:/var/www/certbot
+      - letsencrypt:/etc/letsencrypt 
+    command: /bin/sh -c "while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g 'daemon off;'"
+    depends_on:
+      - minitwitimage-e
+        
+  certbot:
+    image: certbot/certbot:latest
+    container_name: certbot
+    volumes:
+      - certbot_webroot:/var/www/certbot
+      - letsencrypt:/etc/letsencrypt
+    entrypoint: /bin/sh -c "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h & wait $${!}; done;"
+    
+  #the overrite of docker compose file worked
   minitwitimage-e:
     image: ${DOCKER_USERNAME}/minitwitimage-e
     container_name: minitwit
@@ -16,12 +41,35 @@ services:
     depends_on:
       - grafana
       - prometheus
+      - loki
+      - alloy
+  
+  loki:
+    image: ${DOCKER_USERNAME}/lokiimage-e
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki-data:/loki
+    command:
+      - "--config.file=/etc/loki/loki-config.yml"
+    networks:
+      - main
+  
+  alloy:
+    image: ${DOCKER_USERNAME}/alloyimage-e
+    container_name: alloy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    command: run /etc/alloy/config.alloy
+    networks:
+      - main
+    depends_on:
+      - loki
   
   prometheus:
-    build:
-      dockerfile: ./Dockerfile
-      context: ./monitoring/prometheus
-    image: prometheus_image
+    image: ${DOCKER_USERNAME}/prometheusimage-e
     container_name: prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
@@ -32,12 +80,8 @@ services:
     networks:
       - main
 
-
   grafana:
-    build:
-      dockerfile: ./Dockerfile
-      context: ./monitoring/grafana
-    image: grafana_image
+    image: ${DOCKER_USERNAME}/grafanaimage-e
     container_name: grafana
     ports:
       - "3000:3000"
@@ -47,4 +91,11 @@ services:
       - grafana-storage:/var/lib/grafana
 
 volumes:
+  loki-data: { }
   grafana-storage: { }
+  prometheus-data: { }
+  certbot_webroot:
+  letsencrypt:
+
+
+#the overrite of docker compose file worked
