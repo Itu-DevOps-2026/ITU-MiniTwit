@@ -89,6 +89,7 @@ services:
       - main
     volumes:
       - grafana-storage:/var/lib/grafana
+    user: "65532:65532"
 
 volumes:
   loki-data: { }
