@@ -115,6 +115,12 @@ jobs:
         run: |
           ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no $SSH_USER@${{ matrix.host }} 'bash -s' <<'EOF'
           set -euo pipefail
+          # Values are interpolated by Actions (masked in logs) and sent via stdin to the remote shell.
+          DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}"
+          DB_CONNECTION="${{ secrets.DB_CONNECTION }}"
+          export DOCKER_USERNAME DB_CONNECTION
+
+          # run the deploy script
           bash /minitwit/deploy.sh
           EOF
         env:
