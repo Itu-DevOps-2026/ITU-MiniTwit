@@ -83,7 +83,15 @@ jobs:
           cache-from: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alloyimage-e:webbuildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_USERNAME }}/alloyimage-e:webbuildcache,mode=max
 
-          
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        host: [165.227.145.109, 165.227.152.62]
+
+    steps:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
@@ -99,25 +107,15 @@ jobs:
             docker-compose.yml \
             remote_files/deploy.sh \
             tls \
-            $SSH_USER@$SSH_HOST:/minitwit/
+            $SSH_USER@${{ matrix.host }}:/minitwit/
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-
 
       - name: Deploy to server
         run: |
-          ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST 'bash -s' <<'EOF'
+          ssh -i ~/.ssh/do_ssh_key -o StrictHostKeyChecking=no $SSH_USER@${{ matrix.host }} 'bash -s' <<'EOF'
           set -euo pipefail
-          # Values are interpolated by Actions (masked in logs) and sent via stdin to the remote shell.
-          DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}"
-          DB_CONNECTION="${{ secrets.DB_CONNECTION }}"
-          export DOCKER_USERNAME DB_CONNECTION
-
-          # run the deploy script
           bash /minitwit/deploy.sh
           EOF
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-            
