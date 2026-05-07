@@ -13,7 +13,7 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<MiniTwitDB
 
         var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
 
-        
+
 
         var optionsBuilder = new DbContextOptionsBuilder<MiniTwitDBContext>();
         optionsBuilder.UseMySql(connectionString!, new MySqlServerVersion(new Version(8, 0, 36)));
