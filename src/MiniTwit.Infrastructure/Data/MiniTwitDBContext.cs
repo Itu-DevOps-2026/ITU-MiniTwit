@@ -15,4 +15,12 @@ public class MiniTwitDBContext : IdentityDbContext<Author>
 
     public DbSet<Cheep> Cheeps { get; set; }
     public DbSet<Author> Authors { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Configure the relationship between Cheep and Author
+        modelBuilder.Entity<Cheep>().HasIndex(c => c.Date);
+    }
 }

@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace MiniTwit.Infrastructure.Entities;
-
+[Index(nameof(Date))]
 public class Cheep
 {
     [Key]
