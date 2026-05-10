@@ -1,17 +1,47 @@
 ﻿---
 title: "ITU-MiniTwit - Group e - Report"
-authors: "Group e"
+author: "Frederik Hørup, Marie Johansen, Nikolej Lundquist, Sara Bagger, Vitus Brodersen"
 date: \today
 ---
 
 # Introduction
 
-# System's Perspective
+
+
+# System
+
 
 ## Architecture and Design
 
+
 ## Dependencies
+
 
 ## System States
 
-# Process' Perspective
+
+
+# Process
+
+
+## CI/CD
+
+
+## Monitoring
+
+
+## Logging
+
+
+## Security
+
+
+## Availability and Scaling
+
+
+
+# Reflection
+
+
+
+# Use of Generative AI
