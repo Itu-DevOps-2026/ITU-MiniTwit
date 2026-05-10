@@ -26,3 +26,19 @@ Run `vagrant up`
 Navigate to the `src/MiniTwit.Web` folder.
 <br>
 Run `dotnet run`
+
+# Video Demonstrations
+
+## Monitoring Dashboards
+
+![](report/images/group_e_monitoring_demo.gif)
+
+## Logging Dashboards
+
+![](report/images/group_e_logging_demo.gif)
+
+## IaC - `vagrant up`
+
+![](report/images/MiniTwit_vagrant_up_demo.gif)
+
+## CI/CD
