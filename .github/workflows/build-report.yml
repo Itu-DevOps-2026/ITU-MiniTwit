@@ -40,9 +40,3 @@ jobs:
           git diff --cached --quiet || git commit -m "Auto-update report PDF [skip ci]"
 
           git push
-
-      - name: Upload PDF artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: BSc_group_e
-          path: report/build/BSc_group_e.pdf
