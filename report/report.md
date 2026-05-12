@@ -41,6 +41,13 @@ Continuous integration and deployment for this project happens in a semi-automat
 
 - SonarCloud code analysis
     - asd
+
+- Build and Test
+    - asd
+
+- Staging and Deployment
+    - asd
+    
 ## Monitoring
 *Authors: *
 
