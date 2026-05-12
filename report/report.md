@@ -76,7 +76,7 @@ Continuous integration and deployment for this project happens in a semi-automat
 ## Monitoring
 *Authors: Marie*
 
-The systems monitorting is setup using the open-source monitoring system Prometheus in colaboration with Grafana for visualizing and quering the metrics.
+The systems monitorting is setup using the open-source monitoring system Prometheus in colaboration with Grafana for visualizing and quering the metrics. (TODO: references for grafana and prometheus)
 The `app.MapMetrics();` and `app.UseHttpMetrics();` middleware were added to the pipline. `app.MapMetrics();` exposes the HTTP endpoint for Prometheus to scrape and
 `app.UseHttpMetrics();` collect Prometheus metrics for processed HTTP requests (from documentation of UseHttpMetrics).
 
@@ -84,13 +84,12 @@ The monitorting is pull based as the application exposes metrics which are then 
 
 In grafana, the monitoring as been split up into two dashboards; application metrics and infrastructure metrics (TODO: Insert reference to video).
 Application metrics focuses mostly on request rates and displays: CPU usage in seconds and the amount of HTTP request recieved as well as split into different types of requests.
+Infratructure metrics focuses on the server side and displays dashboards contaning information about: memory usage, CPU usage and process uptime.
 
-Infratructure metrics focuses on the server side and displays dashboards contaning information about: memory usage, CPU usage and process uptime
+The applications monitorting is at the reactive level as a small amount of dashboard that are mostly operationally-focused are provided and the broad focus is on measuring availability.
+However, the monitoring has not moved towards monitoring data to measure user experience or that the business side would benefit from. (TODO: find reference - his reference on slides does not work)
 
-Reactive monitoring because we provide a small amount of dashboard that are mostly operationally-focused and the broad focus has been on measuring availability.
-The monitoring has however not moved towards monitoring data to measure user experience or that the business side would benefit from.
-
-There are many ways monitoring could have been improved. For one, database monitoring would have been especially beneficial both both for the operational side and to provide metrics for the business side e.g. number of users in the system
+There are many ways monitoring could have been improved. For one, database monitoring would have been especially beneficial both for the operational side and to provide metrics for the business side e.g. number of users in the system.
 
 Lastly, the monitoring dashboards provided by Digital Ocean to monitor the VMs has been regullary used.
 
