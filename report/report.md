@@ -76,7 +76,7 @@ We used Let’s Encrypt certificates together with automatic renewal mechanisms 
 
 **Firewall.**
 To protect the servers themselves, we configured a UFW software firewall. We followed the principle of least privilege by allowing only required traffic such as SSH and HTTP/HTTPS while denying unnecessary incoming connections. 
-This was especially important because Docker port mappings can unintentionally expose services externally if firewall rules are misconfigured.
+This was important to avoid unintentionally exposing services externally if firewall rules are misconfigured.
 We also considered firewall logging to detect suspicious or blocked traffic patterns, but because of lack of time, this was omitted.
 
 **CI/CD.** 
@@ -92,7 +92,7 @@ These images are designed to reduce attack surfaces by minimizing unnecessary pa
 
 **Container execution.**
 Beyond changing base images, we further hardened container execution. 
-For example, Grafana was configured to run as a non-root user (65532:65532) instead of running with root privileges.   
+For example, Grafana was configured to run as a non-root user instead of running with root privileges.   
 We also introduced initialization steps to ensure correct permissions on mounted volumes without granting unnecessary privileges to the running application containers.  
 
 A key lesson from the course was that security should not rely on a single mechanism. 
