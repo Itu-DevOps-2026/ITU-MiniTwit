@@ -55,23 +55,23 @@ date: \today
 
 
 # Use of Generative AI
-*Authors: Nikolej*
+*Authors: Nikolej, Sara*
 
-During the development of this project we used ChatGPT in two main ways:
+During the development of this project we used ChatGPT in three main ways:
 
-**Debugging.** Often when encountering unexpected bugs and error messages,
-we would consult ChatGPT about the cause and potential fixes
-While it could rarely fix the issues entirely by itself, more often than not,
-it pointed us in the right direction.
+**Debugging.** When encountering unexpected bugs and unclear error messages,
+we often consulted ChatGPT about possible causes and fixes.
+While it rarely solved issues entirely on its own, it frequently helped narrow down the problem space and suggested relevant debugging strategies.
 
 **Research.** This course presents challenges involving numerous technologies,
-most of which we were unfamiliar with. As such, ChatGPT was used to summarize lengthy documentation
-and provide concrete guides tailored to our situation.
+many of which we were unfamiliar with, including monitoring tools, docker and load balancing.
+ChatGPT was used to summarize lengthy documentation, explain unfamiliar concepts, and provide concrete guides tailored to our situation.
 
-**Generating boilerplate / configurations.** ChatGPT was also used for simple tasks
-like generating boilerplate code or writing Github Actions Workflow files.
+**Generating boilerplate / configurations.** ChatGPT was also used for simple, repetitive tasks
+such as generating boilerplate code or writing Github Actions Workflow files.
 For example, the `build-report.yml` workflow, that converts the markdown source into a pdf.
 
-The use of AI has made these tasks easier, spared us many frustrations and saved consiberable time during development.
-On the flip side, AI may have deprived us the extensive knowledge and experience you gain by,
-for example, painstaking reading of documentation or spending hours resolving a tiny bug.
+The use of AI has made these tasks easier, spared us many frustrations during troubleshooting and saved considerable time during development.
+At the same time, we met certain limitations when using AI. Suggested fixes sometimes appeared plausible while being incorrect or incompatible with our setup. 
+Additionally, relying on AI summaries may have reduced some of the deeper understanding that can come from manually reading documentation or solving problems independently, like spending hours solving a tiny bug. 
+As a result, we found that generative AI was most useful as a supporting tool rather than a replacement for critical thinking, testing, and technical understanding.
