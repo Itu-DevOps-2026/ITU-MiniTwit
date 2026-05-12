@@ -70,7 +70,9 @@ api errors
 
 We were made aware that Grafana was returning an internal server error when trying to log in. It was discovered that Prometheus had filled the droplets storage so it could not try to access the internal volume to log in. To fix this a folder docker uses to write data to was deleted and the docker containers on the VM were restarted. To make sure this did not happen again storage retention was added Prometheus got its own volume. To see the whole bug report see issue [#81(https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/81)].
 
-indexing of cheeps
+After seeing that the application was down, the first thing that was done was check the logs. Here it could be seen that the reason for the application was due to thread pool starvation. Looking more at the logs it could be seen that a request to the application was taking upwards of 46 minutes. By looking at the database, it could be seen that it was fetching 200.000+ lines per second. It was therefore decided that the database needed to be indexed to combat this issue. After this was implemented and the application restarted it was up and running smoothly. The full bug report can be found on issue [#99(https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/99)]
+
+![Database load](images/database_fetch.png)
 
 ## Reflect and describe what was the "DevOps" style of work
 
