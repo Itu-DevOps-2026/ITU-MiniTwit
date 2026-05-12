@@ -36,10 +36,11 @@ Continuous integration and deployment for this project happens in a semi-automat
 - Static analysis and security
     - asd
 
-- Codacy analysis
+- Codacy static analysis
     - asd
 
-
+- SonarCloud code analysis
+    - asd
 ## Monitoring
 *Authors: *
 
