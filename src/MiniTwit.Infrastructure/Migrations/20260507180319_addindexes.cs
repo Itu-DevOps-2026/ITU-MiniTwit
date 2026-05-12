@@ -5,7 +5,7 @@
 namespace MiniTwit.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class addindexes : Migration
+    public partial class addIndexes : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
