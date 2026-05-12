@@ -56,16 +56,22 @@ Continuous integration and deployment for this project happens in a semi-automat
     Third-party Static analysis of the code. includes recent real-world breaches
 
 - SonarCloud code analysis
-    - Another code analysis program, with focus on general code quality
+    
+    Another code analysis program, with focus on general code quality
 
 - Build and Test action
-    - asd
+    
+    Builds the program and executes the test suite on pushes to a PR.
 
 - Staging and Deployment action
-    - asd
+    
+    Stages the system and adds it to the deployment
 
-- Review and Automatic deployment
-    - asd
+- Review and Automatic release
+    A Pull Request can only be merged to main upon the review of another developer, per git requirements.
+
+    Releases are automatically done weekly at Tuesdays 08:00 UTC (10:00 danish summer time)
+    
 
 ## Monitoring
 *Authors: *
