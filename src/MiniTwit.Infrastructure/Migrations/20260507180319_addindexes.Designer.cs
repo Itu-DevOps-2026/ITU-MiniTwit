@@ -13,7 +13,7 @@ namespace MiniTwit.Infrastructure.Migrations
 {
     [DbContext(typeof(MiniTwitDBContext))]
     [Migration("20260507180319_addindexes")]
-    partial class addindexes
+    partial class addIndexes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
