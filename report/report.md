@@ -52,10 +52,11 @@ Continuous integration and deployment for this project happens in a semi-automat
     Checks the docker image on the DockerHub for known vulnerabilities
 
 - Codacy static analysis
-    - asd
+    
+    Third-party Static analysis of the code. includes recent real-world breaches
 
 - SonarCloud code analysis
-    - asd
+    - Another code analysis program, with focus on general code quality
 
 - Build and Test action
     - asd
