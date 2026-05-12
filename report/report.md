@@ -36,13 +36,23 @@ Continuous integration and deployment for this project happens in a semi-automat
 - Static analysis and security github action
     Is a compound action for linting, formatting, and security:
     - Hadolint: Dockerfile Linter
+    
+    Checks the linked dockerfile for linting issues
     - CSHarpier: C# Formatter
+
+    Checks the entire C# codebase for formatting errors, including spaces
     - Roslyn: C# Linter
+
+    Checks entire codebase for linting, especially typesafety
     - CodeQL: Static Code Security
+
+    Checks code against a database of known security flaws
     - Docker Scout: Docker Image Vulnerability scanner
 
+    Checks the docker image on the DockerHub for known vulnerabilities
+
 - Codacy static analysis
-    - 
+    - asd
 
 - SonarCloud code analysis
     - asd
@@ -54,6 +64,7 @@ Continuous integration and deployment for this project happens in a semi-automat
     - asd
 
 - Review and Automatic deployment
+    - asd
 
 ## Monitoring
 *Authors: *
