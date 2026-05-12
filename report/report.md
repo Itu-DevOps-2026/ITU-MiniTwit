@@ -31,7 +31,7 @@ date: \today
 ## CI/CD
 *Authors: Vitus*
 
-Continuous integration and deployment for this project happens in a semi-automatic set of parallel steps. When a developer creates a pull request on the github repository, multiple actions and third-party tools begin checking the validity of the request. Below are the tools:
+Continuous integration and deployment for this project happens in a semi-automatic set of parallel steps. When a developer creates a pull request on the github repository, multiple actions and third-party tools begin checking the validity of the request. Below are the steps:
 
 - Static analysis and security github action
     Is a compound action for linting, formatting, and security:
@@ -42,16 +42,18 @@ Continuous integration and deployment for this project happens in a semi-automat
     - Docker Scout: Docker Image Vulnerability scanner
 
 - Codacy static analysis
-    - asd
+    - 
 
 - SonarCloud code analysis
     - asd
 
-- Build and Test
+- Build and Test action
     - asd
 
-- Staging and Deployment
+- Staging and Deployment action
     - asd
+
+- Review and Automatic deployment
 
 ## Monitoring
 *Authors: *
