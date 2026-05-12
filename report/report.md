@@ -58,17 +58,17 @@ The database for the application was a SQLite database running in the minitwit a
 
 ## Operations
 
-_Authors: _
+_Authors: Frederik_
 
 Checking monetoring and logs often to see if there is exes strain on the system and if any errors have been thrown. Furthermore check of the status page to see if any errors has been thrown by the simulator that the loging did not catch.
 
 ## Maintenance
 
-_Authors: _
+_Authors: Fredrik_
 
 api errors
 
-grafana bloat
+We were made aware that Grafana was returning an internal server error when trying to log in. It was discovered that Prometheus had filled the droplets storage so it could not try to access the internal volume to log in. To fix this a folder docker uses to write data to was deleted and the docker containers on the VM were restarted. To make sure this did not happen again storage retention was added Prometheus got its own volume. To see the whole bug report see issue [#81(https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/81)].
 
 indexing of cheeps
 
