@@ -36,6 +36,10 @@ Continuous integration and deployment for this project happens in a semi-automat
 - Static analysis and security
     - asd
 
+- Codacy analysis
+    - asd
+
+
 ## Monitoring
 *Authors: *
 
