@@ -5,57 +5,78 @@ date: \today
 ---
 
 # Introduction
-*Authors: *
 
-
+_Authors: _
 
 # System
 
-
 ## Architecture and Design
-*Authors: *
 
+_Authors: _
 
 ## Dependencies
-*Authors: *
 
+_Authors: _
 
 ## System States
-*Authors: *
 
-
+_Authors: _
 
 # Process
 
-
 ## CI/CD
-*Authors: *
 
+_Authors: _
 
 ## Monitoring
-*Authors: *
 
+_Authors: _
 
 ## Logging
-*Authors: *
 
+_Authors: _
 
 ## Security
-*Authors: *
 
+_Authors: _
 
 ## Availability and Scaling
-*Authors: *
 
-
+_Authors: _
 
 # Reflection
-*Authors: *
 
+_Authors: _
 
+## Evolution and refactoring
+
+_Authors: Frederik_
+
+For the simulator to work there needed to be added some new endpoints which were specified in the swagger documentation. To make the work easier the OpenAPI Generator CLI tool was used and the different endpoints specialized in what was expected of them. Furthermore, authorization using a basic token was implemented to set up for the different endpoints that need it.
+
+The database for the application was a SQLite database running in the minitwit application. That meant that the persisted data the database was holding got deleted when a new deploy of the application occurred. There was therefore a need to migrate to a new database type so the data is persisted. It was chosen to migrate to a MySQL database which was hosted using Digital Ocean. This was chosen for its simplicity and time effectiveness for the group.
+
+## Operations
+
+_Authors: _
+
+Checking monetoring and logs often to see if there is exes strain on the system and if any errors have been thrown. Furthermore check of the status page to see if any errors has been thrown by the simulator that the loging did not catch.
+
+## Maintenance
+
+_Authors: _
+
+api errors
+
+grafana bloat
+
+indexing of cheeps
+
+## Reflect and describe what was the "DevOps" style of work
 
 # Use of Generative AI
-*Authors: Nikolej*
+
+_Authors: Nikolej_
 
 During the development of this project we used ChatGPT in two main ways:
 
