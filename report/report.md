@@ -64,7 +64,12 @@ Continuous integration and deployment for this project happens in a semi-automat
 
 
 ## Security
-*Authors: *
+*Authors: Sara*
+- Reverse proxy, https using tls certif
+- Firewall
+- In CI/CD: security analysis tools 
+- Docker hardened images: switching services to DHI
+- Grafana as non-root user?
 
 
 ## Availability and Scaling
