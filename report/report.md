@@ -33,8 +33,13 @@ date: \today
 
 Continuous integration and deployment for this project happens in a semi-automatic set of parallel steps. When a developer creates a pull request on the github repository, multiple actions and third-party tools begin checking the validity of the request. Below are the tools:
 
-- Static analysis and security
-    - asd
+- Static analysis and security github action
+    Is a compound action for linting, formatting, and security:
+    - Hadolint: Dockerfile Linter
+    - CSHarpier: C# Formatter
+    - Roslyn: C# Linter
+    - CodeQL: Static Code Security
+    - Docker Scout: Docker Image Vulnerability scanner
 
 - Codacy static analysis
     - asd
@@ -47,7 +52,7 @@ Continuous integration and deployment for this project happens in a semi-automat
 
 - Staging and Deployment
     - asd
-    
+
 ## Monitoring
 *Authors: *
 
