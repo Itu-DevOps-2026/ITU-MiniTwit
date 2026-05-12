@@ -92,6 +92,9 @@ jobs:
         host: [165.227.145.109, 165.227.152.62]
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+    
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
