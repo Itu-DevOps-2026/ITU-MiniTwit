@@ -45,7 +45,7 @@ export to.
 On the flip side, since both production serves run identical containerized environments,
 the system is easily reproducible and scalable.
 
-And while the monitoring and logging data is not centralized, the app database itself is.
+While the monitoring and logging data is not centralized, the app database itself is.
 DigitalOcean provides a service for database hosting reducing the maintenance burden on the group.
 This allows focus on other aspects of the project rather than database administration,
 in exchange for some loss of control.
