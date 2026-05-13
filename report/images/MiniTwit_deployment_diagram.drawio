@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36">
   <diagram name="Page-1" id="c4acf3e9-155e-7222-9cf6-157b1a14988f">
-    <mxGraphModel dx="813" dy="552" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
+    <mxGraphModel dx="2020" dy="1073" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -74,7 +74,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="qTuWF1r7MHrMFXIpZwvD-54" connectable="0" parent="1" style="group" value="" vertex="1">
-          <mxGeometry height="270" width="220" x="1440" y="415" as="geometry" />
+          <mxGeometry height="270" width="220" x="1440" y="375" as="geometry" />
         </mxCell>
         <mxCell id="qTuWF1r7MHrMFXIpZwvD-49" parent="qTuWF1r7MHrMFXIpZwvD-54" style="verticalAlign=top;align=center;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=0;html=1;whiteSpace=wrap;" value="&lt;div&gt;«device»&lt;/div&gt;&lt;div&gt;&lt;b&gt;DigitalOcean Managed Database&lt;/b&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="270" width="220" as="geometry" />
