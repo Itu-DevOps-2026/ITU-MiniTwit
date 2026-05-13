@@ -50,7 +50,7 @@ DigitalOcean provides a service for database hosting reducing the maintenance bu
 This allows focus on other aspects of the project rather than database administration,
 in exchange for some loss of control.
 
-![](images/MiniTwit_deployment_diagram.png)
+![](report/images/MiniTwit_deployment_diagram.png)
 *MiniTwit Deployment Diagram*
 
 
