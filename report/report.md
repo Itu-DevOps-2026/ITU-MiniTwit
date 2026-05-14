@@ -66,13 +66,15 @@ Checking monetoring and logs often to see if there is exes strain on the system 
 
 _Authors: Fredrik_
 
-api errors
+During the period after the simulator started many errors and faults were discovered. Registration for the users the simulator was making was not working as intended and authentication for the different endpoints did also not work properly. Furthermore, the return types and bodies for the endpoints were also not correct. To fix these issues, swarming was used to quickly discover where things were going wrong. When the fault? (better word please) had been found small teams were made to fix the different issues. For full report of the issues see [#29](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/29), [#32](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/32), [#34](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/34) and [#41](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/41)
 
 We were made aware that Grafana was returning an internal server error when trying to log in. It was discovered that Prometheus had filled the droplets storage so it could not try to access the internal volume to log in. To fix this a folder docker uses to write data to was deleted and the docker containers on the VM were restarted. To make sure this did not happen again storage retention was added Prometheus got its own volume. To see the whole bug report see issue [#81](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/81).
 
 After seeing that the application was down, the first thing that was done was check the logs. Here it could be seen that the reason for the application was due to thread pool starvation. Looking more at the logs it could be seen that a request to the application was taking upwards of 46 minutes. By looking at the database, it could be seen that it was fetching 200.000+ lines per second. It was therefore decided that the database needed to be indexed to combat this issue. After this was implemented and the application restarted it was up and running smoothly. The full bug report can be found on issue [#99](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/99)
 
 ![Database load](images/database_fetch.png)
+
+Database load before indexing
 
 ## Reflect and describe what was the "DevOps" style of work
 
