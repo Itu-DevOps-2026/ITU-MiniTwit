@@ -5,76 +5,73 @@ date: \today
 ---
 
 # Introduction
-*Authors: *
 
-
+_Authors: _
 
 # System
 
-
 ## Architecture and Design
-*Authors: *
 
+_Authors: _
 
 ## Dependencies
-*Authors: *
 
+_Authors: _
 
 ## System States
-*Authors: *
 
-
+_Authors: _
 
 # Process
 
-
 ## CI/CD
-*Authors: Vitus*
+
+_Authors: Vitus_
 
 Continuous integration and deployment for this project happens in a semi-automatic set of parallel steps. When a developer creates a pull request on the github repository, multiple actions and third-party tools begin checking the validity of the request. Below are the steps:
 
 - Static analysis and security github action
-    Is a compound action for linting, formatting, and security:
-    - Hadolint: Dockerfile Linter
-    
-    Checks the linked dockerfile for linting issues
-    - CSHarpier: C# Formatter
+  Is a compound action for linting, formatting, and security:
+  - Hadolint: Dockerfile Linter
 
-    Checks the entire C# codebase for formatting errors, including spaces
-    - Roslyn: C# Linter
+  Checks the linked dockerfile for linting issues
+  - CSHarpier: C# Formatter
 
-    Checks entire codebase for linting, especially typesafety
-    - CodeQL: Static Code Security
+  Checks the entire C# codebase for formatting errors, including spaces
+  - Roslyn: C# Linter
 
-    Checks code against a database of known security flaws
-    - Docker Scout: Docker Image Vulnerability scanner
+  Checks entire codebase for linting, especially typesafety
+  - CodeQL: Static Code Security
 
-    Checks the docker image on the DockerHub for known vulnerabilities
+  Checks code against a database of known security flaws
+  - Docker Scout: Docker Image Vulnerability scanner
+
+  Checks the docker image on the DockerHub for known vulnerabilities
 
 - Codacy static analysis
-    
-    Third-party Static analysis of the code. includes recent real-world breaches
+
+  Third-party Static analysis of the code. includes recent real-world breaches
 
 - SonarCloud code analysis
-    
-    Another code analysis program, with focus on general code quality
+
+  Another code analysis program, with focus on general code quality
 
 - Build and Test action
-    
-    Builds the program and executes the test suite on pushes to a PR.
+
+  Builds the program and executes the test suite on pushes to a PR.
 
 - Staging and Deployment action
-    
-    Stages the system and adds it to the deployment
+
+  Stages the system and adds it to the deployment
 
 - Review and Automatic release
-    A Pull Request can only be merged to main upon the review of another developer, per git requirements.
+  A Pull Request can only be merged to main upon the review of another developer, per git requirements.
 
-    Releases are automatically done weekly at Tuesdays 08:00 UTC (10:00 danish summer time)
-    
+  Releases are automatically done weekly at Tuesdays 08:00 UTC (10:00 danish summer time)
 
 ## Monitoring
-*Authors: Marie*
+
+_Authors: Marie_
 
 The systems monitorting is setup using the open-source monitoring system Prometheus in colaboration with Grafana for visualizing and quering the metrics. (TODO: references for grafana and prometheus)
 The `app.MapMetrics();` and `app.UseHttpMetrics();` middleware were added to the pipline. `app.MapMetrics();` exposes the HTTP endpoint for Prometheus to scrape and
@@ -94,58 +91,59 @@ There are many ways monitoring could have been improved. For one, database monit
 Lastly, the monitoring dashboards provided by Digital Ocean to monitor the VMs has been regullary used.
 
 ## Logging
-*Authors: *
 
+_Authors: _
 
 ## Security
-*Authors: Sara*
+
+_Authors: Sara_
 
 We applied several security hardening measures to our system across infrastructure, network, CI/CD, and container configuration.
 
 **Reverse proxy/TLS.**
 First, we deployed a Nginx reverse proxy to the application and enabled HTTPS using TLS certificates.
-The reverse proxy terminates incoming HTTPS traffic and forwards requests internally to the application containers. 
-This improves security by encrypting communication between clients and the server and by reducing direct exposure of the application itself. 
-We used Let’s Encrypt certificates together with automatic renewal mechanisms to avoid manual certificate management.    
+The reverse proxy terminates incoming HTTPS traffic and forwards requests internally to the application containers.
+This improves security by encrypting communication between clients and the server and by reducing direct exposure of the application itself.
+We used Let’s Encrypt certificates together with automatic renewal mechanisms to avoid manual certificate management.
 
 **Firewall.**
-To protect the servers themselves, we configured a UFW software firewall. We followed the principle of least privilege by allowing only required traffic such as SSH and HTTP/HTTPS while denying unnecessary incoming connections. 
+To protect the servers themselves, we configured a UFW software firewall. We followed the principle of least privilege by allowing only required traffic such as SSH and HTTP/HTTPS while denying unnecessary incoming connections.
 This was important to avoid unintentionally exposing services externally if firewall rules are misconfigured.
 We also considered firewall logging to detect suspicious or blocked traffic patterns, but because of lack of time, this was omitted.
 
-**CI/CD.** 
+**CI/CD.**
 In the CI/CD pipeline, we integrated automated security analysis tools to support a shift-left security approach, where vulnerabilities are detected before deployment.
-We added GitHub CodeQL analysis to statically scan the application source code for known security vulnerabilities and insecure coding patterns. 
-Additionally, we integrated Docker Scout to scan container images for known common vulnerabilities and exposures and vulnerable dependencies. 
+We added GitHub CodeQL analysis to statically scan the application source code for known security vulnerabilities and insecure coding patterns.
+Additionally, we integrated Docker Scout to scan container images for known common vulnerabilities and exposures and vulnerable dependencies.
 The pipeline was configured to fail on critical vulnerabilities, preventing insecure images from being deployed automatically.
 
 **Docker hardened images.**
-We also hardened our Docker environment by switching several production services to Docker Hardened Images (DHI). 
+We also hardened our Docker environment by switching several production services to Docker Hardened Images (DHI).
 Specifically, we replaced standard Grafana, Prometheus, and ASP.NET images with hardened variants from dhi.io.
 These images are designed to reduce attack surfaces by minimizing unnecessary packages and dependencies.
 
 **Container execution.**
-Beyond changing base images, we further hardened container execution. 
-For example, Grafana was configured to run as a non-root user instead of running with root privileges.   
-We also introduced initialization steps to ensure correct permissions on mounted volumes without granting unnecessary privileges to the running application containers.  
+Beyond changing base images, we further hardened container execution.
+For example, Grafana was configured to run as a non-root user instead of running with root privileges.  
+We also introduced initialization steps to ensure correct permissions on mounted volumes without granting unnecessary privileges to the running application containers.
 
-A key lesson from the course was that security should not rely on a single mechanism. 
-Therefore, our approach combined multiple layers of protection: encrypted communication through TLS, restricted network access through firewalls, automated vulnerability scanning in CI/CD, hardened container images, and safer runtime configurations. 
+A key lesson from the course was that security should not rely on a single mechanism.
+Therefore, our approach combined multiple layers of protection: encrypted communication through TLS, restricted network access through firewalls, automated vulnerability scanning in CI/CD, hardened container images, and safer runtime configurations.
 This follows a defense-in-depth strategy, where multiple independent security mechanisms reduce the likelihood that a single vulnerability compromises the entire system.
 
-
 ## Availability and Scaling
-*Authors: *
 
+_Authors: Frederik_
 
+To increase availability of the system a simple load balancing setup has been made. This can also be seen in the image from architecture and design. Here a load balancer balances the load of each server running the application. To help further for availability a second backup load balancer exists to take over if the primary fails. For scaling the application has not been scaled further than being on 2 servers. It should have been so each server had at least 2 running instances of the application and a corresponding update strategy should have been implemented in the CI/CD pipeline. If it had been implemented the blue-green upgrade strategy would have been implemented.
 
 # Reflection
-*Authors: *
 
-
+_Authors: _
 
 # Use of Generative AI
-*Authors: Nikolej*
+
+_Authors: Nikolej_
 
 During the development of this project we used ChatGPT in two main ways:
 
