@@ -26,3 +26,5 @@ Run `vagrant up`
 Navigate to the `src/MiniTwit.Web` folder.
 <br>
 Run `dotnet run`
+
+(SMall change)
