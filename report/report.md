@@ -65,7 +65,38 @@ Lastly, the monitoring dashboards provided by Digital Ocean to monitor the VMs h
 
 ## Logging
 
-_Authors: _
+_Authors: Nikolej_
+
+Todo:
+- [x] Architectural intent
+- [ ] Operational usefulness
+- [ ] Awareness of limitations
+
+The system uses a minimal push-based logging stack utilizing Alloy, Loki and Grafana,
+focusing on aggregation and visualization rather than analysis.
+The Grafana-Loki stack was primarily chosen because it is cheap to run
+and for its native support for Grafana, which the existing monitoring system was already using.
+
+Alloy collects logs from running Docker containers through the Docker socket `host = unix:///var/run/docker.sock`,
+where they are populated with metadata like labels before being forwarded to Loki for storage.
+Lastly, the logs are queried by Grafana and presented visually.
+
+As mentioned, the priority of this setup is aggregation and visualization,
+which is accomplished by grouping logs by containers in Grafana.
+The default Grafana Logs Drilldown page is more than sufficient for this purpose,
+hence there are no custom dashboards.
+
+This setup improves observability significantly, allowing easier searching and faster response in case of errors.
+
+TODO: Hypothetical operational usefulness
+
+
+TODO: Something about which categories of logs we have:
+- Minitwit
+  - DB queries
+  - HTTP requests
+  - Errors
+
 
 ## Security
 
