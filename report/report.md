@@ -28,47 +28,20 @@ _Authors: _
 
 _Authors: Vitus_
 
-Continuous integration and deployment for this project happens in a semi-automatic set of parallel steps. When a developer creates a pull request on the github repository, multiple actions and third-party tools begin checking the validity of the request. Below are the steps:
+The CI/CD process is based on GitHub Actions workflows that run on the `main` branch or on a scheduled timer. The MiniTwit repository currently uses the following active workflows to do CI/CD:
 
-- Static analysis and security github action
-  Is a compound action for linting, formatting, and security:
-  - Hadolint: Dockerfile Linter
-
-  Checks the linked dockerfile for linting issues
-  - CSHarpier: C# Formatter
-
-  Checks the entire C# codebase for formatting errors, including spaces
-  - Roslyn: C# Linter
-
-  Checks entire codebase for linting, especially typesafety
-  - CodeQL: Static Code Security
-
-  Checks code against a database of known security flaws
-  - Docker Scout: Docker Image Vulnerability scanner
-
-  Checks the docker image on the DockerHub for known vulnerabilities
-
-- Codacy static analysis
-
-  Third-party Static analysis of the code. includes recent real-world breaches
-
-- SonarCloud code analysis
-
-  Another code analysis program, with focus on general code quality
-
-- Build and Test action
-
-  Builds the program and executes the test suite on pushes to a PR.
-
-- Staging and Deployment action
-
-  Stages the system and adds it to the deployment
-
-- Review and Automatic release
-  A Pull Request can only be merged to main upon the review of another developer, per git requirements.
-
-  Releases are automatically done weekly at Tuesdays 08:00 UTC (10:00 danish summer time)
-
+- `Static Analysis` — runs on push and pull request events for `main`. It performs:
+  - Dockerfile linting with Hadolint against `Dockerfile-MiniTwit`.
+  - .NET setup and tool restore.
+  - C# formatting validation with `dotnet csharpier check .`.
+  - CodeQL initialization for C#.
+  - Dependency restore and a strict Roslyn build with `TreatWarningsAsErrors=true`.
+  - CodeQL analysis to surface static security issues.
+  - Docker Scout scanning for critical vulnerabilities on the DockerHub image.
+- `Build and test` — also runs on push and pull request events for `main`. It restores dependencies, performs a clean build, and runs the test suite.
+- `SonarCloud & Codacy` — provide external static analysis, code smell detection, and quality gating on pushes as well.
+- `Continuous Deployment` (`Deploy To DO`) — runs on pushes to `main` and can also be triggered manually. It builds and pushes the Docker images for and deploys them to the Digital Ocean Droplet.
+- `automatic-weekly-release` — runs on schedule every Tuesday at 08:00 UTC and can be started manually. It builds the project, runs tests, packages release artifacts, and creates a GitHub release.
 ## Monitoring
 
 _Authors: Marie_
