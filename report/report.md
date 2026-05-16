@@ -67,7 +67,7 @@ Lastly, the monitoring dashboards provided by Digital Ocean to monitor the VMs h
 
 _Authors: Nikolej_
 
-The system uses a minimal push-based logging stack utilizing Alloy, Loki and Grafana,
+The system uses a minimal push-based logging stack utilizing Alloy [@alloy_docs], Loki [@loki_docs] and Grafana [@grafana_docs],
 focusing on aggregation and visualization rather than analysis.
 The Grafana-Loki stack was primarily chosen because it is cheap to run
 and for its native support for Grafana, which the existing monitoring system was already using.
