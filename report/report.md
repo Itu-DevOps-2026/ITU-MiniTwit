@@ -67,35 +67,28 @@ Lastly, the monitoring dashboards provided by Digital Ocean to monitor the VMs h
 
 _Authors: Nikolej_
 
-Todo:
-- [x] Architectural intent
-- [ ] Operational usefulness
-- [ ] Awareness of limitations
-
 The system uses a minimal push-based logging stack utilizing Alloy, Loki and Grafana,
 focusing on aggregation and visualization rather than analysis.
 The Grafana-Loki stack was primarily chosen because it is cheap to run
 and for its native support for Grafana, which the existing monitoring system was already using.
 
 Alloy collects logs from running Docker containers through the Docker socket `host = unix:///var/run/docker.sock`,
-where they are populated with metadata like labels before being forwarded to Loki for storage.
+and populates them with metadata like labels before forwarding to Loki for storage.
 Lastly, the logs are queried by Grafana and presented visually.
 
-As mentioned, the priority of this setup is aggregation and visualization,
-which is accomplished by grouping logs by containers in Grafana.
+Our chosen focus on aggregation and visualization is accomplished by grouping logs by containers in Grafana.
 The default Grafana Logs Drilldown page is more than sufficient for this purpose,
 hence there are no custom dashboards.
 
-This setup improves observability significantly, allowing easier searching and faster response in case of errors.
+By providing a centralized view of all system logs,
+this setup improves observability significantly, allowing easier searching and faster response in case of errors.
 
-TODO: Hypothetical operational usefulness
-
-
-TODO: Something about which categories of logs we have:
-- Minitwit
-  - DB queries
-  - HTTP requests
-  - Errors
+Even though the logging setup was used in a limited capacity during development,
+it would be especially useful if for instance the simulation suddenly reports failed requests.
+The MiniTwit container logs include errors, HTTP requests and database queries,
+which allows us to pinpoint the problem quickly.
+Or if the monitoring setup indicates something unexpected,
+the aggregated logging platform allows us to ascertain whether it is a problem with the monitoring stack or the application itself.
 
 
 ## Security
