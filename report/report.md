@@ -128,7 +128,6 @@ A key lesson from the course was that security should not rely on a single mecha
 Therefore, our approach combined multiple layers of protection: encrypted communication through TLS, restricted network access through firewalls, automated vulnerability scanning in CI/CD, hardened container images, and safer runtime configurations.
 This follows a defense-in-depth strategy, where multiple independent security mechanisms reduce the likelihood that a single vulnerability compromises the entire system.
 
-
 ## Availability and Scaling
 
 _Authors: Frederik_
