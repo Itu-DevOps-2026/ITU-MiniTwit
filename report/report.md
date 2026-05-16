@@ -13,6 +13,24 @@ date: \today
 
 
 ## Architecture and Design
+
+*Authors: Nikolej*
+
+This project is a forked repository of the Chirp! project [@chirp] developed for the course
+"Analysis, Design and Software Architecture (Autumn 2025)".
+The MiniTwit application architecture, namely the domain model and codebase structure,
+is inherited unchanged from the Chirp! project.
+Hence, we refer to the diagrams compiled in the Chirp! project report, inserted below for convenience.
+
+![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/domain_model.png)
+*Illustration of the _Chirp!_ Domain Model (reused from Chirp! project).*
+
+![Illustration of code base](docs/images/onion_architecture.png)
+*Illustration of the Chirp! app codebase structure - based on onion architecture (reused from Chirp! project).*
+
+
+## Deployment
+
 *Authors: Nikolej*
 
 Below is a diagram of the overall deployment architecture of the MiniTwit application.
@@ -38,7 +56,7 @@ allowing the team to bring it back up while the other instance continues to hand
 
 However, there is one major drawback to this setup. The monitoring stack is duplicated as well.
 Logs and metrics for each server are separate, which compromises observability consistency.
-If one server goes down, that data is lost.
+If one server goes down, logs and metrics may be lost.
 This could be fixed by having a centralized monitoring stack e.g. on a separate device that all application nodes
 export to.
 
