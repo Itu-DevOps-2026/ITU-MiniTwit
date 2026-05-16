@@ -15,7 +15,7 @@ date: \today
 ## Architecture and Design
 *Authors: Nikolej*
 
-Below is a diagram of the overall deployment architecture of the MiniTwit application. {@test}
+Below is a diagram of the overall deployment architecture of the MiniTwit application. [@test]
 The system uses two load balancers and two production server instances each running all containerized services and
 both read and write to the same DigitalOcean Managed Database.
 
@@ -113,3 +113,5 @@ For example, the `build-report.yml` workflow, that converts the markdown source 
 The use of AI has made these tasks easier, spared us many frustrations and saved consiberable time during development.
 On the flip side, AI may have deprived us the extensive knowledge and experience you gain by,
 for example, painstaking reading of documentation or spending hours resolving a tiny bug.
+
+# References
