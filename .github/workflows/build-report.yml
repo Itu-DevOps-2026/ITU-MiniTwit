@@ -27,12 +27,21 @@ jobs:
             texlive-fonts-recommended \
             texlive-latex-extra
 
+      - name: Install pandoc-crossref
+        run: |
+          wget https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.17.0/pandoc-crossref-Linux.tar.xz
+          tar -xf pandoc-crossref-Linux.tar.xz
+          sudo mv pandoc-crossref /usr/local/bin/
+
       - name: Generate PDF
         run: |
           pandoc report/report.md \
             --from markdown \
             --toc \
             --number-sections \
+            --filter pandoc-crossref \
+            --citeproc \
+            --bibliography=report/references.bib \
             -V geometry:margin=1in \
             -o report/BSc_group_e.pdf
 
