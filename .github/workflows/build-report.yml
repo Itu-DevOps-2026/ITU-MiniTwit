@@ -33,6 +33,8 @@ jobs:
             --from markdown \
             --toc \
             --number-sections \
+            --citeproc \
+            --bibliography=report/references.bib \
             -V geometry:margin=1in \
             -o report/BSc_group_e.pdf
 
