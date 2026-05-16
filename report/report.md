@@ -15,7 +15,7 @@ date: \today
 ## Architecture and Design
 *Authors: Nikolej*
 
-Below is a diagram of the overall deployment architecture of the MiniTwit application. [@test]
+Below is a diagram of the overall deployment architecture of the MiniTwit application.
 The system uses two load balancers and two production server instances each running all containerized services and
 both read and write to the same DigitalOcean Managed Database.
 
