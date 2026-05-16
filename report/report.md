@@ -100,3 +100,5 @@ For example, the `build-report.yml` workflow, that converts the markdown source 
 The use of AI has made these tasks easier, spared us many frustrations and saved consiberable time during development.
 On the flip side, AI may have deprived us the extensive knowledge and experience you gain by,
 for example, painstaking reading of documentation or spending hours resolving a tiny bug.
+
+# References
