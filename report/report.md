@@ -29,8 +29,12 @@ date: \today
 
 
 ## CI/CD
-*Authors: *
+*Authors: Vitus*
 
+Continuous integration and deployment for this project happens in a semi-automatic set of parallel steps. When a developer creates a pull request on the github repository, multiple actions and third-party tools begin checking the validity of the request. Below are the tools:
+
+- Static analysis and security
+    - asd
 
 ## Monitoring
 *Authors: *
