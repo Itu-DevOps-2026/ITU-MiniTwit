@@ -1,5 +1,5 @@
 # ITU-MiniTwit
-#### Group e 2026
+#### Group-e 2026
 ---
 Welcome to the ITU Minitwit platform for group e of the DevOPs elective course at the IT University in Copenhagen 2026. This project is mainly focused around the continious development, upkeep and deployment of an active IT system.
 
@@ -51,11 +51,30 @@ To provision the VM for deployment, vagrant is used to do so easily. Only one co
 Run `vagrant up`
 
 This will set up a provisioned VM for use in production.
+
 # Running locally
-Navigate to the `src/MiniTwit.Web` folder.
-<br>
+Running locally is easily done, as MiniTwit can be launched directly as a dotnet application. To do so, navigate to the `src/MiniTwit.Web` folder.
+
 Run `dotnet run`
 
+MiniTwit will then be hosted on your machine under a localhost port.
+# How to contribute
+
+The Minitwit development workflow is designed to follow CI/CD principles. To make a contribution or update a repository file, a list of steps must be fulfilled before making it to the production. 
+
+After having a contribution done and ready, make sure to have done the following:
+
+- checked the code with `Roslyn`, `Csharpier`, `CodeQL`, and `Hadolint`. These will be checked on a pull request automatically.
+
+
+
+- Make sure it can build, tests do not fail, and that it can be put to staging.
+
+- Get acceptance from `Codacy`, `SonarCloud`, and `Docker Scout`.
+
+- Finally, the Pull Request is set to require a different developer to review the work done, before it is accepted into the main branch, and subsequently automatically released and deployed accordingly.
+
+All above above steps are automatically tested for and if necessary will block pushes or Pull Requests on github via github actions and external tools.
 # Video Demonstrations
 
 ## Monitoring Dashboards
