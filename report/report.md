@@ -40,7 +40,8 @@ The CI/CD process is based on GitHub Actions workflows that run on the `main` br
   - Docker Scout scanning for critical vulnerabilities on the DockerHub image.
 - `Build and test` — also runs on push and pull request events for `main`. It restores dependencies, performs a clean build, and runs the test suite.
 - `SonarCloud & Codacy` — provide external static analysis, code smell detection, and quality gating on pushes as well.
-- `Continuous Deployment` (`Deploy To DO`) — runs on pushes to `main` and can also be triggered manually. It builds and pushes the Docker images for and deploys them to the Digital Ocean Droplet.
+- `Deploy to Staging` — runs for pull requests and for pushes to `main` after the primary checks pass. Builds the Docker images, pushes them to the staging dockerhub.
+- `Deploy To DO` — runs on pushes to `main` and can also be triggered manually. It builds and pushes the Docker images for and deploys them to the Digital Ocean Droplet.
 - `automatic-weekly-release` — runs on schedule every Tuesday at 08:00 UTC and can be started manually. It builds the project, runs tests, packages release artifacts, and creates a GitHub release.
 
 ![CI-CD pipeline](images\CI-CD.png)
