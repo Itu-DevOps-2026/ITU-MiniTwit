@@ -47,7 +47,7 @@ docker compose run --rm --entrypoint "" certbot sh -c "\
           /etc/letsencrypt/archive/minitwitgroupe.tech \
           /etc/letsencrypt/renewal/minitwitgroupe.tech.conf && \
   certbot certonly --webroot -w /var/www/certbot \
-  -d minitwitgroupe.tech --email salb@itu.dk --agree-tos --no-eff-email"
+  -d minitwitgroupe.tech --email <insert email> --agree-tos --no-eff-email"
 ```
 
 ## Step 4: Reload Nginx to Use New Certificates
