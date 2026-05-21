@@ -125,6 +125,7 @@ There have been a few compromises and temporary bending of these quality gating 
 
 Below is the latest static analysis checks as of writing.
 ![MiniTwit Deployment Diagram](images/Analysis_checks.png)
+
 _System checks on the recent-most change_
 
 # Process
