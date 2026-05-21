@@ -133,7 +133,7 @@ This follows a defense-in-depth strategy, where multiple independent security me
 
 ## Availability and Scaling
 
-_Authors: Frederik, Nikolej_
+_Authors: Frederik, Nikolej, Marie_
 
 To increase the availability of the system, a simple load balancing setup was employed (see the diagram in the deployment section).
 One primary load balancer initially handles all trafic, but is replaced automatically by a secondary backup in case of failure
