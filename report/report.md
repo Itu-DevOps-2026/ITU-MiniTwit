@@ -161,7 +161,7 @@ Monitoring dashboards and application logs were checked regularly to detect exce
 
 ## Maintenance
 
-_Authors: Frederik_
+_Authors: Frederik, Sara_
 
 During the period following the start of the simulator, several errors and faults were identified. User registration performed by the simulator was not functioning as intended, authentication for multiple endpoints behaved incorrectly, and several endpoints returned invalid response types or response bodies. To fix these issues, swarming was used to quickly discover where things were going wrong. A complete overview of the issues can be found at [#29](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/29), [#32](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/32), [#34](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/34) and [#41](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/41)
 
