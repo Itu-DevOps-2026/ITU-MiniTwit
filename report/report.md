@@ -78,7 +78,7 @@ Database load before indexing
 
 ## Reflect and describe what was the "DevOps" style of work
 
-_Authors: Sara_, Marie_
+_Authors: Sara_, Marie, Nikolej_
 
 Compared to earlier software projects, this course introduced us to several DevOps practices that changed both our workflow and our understanding of software development. Many of these practices reflected the principles behind the Three Ways of DevOps[@kim2021devops]: improving flow, enabling fast feedback, and encouraging continuous improvement through automation, monitoring, and maintenance.
 A major difference compared to earlier projects was the amount of automation involved in the workflow. Tasks such as testing, linting, building containers, generating reports, and deployment were automated through pipelines and scripts. This reduced repetitive manual work and improved consistency across the project.
@@ -96,6 +96,11 @@ Using CD made our deployments faster, easily reproducable and less error-prone. 
 **Monitoring & Software Maintenance** 
 Monitoring through collecting logs and metrics made a big difference for us compared to earlier projects. Using tools such as Grafana and Prometheus gave us a much better understading of the system's runtime behaviour, and once set up correctly, the logs made a big difference in debugging.
 Identifying bottlenecks or failures that would otherwise have been difficult to detect, became significantly easier and made us focus more on maintaining the software in production, rather than only focussing on implementing functionality. Reliability and stability became important parts of the development process rather than something considered only at the end.
+
+**Infrastructure as Code (IaC)**
+Luckily, we were never forced to take the whole system down and bring it back online.
+Towards the end of the project, we did attempt to ensure ´vagrant up` could do exactly that, recreating our infrastructure from scratch.
+Ultimately, there were some issues that we did not have time to fix, hence the [pull request](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/pull/90) remains open.
 
 # Use of Generative AI
 
