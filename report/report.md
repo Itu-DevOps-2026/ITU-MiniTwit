@@ -7,10 +7,14 @@ author: |
   Frederik Hørup Petersen <frap@itu.dk>  
   Marie Højsted Johansen <majoh@itu.dk>  
   Nikolej Vinther Lundquist <nivl@itu.dk>  
-  Sara Louise Høg Bagger <salb@itu.dk>
+  Sara Louise Høg Bagger <salb@itu.dk>  
   Vitus Brodersen <vitb@itu.dk>
 date: \today
 ---
+
+\clearpage
+
+\tableofcontents
 
 \clearpage
 
