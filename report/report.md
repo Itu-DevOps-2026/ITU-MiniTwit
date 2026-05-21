@@ -52,13 +52,13 @@ _CI-CD pipeline_
 
 _Authors: Marie, Sara_
 
-The system's monitoring is setup using the open-source monitoring system Prometheus [@prometheus_docs] in collaboration with Grafana [@grafana_docs] for visualizing and quering the metrics.
+The system's monitoring is setup using the open-source monitoring system Prometheus [@prometheus_docs] in collaboration with Grafana [@grafana_docs] for visualizing and quering metrics.
 The `app.MapMetrics();` and `app.UseHttpMetrics();` middleware were added to the pipline. `app.MapMetrics();` exposes the HTTP endpoint for Prometheus to scrape and
-`app.UseHttpMetrics();` collect Prometheus metrics for processed HTTP requests (from documentation of UseHttpMetrics).
+`app.UseHttpMetrics();` collect Prometheus metrics for processed HTTP requests.
 
 The monitorting is pull based as the application exposes metrics which are then pulled by Prometheus.
 
-In Grafana, the monitoring has been split up into two dashboards; application metrics and infrastructure metrics (See video [Monitoring Dashboards](../README.md:80)).
+In Grafana, the monitoring has been split up into two dashboards; application metrics and infrastructure metrics (see video [Monitoring Dashboards](../README.md:80)).
 Application metrics focuses mostly on request rates and displays: CPU usage in seconds and the amount of HTTP request recieved as well as split into different types of requests.
 Infratructure metrics focuses on the server side and displays dashboards contaning information about: memory usage, CPU usage and process uptime.
 
@@ -67,7 +67,7 @@ The monitoring does not supply data to measure user experience or data amid to b
 
 There are many ways monitoring could have been improved. For one, database monitoring would have been especially beneficial both for the operational side and to provide metrics for the business side e.g. number of users in the system.
 
-Lastly, the monitoring dashboards provided by Digital Ocean to monitor the VMs has been regullary used.
+Lastly, the monitoring dashboards provided by DigitalOcean to monitor the Droplets has been regullary used.
 
 ## Logging
 
