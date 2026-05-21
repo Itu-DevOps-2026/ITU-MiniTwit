@@ -21,10 +21,10 @@ is inherited unchanged from the Chirp! project.
 Hence, we refer to the diagrams compiled in the Chirp! project report, inserted below for convenience.
 
 ![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/domain_model.png)
-_Illustration of the *Chirp!* Domain Model (reused from Chirp! project)._
+_Illustration of the *Chirp!* Domain Model (reused from the Chirp! project - not compiled during this course)._
 
 ![Illustration of code base](docs/images/onion_architecture.png)
-_Illustration of the Chirp! app codebase structure - based on onion architecture (reused from Chirp! project)._
+_Illustration of the Chirp! app codebase structure - based on onion architecture (reused from the Chirp! project - not compiled during this course)._
 
 ## Deployment
 
