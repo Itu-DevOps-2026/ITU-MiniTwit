@@ -1,14 +1,14 @@
 # ITU-MiniTwit
 #### Group-e 2026
 ---
-Welcome to the ITU Minitwit platform for group e of the DevOPs elective course at the IT University in Copenhagen 2026. This project is mainly focused around the continious development, upkeep and deployment of an active IT system.
+Welcome to the ITU Minitwit platform for group e of the DevOps 2026 elective course at the IT University of Copenhagen. This project is mainly focused around the continious development, upkeep and deployment of an active IT system.
 
 # Description
-The Minitwit app is a Twitter-like platform that is an extension of the Chirp! application from the third semester Software design and architecture course. It is a deployed platform, having been deployed to digital ocean as a droplet VM. It contains both the business logic, as well as containers for monitoring and other operations needs.
+The Minitwit app is a Twitter-like platform that is an extension of the Chirp! application from the third semester Software Design and Architecture course. It is a deployed platform, having been deployed to DigitalOcean as a droplet Virtual Machine (VM). It contains both the business logic, as well as containers for monitoring and other operations needs.
 
-The development of the MiniTwit application includes workflows for continuous integration and deployment (CI/CD), including external tools like SonarCloud and Codacy.
+The development of the MiniTwit application includes workflows for Continuous Integration and Deployment (CI/CD), including external tools like SonarCloud and Codacy.
 
-Monitoring is done with a combination of Prometheus and grafana.
+Monitoring is done with a combination of Prometheus and Grafana.
 
 # Prerequisites
 
@@ -18,9 +18,9 @@ Before being able to work on the MiniTwit application, a few requisites are need
 
 This is necessary for the using the development work environment of the MiniTwit platform on your device.
 
-* Ensure you have a Digital Ocean token and SSH key.
+* Ensure you have a DigitalOcean token and SSH key.
 
-As the MiniTwit application is deployed to DO (Digital Ocean) as a virtual machine droplet on their remote servers.
+As the MiniTwit application is deployed to DO (DigitalOcean) as a virtual machine droplet on their remote servers.
 
 # Cloning the repository
 The MiniTwit application can be found on the group-e Minitwit github page. To clone the repository to the local machine,
@@ -46,7 +46,7 @@ And then load the variables
 `source .env`
 
 # Provision VM
-To provision the VM for deployment, vagrant is used to do so easily. Only one command is needed:
+To provision the VM for deployment, vagrant is used to do so easily.
 
 Run `vagrant up`
 
@@ -74,7 +74,7 @@ After having a contribution done and ready, make sure to have done the following
 
 - Finally, the Pull Request is set to require a different developer to review the work done, before it is accepted into the main branch, and subsequently automatically released and deployed accordingly.
 
-All above above steps are automatically tested for and if necessary will block pushes or Pull Requests on github via github actions and external tools.
+All above steps are automatically tested for and will if necessary block pushes or Pull Requests on github via Github Actions and external tools.
 # Video Demonstrations
 
 ## Monitoring Dashboards
