@@ -104,7 +104,7 @@ We applied several security hardening measures to our system across infrastructu
 First, we deployed a Nginx reverse proxy to the application and enabled HTTPS using TLS certificates.
 The reverse proxy terminates incoming HTTPS traffic and forwards requests internally to the application containers.
 This improves security by encrypting communication between clients and the server and by reducing direct exposure of the application itself.
-We used Let’s Encrypt certificates together with automatic renewal mechanisms to avoid manual certificate management.
+We used Let’s Encrypt certificates together with automatic renewal through Certbot to avoid manual certificate management and ensure continued HTTPS availability.
 
 **CI/CD.**
 In the CI/CD pipeline, we integrated automated security analysis tools to support a shift-left security approach, where vulnerabilities are detected before deployment.
