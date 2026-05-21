@@ -39,6 +39,8 @@ Run `dotnet run`
 
 ## IaC - `vagrant up`
 
-![](report/images/MiniTwit_vagrant_up_demo.gif)
+![](report/images/group_e_vagrant_up_demo.gif)
 
 ## CI/CD
+
+![](report/images/group_e_CI-CD_demo.gif)
