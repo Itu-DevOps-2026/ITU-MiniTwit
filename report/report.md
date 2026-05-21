@@ -117,7 +117,7 @@ The most important dependencies can be seen below, categorized by type.
 
 ## System States
 
-_Authors: Vitus_
+_Authors: Vitus, Sara_
 
 The project is currently in a strong state with respect to software quality
 From the outset, we established a workflow in which all incoming changes were required to pass automated tests and static analysis checks before being merged into the production branch. 
