@@ -92,7 +92,7 @@ By providing a centralized view of all system logs,
 this setup improves observability significantly, allowing easier searching and faster response in case of errors.
 
 Even though the logging setup was used in a limited capacity during development,
-it would be especially useful if for instance the simulation suddenly reports failed requests.
+it proved to be especially useful if for instance the simulation suddenly reports failed requests.
 The MiniTwit container logs include errors, HTTP requests and database queries,
 which allows us to pinpoint the problem quickly.
 Or if the monitoring setup indicates something unexpected,
