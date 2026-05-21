@@ -1,5 +1,5 @@
-﻿# Exactly the same as the corresponding file in the exercise example for session6
-FROM grafana/grafana:12.1
+﻿# Almost the same as the corresponding file in the exercise example for session6
+FROM dhi.io/grafana:12.1
 
 ENV PROMETHEUS_HOST='host.docker.internal:9090'
 

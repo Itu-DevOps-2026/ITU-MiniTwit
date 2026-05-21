@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniTwit.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MiniTwit.Infrastructure.Data;
 namespace MiniTwit.Infrastructure.Migrations
 {
     [DbContext(typeof(MiniTwitDBContext))]
-    partial class MiniTwitDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260507180319_addindexes")]
+    partial class addIndexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
