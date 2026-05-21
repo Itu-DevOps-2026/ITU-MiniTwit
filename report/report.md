@@ -95,7 +95,7 @@ Using CD made our deployments faster, easily reproducable and less error-prone. 
 
 **Monitoring & Software Maintenance** 
 Monitoring through collecting logs and metrics made a big difference for us compared to earlier projects. Using tools such as Grafana and Prometheus gave us a much better understading of the system's runtime behaviour, and once set up correctly, the logs made a big diffrenve in debugging.
-Identifying bottlenexks or failures that would otherwise have been difficult to detect, became significantly easier and made us focus mpre on maintaining the software in production, rather than only focussing on implementing functionality. Reliability and stability became important parts of the development process rather than something considered only at the end.
+Identifying bottlenexks or failures that would otherwise have been difficult to detect, became significantly easier and made us focus more on maintaining the software in production, rather than only focussing on implementing functionality. Reliability and stability became important parts of the development process rather than something considered only at the end.
 
 # Use of Generative AI
 
