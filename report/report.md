@@ -138,6 +138,7 @@ As a result, the Docker Scout analysis consistently recommends upgrading the run
 Given the project constraints and dependencies on the underlying platform, we chose to explicitly exclude this specific category from the analysis checks. While this represents a deviation from the otherwise strict quality requirements, it is not considered a critical issue as long as the limitation is acknowledged and taken into account during maintenance and future development.
 
 Below is the latest static analysis checks.
+
 ![System checks on the recent-most change](report/images/Analysis_checks.png)
 
 
