@@ -27,11 +27,11 @@ The MiniTwit application architecture, namely the domain model and codebase stru
 is inherited unchanged from the Chirp! project.
 Hence, we refer to the diagrams compiled in the Chirp! project report, inserted below for convenience.
 
-![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/domain_model.png)
-_Illustration of the *Chirp!* Domain Model (reused from the Chirp! project - not compiled during this course)._
+![Illustration of the *Chirp!* Domain Model (reused from the Chirp! project - not compiled during this course).](docs/images/domain_model.png)
 
-![Illustration of code base](docs/images/onion_architecture.png)
-_Illustration of the Chirp! app codebase structure - based on onion architecture (reused from the Chirp! project - not compiled during this course)._
+
+![Illustration of the Chirp! app codebase structure - based on onion architecture (reused from the Chirp! project - not compiled during this course).](docs/images/onion_architecture.png)
+
 
 ## Deployment
 
@@ -73,7 +73,7 @@ This allows focus on other aspects of the project rather than database administr
 in exchange for some loss of control.
 
 ![MiniTwit Deployment Diagram](report/images/MiniTwit_deployment_diagram.png)
-_MiniTwit Deployment Diagram_
+
 
 ## Dependencies
 
@@ -138,9 +138,8 @@ As a result, the Docker Scout analysis consistently recommends upgrading the run
 Given the project constraints and dependencies on the underlying platform, we chose to explicitly exclude this specific category from the analysis checks. While this represents a deviation from the otherwise strict quality requirements, it is not considered a critical issue as long as the limitation is acknowledged and taken into account during maintenance and future development.
 
 Below is the latest static analysis checks.
-![MiniTwit Deployment Diagram](report/images/Analysis_checks.png)
+![System checks on the recent-most change](report/images/Analysis_checks.png)
 
-_System checks on the recent-most change_
 
 # Process
 
@@ -166,7 +165,6 @@ The CI/CD process is based on GitHub Actions workflows that run on the `main` br
 
 ![CI-CD pipeline](report/images/CI-CD.png)
 
-_CI-CD pipeline_
 
 ## Monitoring
 
@@ -291,9 +289,8 @@ To resolve the issue, a Docker data directory used for temporary storage was cle
 
 After discovering that the application was unavailable, the first step was to inspect the logs.  The logs revealed that the outage was caused by thread pool starvation. Further investigation showed that certain requests to the application was taking upwards of 46 minutes. By analyzing at the database activity, it became evident that queries were scanning more than 200,000 rows per second. It was therefore decided that the database required proper indexing to mitigate the issue. After the necessary indexes were added and the application was restarted, the system returned to stable operation and performed as expected. The full bug report can be found on issue [#99](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/99)
 
-![Database load](report/images/database_fetch.png)
+![Database load before indexing.](report/images/database_fetch.png)
 
-_Database load before indexing._
 
 ## Reflect and describe what was the "DevOps" style of work
 
