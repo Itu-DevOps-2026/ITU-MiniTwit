@@ -78,6 +78,23 @@ Database load before indexing
 
 ## Reflect and describe what was the "DevOps" style of work
 
+_Authors: Sara_
+
+Compared to earlier software projects, this course introduced us to several DevOps practices that changed both our workflow and our understanding of software development.
+**Continuous Integration (CI)**
+Automatically running tests/linting on every pull request was a major change compared to earlier projects. 
+Previously, broken code would mainly be picked up manually during pull request reviews, which depended heavily on reviewers noticing issues. 
+Now, with CI pipelines in place, running automatic tests, linting, static analysis tools etc. caught issues early with fast automated feedback.
+This improved confidence when merging code and reduced the risk of introducing bugs into main.
+
+**Continuous Deployment (CD)**
+Automated deployment significantly improved the deployment process compared to earlier projects, where the steps toward deployment were manual and inconsistent.
+Using CD made our deployments faster, easily reproducable and less error-prone. At the same time, setting up this deployment infrastructure was not without faults.
+
+**Monitoring** 
+Monitoring through collecting logs and metrics made a big difference for us compared to earlier projects. Using tools such as Grafana and Prometheus gave us a much better understading of the system's runtime behaviour, and once set up correctly, the logs made a big diffrenve in debugging.
+Identifying bottlenexks or failures that would otherwise have been difficult to detect, became significantly easier and made us focus mpre on maintaining the software in production, rather than only focussing on implementing functionality.
+
 # Use of Generative AI
 
 _Authors: Nikolej_
