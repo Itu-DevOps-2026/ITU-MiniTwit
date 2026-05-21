@@ -1,10 +1,10 @@
 # ITU-MiniTwit
 #### Group-e 2026
 ---
-Welcome to the ITU Minitwit platform for group e of the DevOps, Software Evolution and Software Maintenance, BSc (Spring 2026) elective course at the IT University of Copenhagen. This project is mainly focused around the continious development, upkeep and deployment of an active IT system.
+Welcome to the ITU Minitwit platform for group e of the "DevOps, Software Evolution and Software Maintenance, BSc (Spring 2026)" elective course at the IT University of Copenhagen. This project is mainly focused around the continious development, upkeep and deployment of an active IT system.
 
 # Description
-The Minitwit app is a Twitter-like platform that is an extension of the Chirp! application from the third semester Analysis, Design and Software Architecture (Autumn 2025) course. It is a deployed platform, having been deployed to DigitalOcean as a droplet Virtual Machine (VM). It contains both the business logic, as well as containers for monitoring and other operations needs.
+The Minitwit app is a Twitter-like platform that is an extension of the Chirp! application from the third semester "Analysis, Design and Software Architecture (Autumn 2025)" course. It is a deployed platform, having been deployed to DigitalOcean as a droplet Virtual Machine (VM). It contains both the business logic, as well as containers for monitoring and other operations needs.
 
 The development of the MiniTwit application includes workflows for Continuous Integration and Deployment (CI/CD), including external tools like SonarCloud and Codacy.
 
