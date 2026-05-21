@@ -171,7 +171,7 @@ The logging infrastructure proved particularly useful when the simulator reporte
 
 ## Security
 
-_Authors: Sara_
+_Authors: Sara, Vitus_
 
 We applied several security hardening measures to our system across infrastructure, network, CI/CD, and container configuration.
 
@@ -234,7 +234,7 @@ The system used a SQLite database running in the MiniTwit application. As a cons
 
 ## Operations
 
-_Authors: Frederik, Marie_
+_Authors: Frederik, Marie, Vitus_
 
 Monitoring dashboards and application logs were checked regularly to detect excessive system strain and identify any runtime errors. In addition, the simulator status page was monitored to identify failures or inconsistencies that were not captured by the existing logging infrastructure.
 
