@@ -121,7 +121,7 @@ _Authors: Vitus_
 
 The project is currently in a strong state with respect to software quality
 From the outset, we established a workflow in which all incoming changes were required to pass automated tests and static analysis checks before being merged into the production branch. 
-Even going as far as to set multiple analysis tools to strict. 
+Several analysis tools were also configured with strict settings to enforce high coding standards.
 As of now, the entire project is compliant with these criteria, and can thus be considered stable. 
 Any crashes we have encountered in this project have been interogated and the leading issues fixed.
 
