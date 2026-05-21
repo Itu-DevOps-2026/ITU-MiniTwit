@@ -50,7 +50,7 @@ _CI-CD pipeline_
 
 ## Monitoring
 
-_Authors: Marie, Sara_
+_Authors: Marie, Sara, Nikolej_
 
 Monitoring is set up using Prometheus [@prometheus_docs] and Grafana [@grafana_docs] for visualizing and querying metrics,
 by adding the `app.MapMetrics();` and `app.UseHttpMetrics();` middleware the pipeline.
@@ -133,9 +133,14 @@ This follows a defense-in-depth strategy, where multiple independent security me
 
 ## Availability and Scaling
 
-_Authors: Frederik_
+_Authors: Frederik, Nikolej_
 
-To increase availability of the system a simple load balancing setup has been made. This can also be seen in the image from architecture and design. Here a load balancer balances the load of each server running the application. To help further for availability a second backup load balancer exists to take over if the primary fails. For scaling the application has not been scaled further than being on 2 servers. It should have been so each server had at least 2 running instances of the application and a corresponding update strategy should have been implemented in the CI/CD pipeline. If it had been implemented the blue-green upgrade strategy would have been implemented.
+To increase the availability of the system, a simple load balancing setup was employed (see the diagram in the deployment section).
+One primary load balancer initially handles all trafic, but is replaced automatically by a secondary backup in case of failure
+The system has been scaled, such that two instances of the application are running simultaneously on different DigitalOcean Droplets.
+
+This could be improved by running at least 2 instances of the application on each of the two Droplets,
+and subsequently implementing an update strategy in the CI/CD pipeline. For instance, the blue-green upgrade strategy.
 
 # Reflection
 
