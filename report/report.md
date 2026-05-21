@@ -13,23 +13,132 @@ author: |
 date: \today
 ---
 
-# Introduction
-
-_Authors: _
-
 # System
 
 ## Architecture and Design
 
-_Authors: _
+_Authors: Nikolej_
+
+This project is a forked repository of the Chirp! project [@chirp] developed for the course
+"Analysis, Design and Software Architecture (Autumn 2025)".
+The MiniTwit application architecture, namely the domain model and codebase structure,
+is inherited unchanged from the Chirp! project.
+Hence, we refer to the diagrams compiled in the Chirp! project report, inserted below for convenience.
+
+![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/domain_model.png)
+_Illustration of the *Chirp!* Domain Model (reused from the Chirp! project - not compiled during this course)._
+
+![Illustration of code base](docs/images/onion_architecture.png)
+_Illustration of the Chirp! app codebase structure - based on onion architecture (reused from the Chirp! project - not compiled during this course)._
+
+## Deployment
+
+_Authors: Nikolej_
+
+Below is a diagram of the overall deployment architecture of the MiniTwit application.
+The system uses two load balancers and two production server instances each running all containerized services and
+both read and write to the same DigitalOcean Managed Database.
+
+This setup is designed to prioritize availability.
+One can imagine the stakeholders of a social media platform pushing for availability,
+since every second of downtime is potential earnings lost.
+
+The dual load balancer (LB) setup was chosen for this reason.
+The primary load balancer initially handles all traffic, but is replaced by the secondary in case of failure.
+This is enabled through the heartbeat messages exchanged between the two using VRRP.
+The secondary then takes ownership of the reserved IP and resumes operation.
+Essentially, one LB is active while the other is on standby,
+which keeps the system online and reduces one potential single point of failure.
+
+The same principle is applied to the application layer, by using two MiniTwit production servers.
+Both run the exact same services and both are connected to the same database,
+which enables traffic to be served by either instance.
+This provides redundancy in case one server fails,
+allowing the team to bring it back up while the other instance continues to handle traffic.
+
+However, there is one major drawback to this setup. The monitoring stack is duplicated as well.
+Logs and metrics for each server are separate, which compromises observability consistency.
+If one server goes down, logs and metrics may be lost.
+This could be fixed by having a centralized monitoring stack e.g. on a separate device that all application nodes
+export to.
+
+Conversely, since both production serves run identical containerized environments,
+the system is easily reproducible and scalable.
+
+While the monitoring and logging data is not strictly centralized, the app database itself is.
+DigitalOcean provides a service for database hosting reducing the maintenance burden on the group.
+This allows focus on other aspects of the project rather than database administration,
+in exchange for some loss of control.
+
+![MiniTwit Deployment Diagram](report/images/MiniTwit_deployment_diagram.png)
+_MiniTwit Deployment Diagram_
 
 ## Dependencies
 
-_Authors: _
+_Authors: Marie, Frederik, Nikolej, Sara_
+
+Besides the .NET packages used to make the MiniTwit application run,
+which can be seen [here](#net-dependencies).
+The most important dependencies can be seen below, categorized by type.
+
+*Note: Some, like Docker, can fall into more than one category.*
+
+**Workflow**
+
+- GitHub Actions - CI/CD automation platform to run workflows
+- rsync - File synchronization tool
+
+**Deployed**
+
+- DigitalOcean - Cloud hosting provider used to host servers and the database
+- Docker - Containerization platform
+- Docker Hub - Cloud-based registry for storing and sharing Docker Images
+- Nginx - High performance web server and reverse proxy
+- Keepalived - High availability and failover service
+- Certbot - Tool for automatically issuing and renewing SSL/TLS certificates
+- Grafana - Visualization platform for logs and monitoring
+- Prometheus - Monitoring service used to collect and store metrics from infrastructure and applications
+- Loki - Log aggregation and storage system
+- Alloy - Telemetry collector used to collect and forward logs
+- Ubuntu - Linux distribution used on our servers
+- MySQL - Relational database management system
+- Vagrant - Tool for creating and managing reproducible virtualized development environments
+
+**Static Analysis**
+
+- Hadolint - Linter for Dockerfiles
+- CSharpier - C# code formatter
+- CodeQL - Static analysis engine used to identify security vulnerabilities and code quality issues
+- Roslyn - .NET compiler platform for code analysis
+- Docker Scout - Security and vulnerability analysis tool for Docker
+- SonarCloud - Cloud-based code quality and security analysis platform
+- Codacy - Automated code review and quality monitoring platform
+
+**Development**
+
+- Git - Distributed version control system
+- GitHub - Web-based platform for hosting Git repositories
+- .NET - Microsoft’s development platform and runtime used to make the minitwit application
 
 ## System States
 
-_Authors: _
+_Authors: Vitus, Sara_
+
+The project is currently in a strong state with respect to software quality.
+From the outset, we established a workflow in which all incoming changes were required to pass automated tests and static analysis checks before being merged into the production branch.
+Several analysis tools were also configured with strict settings to enforce high coding standards.
+At present, the entire project complies with these quality requirements and can thus be considered stable.
+Any crashes or critical issues encountered during development were thoroughly investigated, and the underlying causes were addressed accordingly.
+
+There have been a few necessary compromises to these quality gating rules.
+The project is developed on top of the Chirp! platform, which was originally designed for .NET 8. Since then, newer .NET versions have been released, and .NET 8 is not considered outdated.
+As a result, the Docker Scout analysis consistently recommends upgrading the runtime environment.
+Given the project constraints and dependencies on the underlying platform, we chose to explicitly exclude this specific category from the analysis checks. While this represents a deviation from the otherwise strict quality requirements, it is not considered a critical issue as long as the limitation is acknowledged and taken into account during maintenance and future development.
+
+Below is the latest static analysis checks.
+![MiniTwit Deployment Diagram](images/Analysis_checks.png)
+
+_System checks on the recent-most change_
 
 # Process
 
