@@ -28,7 +28,7 @@ _Authors: _
 
 _Authors: Vitus, Frederik, Nikolej_
 
-The CI/CD process is based on GitHub Actions workflows that run on the `main` branch or on a scheduled timer. The MiniTwit repository currently uses the following active workflows to do CI/CD:
+The CI/CD process is based on GitHub Actions workflows that run on the `main` branch or on a scheduled timer. The MiniTwit repository currently uses the following active workflows to complete CI/CD:
 
 - `Static Analysis` — runs on push and pull request events for `main`. It performs:
   - Dockerfile linting with Hadolint against `Dockerfile-MiniTwit`.
@@ -39,7 +39,7 @@ The CI/CD process is based on GitHub Actions workflows that run on the `main` br
   - CodeQL analysis to surface static security issues.
   - Docker Scout scanning for critical vulnerabilities on the DockerHub image.
 - `Build and test` — runs on push and pull request events for `main`. It restores dependencies, performs a clean build, and runs the test suite.
-- `SonarCloud & Codacy` — provide external static analysis, code smell detection, and quality gating on pushes.
+- `SonarCloud & Codacy` — provides external static analysis, code smell detection, and quality gating on pushes.
 - `Deploy to Staging` — runs on push and pull request events for `main` after the primary checks pass. Builds and pushes the Docker images and deploys them to the DigitalOcean staging Droplet.
 - `Deploy To DO` — runs on pushes to `main` and can also be triggered manually. It builds and pushes the Docker images and deploys them to the DigitalOcean production Droplets.
 - `automatic-weekly-release` — runs on schedule every Tuesday at 08:00 UTC and can be started manually. It builds the project, runs tests, packages release artifacts, and creates a GitHub release.
@@ -52,7 +52,7 @@ _CI-CD pipeline_
 
 _Authors: Marie_
 
-The systems monitorting is setup using the open-source monitoring system Prometheus [@prometheus_docs] in colaboration with Grafana [@grafana_docs] for visualizing and quering the metrics.
+The systems monitoring is setup using the open-source monitoring system Prometheus [@prometheus_docs] in colaboration with Grafana [@grafana_docs] for visualizing and quering the metrics.
 The `app.MapMetrics();` and `app.UseHttpMetrics();` middleware were added to the pipline. `app.MapMetrics();` exposes the HTTP endpoint for Prometheus to scrape and
 `app.UseHttpMetrics();` collect Prometheus metrics for processed HTTP requests (from documentation of UseHttpMetrics).
 
