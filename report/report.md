@@ -70,7 +70,7 @@ _MiniTwit Deployment Diagram_
 
 ## Dependencies
 
-_Authors: Marie, Frederik, Nikolej_
+_Authors: Marie, Frederik, Nikolej, Sara_
 
 Besides the .NET packages used to make the MiniTwit application run,
 which can be seen [here](#net-dependencies).
@@ -90,7 +90,7 @@ The most important dependencies can be seen below, categorized by type.
 - Docker Hub - Cloud-based registry for storing and sharing Docker Images
 - Nginx - High performance web server and reverse proxy
 - Keepalived - High availability and failover service
-- Certbot - Tool for automatically issuing and renewing free SSL/TLS certificates
+- Certbot - Tool for automatically issuing and renewing SSL/TLS certificates
 - Grafana - Visualization platform for logs and monitoring
 - Prometheus - Monitoring service used to collect and store metrics from infrastructure and applications
 - Loki - Log aggregation and storage system
