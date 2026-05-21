@@ -198,8 +198,9 @@ Identifying bottlenecks or failures that would otherwise have been difficult to 
 
 **Infrastructure as Code (IaC)**
 Luckily, we were never forced to take the whole system down and bring it back online.
-Towards the end of the project, we did attempt to ensure ´vagrant up` could do exactly that, recreating our infrastructure from scratch.
-Ultimately, there were some issues that we did not have time to fix, hence the [pull request](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/pull/90) remains open.
+Towards the end of the project, we did attempt to ensure `vagrant up` could do exactly that, recreating our infrastructure from scratch.
+Ultimately, there were some issues that we did not have time to fix, hence the [pull request #90](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/pull/90) remains open.
+A video demo of `vagrant up` can be found [here](images/group_e_vagrant_up_demo.gif).
 
 # Use of Generative AI
 _Authors: Nikolej, Sara_
