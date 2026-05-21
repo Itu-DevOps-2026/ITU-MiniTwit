@@ -4,7 +4,6 @@ subtitle: |
   DevOps, Software Evolution and Software Maintenance, BSc (Spring 2026)
   **Course code:** BSDSESM1KU
 author: |
-  Charlotte Planteig <cpla@itu.dk>  
   Frederik Hørup Petersen <frap@itu.dk>  
   Marie Johansen <majoh@itu.dk>  
   Nikolej Lundquist <nivl@itu.dk>  
