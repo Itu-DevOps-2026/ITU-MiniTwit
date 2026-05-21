@@ -287,7 +287,7 @@ During the development of this project we used ChatGPT in three main ways:
 
 **Debugging.** When encountering unexpected bugs and unclear error messages,
 we often consulted ChatGPT about possible causes and fixes.
-While it rarely solved issues entirely on its own, it frequently helped narrow down the problem space and suggested relevant debugging strategies.
+While it rarely solved issues entirely on its own, it frequently helped narrow down the problem space.
 
 **Research.** This course presents challenges involving numerous technologies,
 many of which we were unfamiliar with, including monitoring tools, docker and load balancing.
@@ -295,7 +295,6 @@ ChatGPT was used to summarize lengthy documentation, explain unfamiliar concepts
 
 **Generating boilerplate / configurations.** ChatGPT was also used for simple, repetitive tasks
 such as generating boilerplate code or writing Github Actions Workflow files.
-For example, the `build-report.yml` workflow, that converts the markdown source into a pdf.
 
 The use of AI has made these tasks easier, spared us many frustrations during troubleshooting and saved considerable time during development.
 At the same time, we met certain limitations when using AI. Suggested fixes sometimes appeared plausible while being incorrect or incompatible with our setup. 
