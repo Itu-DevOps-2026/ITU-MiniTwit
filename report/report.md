@@ -81,6 +81,8 @@ Database load before indexing
 _Authors: Sara_
 
 Compared to earlier software projects, this course introduced us to several DevOps practices that changed both our workflow and our understanding of software development.
+A major difference compared to earlier projects was the amount of automation involved in the workflow. Tasks such as testing, linting, building containers, generating reports, and deployment were automated through pipelines and scripts. This reduced repetitive manual work and improved consistency across the project.
+
 **Continuous Integration (CI)**
 Automatically running tests/linting on every pull request was a major change compared to earlier projects. 
 Previously, broken code would mainly be picked up manually during pull request reviews, which depended heavily on reviewers noticing issues. 
@@ -91,9 +93,9 @@ This improved confidence when merging code and reduced the risk of introducing b
 Automated deployment significantly improved the deployment process compared to earlier projects, where the steps toward deployment were manual and inconsistent.
 Using CD made our deployments faster, easily reproducable and less error-prone. At the same time, setting up this deployment infrastructure was not without faults.
 
-**Monitoring** 
+**Monitoring & Software Maintenance** 
 Monitoring through collecting logs and metrics made a big difference for us compared to earlier projects. Using tools such as Grafana and Prometheus gave us a much better understading of the system's runtime behaviour, and once set up correctly, the logs made a big diffrenve in debugging.
-Identifying bottlenexks or failures that would otherwise have been difficult to detect, became significantly easier and made us focus mpre on maintaining the software in production, rather than only focussing on implementing functionality.
+Identifying bottlenexks or failures that would otherwise have been difficult to detect, became significantly easier and made us focus mpre on maintaining the software in production, rather than only focussing on implementing functionality. Reliability and stability became important parts of the development process rather than something considered only at the end.
 
 # Use of Generative AI
 
