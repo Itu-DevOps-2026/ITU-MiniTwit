@@ -73,15 +73,27 @@ services:
     container_name: prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/var/prometheus"
       - "--storage.tsdb.retention.time=3d"
     ports:
       - "9090:9090"
     networks:
       - main
+        
+  grafana-init:
+    image: alpine:3.20
+    user: root
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    command: sh -c "chown -R 65532:65532 /var/lib/grafana"
+    restart: "no"
 
   grafana:
     image: ${DOCKER_USERNAME}/grafanaimage-e
     container_name: grafana
+    user: "65532:65532"
+    depends_on:
+      - grafana-init
     ports:
       - "3000:3000"
     networks:
