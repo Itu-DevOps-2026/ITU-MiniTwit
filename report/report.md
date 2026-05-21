@@ -80,7 +80,7 @@ Database load before indexing
 
 _Authors: Sara_
 
-Compared to earlier software projects, this course introduced us to several DevOps practices that changed both our workflow and our understanding of software development.
+Compared to earlier software projects, this course introduced us to several DevOps practices that changed both our workflow and our understanding of software development. Many of these practices reflected the principles behind the Three Ways of DevOps: improving flow, enabling fast feedback, and encouraging continuous improvement through automation, monitoring, and maintenance.
 A major difference compared to earlier projects was the amount of automation involved in the workflow. Tasks such as testing, linting, building containers, generating reports, and deployment were automated through pipelines and scripts. This reduced repetitive manual work and improved consistency across the project.
 
 **Continuous Integration (CI)**
