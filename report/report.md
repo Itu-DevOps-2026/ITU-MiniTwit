@@ -30,7 +30,7 @@ _Authors: Vitus, Frederik, Nikolej_
 
 The CI/CD process is based on GitHub Actions workflows that run on the `main` branch or on a scheduled timer. The MiniTwit repository currently uses the following active workflows to complete CI/CD:
 
-- `Static Analysis` — runs on push and pull request events for `main`. It performs:
+- `static-analysis` — runs on push and pull request events for `main`. It performs:
   - Dockerfile linting with Hadolint against `Dockerfile-MiniTwit`.
   - .NET setup and tool restore.
   - C# formatting validation with `dotnet csharpier check .`.
@@ -38,7 +38,7 @@ The CI/CD process is based on GitHub Actions workflows that run on the `main` br
   - Dependency restore and a strict Roslyn build with `TreatWarningsAsErrors=true`.
   - CodeQL analysis to surface static security issues.
   - Docker Scout scanning for critical vulnerabilities on the DockerHub image.
-- `Build and test` — runs on push and pull request events for `main`. It restores dependencies, performs a clean build, and runs the test suite.
+- `build-and-test` — runs on push and pull request events for `main`. It restores dependencies, performs a clean build, and runs the test suite.
 - `SonarCloud & Codacy` — provides external static analysis, code smell detection, and quality gating on pushes.
 - `Deploy to Staging VM` — runs on push and pull request events for `main` after the primary checks pass. Builds and pushes the Docker images and deploys them to the DigitalOcean staging Droplet.
 - `Deploy To DO` — runs on pushes to `main` and can also be triggered manually. It builds and pushes the Docker images and deploys them to the DigitalOcean production Droplets.
