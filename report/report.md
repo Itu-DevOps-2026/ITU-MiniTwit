@@ -1,6 +1,15 @@
 ﻿---
 title: "ITU-MiniTwit - Group e - Report"
-author: "Frederik Hørup <frap>, Marie Johansen <majoh>, Nikolej Lundquist <nivl>, Sara Bagger <salb>, Vitus Brodersen <>"
+subtitle: |
+  DevOps, Software Evolution and Software Maintenance, BSc (Spring 2026)
+  **Course code:** BSDSESM1KU
+author: |
+  Charlotte Planteig <cpla@itu.dk>  
+  Frederik Hørup Petersen <frap@itu.dk>  
+  Marie Johansen <majoh@itu.dk>  
+  Nikolej Lundquist <nivl@itu.dk>  
+  Sara Bagger <salb@itu.dk>
+  Vitus Brodersen <vitb>
 date: \today
 ---
 

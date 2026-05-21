@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'report/report.md'
+  workflow_dispatch:
+    manual: true
 
 jobs:
   build-report:
