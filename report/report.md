@@ -75,7 +75,10 @@ which can be seen [here](#net-dependencies), the most important dependencies can
 
 *Note: Some, like Docker, can fall into more than one category.*
 
-![Dependencies](report/images/dependencies.png)
+
+![Dependencies](report/images/dependencies.png){height=75%}
+
+\clearpage
 
 ## System States
 
