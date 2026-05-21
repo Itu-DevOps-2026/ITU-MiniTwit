@@ -9,7 +9,7 @@ author: |
   Marie Johansen <majoh@itu.dk>  
   Nikolej Lundquist <nivl@itu.dk>  
   Sara Bagger <salb@itu.dk>
-  Vitus Brodersen <vitb>
+  Vitus Brodersen <vitb@itu.dk>
 date: \today
 ---
 
@@ -344,7 +344,11 @@ As a result, we found that generative AI was most useful as a supporting tool ra
 
 # References
 
+::: {#refs}
+:::
+
 # Appendix
+
 ## .NET dependencies <a name="NET"></a>
 
 Dependencies of ITU-MiniTwit according to `dotnet list package`:
