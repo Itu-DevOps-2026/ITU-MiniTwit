@@ -4,11 +4,10 @@ subtitle: |
   DevOps, Software Evolution and Software Maintenance, BSc (Spring 2026)
   **Course code:** BSDSESM1KU
 author: |
-  Charlotte Planteig <cpla@itu.dk>  
   Frederik Hørup Petersen <frap@itu.dk>  
-  Marie Johansen <majoh@itu.dk>  
-  Nikolej Lundquist <nivl@itu.dk>  
-  Sara Bagger <salb@itu.dk>
+  Marie Højsted Johansen <majoh@itu.dk>  
+  Nikolej Vinther Lundquist <nivl@itu.dk>  
+  Sara Louise Høg Bagger <salb@itu.dk>
   Vitus Brodersen <vitb@itu.dk>
 date: \today
 ---
@@ -49,8 +48,7 @@ The dual load balancer (LB) setup was chosen for this reason.
 The primary load balancer initially handles all traffic, but is replaced by the secondary in case of failure.
 This is enabled through the heartbeat messages exchanged between the two using VRRP.
 The secondary then takes ownership of the reserved IP and resumes operation.
-Essentially, one LB is active while the other is on standby,
-which keeps the system online and reduces one potential single point of failure.
+Essentially keeping the system online and reduces one potential single point of failure.
 
 The same principle is applied to the application layer, by using two MiniTwit production servers.
 Both run the exact same services and both are connected to the same database,
@@ -58,7 +56,7 @@ which enables traffic to be served by either instance.
 This provides redundancy in case one server fails,
 allowing the team to bring it back up while the other instance continues to handle traffic.
 
-However, there is one major drawback to this setup. The monitoring stack is duplicated as well.
+However one major drawback to this setup is the duplicated monitoring stack.
 Logs and metrics for each server are separate, which compromises observability consistency.
 If one server goes down, logs and metrics may be lost.
 This could be fixed by having a centralized monitoring stack e.g. on a separate device that all application nodes
@@ -80,8 +78,7 @@ in exchange for some loss of control.
 _Authors: Marie, Frederik, Nikolej, Sara_
 
 Besides the .NET packages used to make the MiniTwit application run,
-which can be seen [here](#net-dependencies).
-The most important dependencies can be seen below, categorized by type.
+which can be seen [here](#net-dependencies), the most important dependencies can be seen below, categorized by type.
 
 *Note: Some, like Docker, can fall into more than one category.*
 
@@ -130,7 +127,6 @@ The project is currently in a strong state with respect to software quality.
 From the outset, we established a workflow in which all incoming changes were required to pass automated tests and static analysis checks before being merged into the production branch.
 Several analysis tools were also configured with strict settings to enforce high coding standards.
 At present, the entire project complies with these quality requirements and can thus be considered stable.
-Any crashes or critical issues encountered during development were thoroughly investigated, and the underlying causes were addressed accordingly.
 
 There have been a few necessary compromises to these quality gating rules.
 The project is developed on top of the Chirp! platform, which was originally designed for .NET 8. Since then, newer .NET versions have been released, and .NET 8 is not considered outdated.
@@ -188,7 +184,6 @@ The monitoring does not supply data to measure user experience or data to benefi
 There are many ways monitoring could be improved.
 For one, database monitoring would have been especially beneficial both for the operational side and to provide metrics for the business side e.g. number of users in the system.
 
-Lastly, the monitoring dashboards provided by DigitalOcean to monitor the Droplets has been regularly used.
 
 ## Logging
 
