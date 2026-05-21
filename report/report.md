@@ -26,7 +26,7 @@ _Authors: _
 
 ## CI/CD
 
-_Authors: Vitus, Frederik_
+_Authors: Vitus, Frederik, Nikolej_
 
 The CI/CD process is based on GitHub Actions workflows that run on the `main` branch or on a scheduled timer. The MiniTwit repository currently uses the following active workflows to do CI/CD:
 
@@ -38,13 +38,14 @@ The CI/CD process is based on GitHub Actions workflows that run on the `main` br
   - Dependency restore and a strict Roslyn build with `TreatWarningsAsErrors=true`.
   - CodeQL analysis to surface static security issues.
   - Docker Scout scanning for critical vulnerabilities on the DockerHub image.
-- `Build and test` — also runs on push and pull request events for `main`. It restores dependencies, performs a clean build, and runs the test suite.
-- `SonarCloud & Codacy` — provide external static analysis, code smell detection, and quality gating on pushes as well.
-- `Deploy to Staging` — runs for pull requests and for pushes to `main` after the primary checks pass. Builds and pushes the Docker images and deploys them to the staging Digital Ocean Droplet
-- `Deploy To DO` — runs on pushes to `main` and can also be triggered manually. It builds and pushes the Docker images and deploys them to the production Digital Ocean Droplets.
+- `Build and test` — runs on push and pull request events for `main`. It restores dependencies, performs a clean build, and runs the test suite.
+- `SonarCloud & Codacy` — provide external static analysis, code smell detection, and quality gating on pushes.
+- `Deploy to Staging` — runs on push and pull request events for `main` after the primary checks pass. Builds and pushes the Docker images and deploys them to the DigitalOcean staging Droplet.
+- `Deploy To DO` — runs on pushes to `main` and can also be triggered manually. It builds and pushes the Docker images and deploys them to the DigitalOcean production Droplets.
 - `automatic-weekly-release` — runs on schedule every Tuesday at 08:00 UTC and can be started manually. It builds the project, runs tests, packages release artifacts, and creates a GitHub release.
 
 ![CI-CD pipeline](report/images/CI-CD.png)
+
 _CI-CD pipeline_
 
 ## Monitoring
