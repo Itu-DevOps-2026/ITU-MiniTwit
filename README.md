@@ -10,6 +10,8 @@ The development of the MiniTwit application includes workflows for Continuous In
 
 Monitoring is done with a combination of Prometheus and Grafana.
 
+Alloy, Loki and Grafana constitutes the logging stack.
+
 # Prerequisites
 
 Before being able to work on the MiniTwit application, a few requisites are needed. 

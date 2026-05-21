@@ -133,11 +133,11 @@ This follows a defense-in-depth strategy, where multiple independent security me
 
 ## Availability and Scaling
 
-_Authors: Frederik, Nikolej, Marie_
+_Authors: Frederik, Nikolej, Sara, Marie_
 
-To increase the availability of the system, a simple load balancing setup was employed (see the diagram in the deployment section).
-One primary load balancer initially handles all trafic, but is replaced automatically by a secondary backup in case of failure
-The system has been scaled, such that two instances of the application are running simultaneously on different DigitalOcean Droplets.
+To increase the availability of the system, a simple load balancing setup was implemented (see the diagram in the deployment section).
+One primary load balancer initially handles all traffic, but is automatically replaced by a secondary backup in case of failure.
+Additionally, the system was scaled to run two application instances simultaneously on seperate DigitalOcean Droplets.
 
 This could be improved by running at least 2 instances of the application on each of the two Droplets,
 and subsequently implementing an update strategy in the CI/CD pipeline. For instance, the blue-green upgrade strategy.
