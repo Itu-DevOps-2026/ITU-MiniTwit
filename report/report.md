@@ -100,7 +100,7 @@ Below is the latest static analysis checks.
 
 ![System checks on the recent-most change](report/images/Analysis_checks.png)
 
-
+\clearpage
 # Process
 
 ## CI/CD
