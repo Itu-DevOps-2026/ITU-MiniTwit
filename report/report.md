@@ -45,6 +45,8 @@ The CI/CD process is based on GitHub Actions workflows that run on the `main` br
 - `automatic-weekly-release` — runs on schedule every Tuesday at 08:00 UTC and can be started manually. It builds the project, runs tests, packages release artifacts, and creates a GitHub release.
 
 ![CI-CD pipeline](report/images/CI-CD.png)
+_CI-CD pipeline_
+
 ## Monitoring
 
 _Authors: Marie_
