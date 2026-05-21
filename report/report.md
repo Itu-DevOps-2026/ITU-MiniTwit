@@ -119,11 +119,18 @@ The most important dependencies can be seen below, categorized by type.
 
 _Authors: Vitus_
 
-The project is currently in a good state quality wise. We have from the beginning focused on always having our tests and static analysis tools accept incoming changes before being allowed to be merged into a production state. Even going as far as to set multiple analysis tools to strict. As of now, the entire project is compliant with these criteria, and can thus be considered stable. Any crashes we have encountered in this project have been interogated and the leading issues fixed.
+The project is currently in a good state quality wise.
+We have from the beginning focused on always having our tests and static analysis tools accept incoming changes before being allowed to be merged into a production state. 
+Even going as far as to set multiple analysis tools to strict. 
+As of now, the entire project is compliant with these criteria, and can thus be considered stable. 
+Any crashes we have encountered in this project have been interogated and the leading issues fixed.
 
-There have been a few compromises and temporary bending of these quality gating rules, however. The project is developed on top of the Chirp! platform, which was specifically made for dotnet 8, that has become deprecated and outdated since then, having moved onto dotnet 10. This means that the Docker Scout scan of the image strongly recommends us to update. We have therefore chosen to make the analysis ignore said category explicitly. This is not a breaking issue, as long as we keep this in mind.
+There have been a few compromises and temporary bending of these quality gating rules. 
+The project is developed on top of the Chirp! platform, which was specifically made for dotnet 8, that has become deprecated and outdated since then, having moved onto dotnet 10.
+This means that the Docker Scout scan of the image strongly recommends us to update. We have therefore chosen to make the analysis ignore said category explicitly. 
+This is not a breaking issue, as long as we keep this in mind.
 
-Below is the latest static analysis checks as of writing.
+Below is the latest static analysis checks at the time of writing.
 ![MiniTwit Deployment Diagram](images/Analysis_checks.png)
 _System checks on the recent-most change_
 
