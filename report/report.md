@@ -57,10 +57,10 @@ If one server goes down, logs and metrics may be lost.
 This could be fixed by having a centralized monitoring stack e.g. on a separate device that all application nodes
 export to.
 
-On the flip side, since both production serves run identical containerized environments,
+Conversely, since both production serves run identical containerized environments,
 the system is easily reproducible and scalable.
 
-While the monitoring and logging data is not centralized, the app database itself is.
+While the monitoring and logging data is not strictly centralized, the app database itself is.
 DigitalOcean provides a service for database hosting reducing the maintenance burden on the group.
 This allows focus on other aspects of the project rather than database administration,
 in exchange for some loss of control.
@@ -70,36 +70,40 @@ _MiniTwit Deployment Diagram_
 
 ## Dependencies
 
-_Authors: Marie, Frederik_
+_Authors: Marie, Frederik, Nikolej_
 
-Besides the .NET packages used to make the minitwit application run, which can be seen [here](#net-dependencies) the application as a whole depends on many different applications and infratructure throghout the development and deployment cycle. The most important ones can be seen below, categorised in when they are used in the cycle. Of course some of them are used in more then one of them, like Docker that is used in both deployment and development.
+Besides the .NET packages used to make the MiniTwit application run,
+which can be seen [here](#net-dependencies).
+The most important dependencies can be seen below, categorized by type.
+
+*Note: Some, like Docker, can fall into more than one category.*
 
 **Workflow**
 
-- Github Actions - CI/CD automation platform to run workflows
+- GitHub Actions - CI/CD automation platform to run workflows
 - rsync - File synchronization tool
 
 **Deployed**
 
-- Digital Ocean - Cloud hosting provider used to hold servers and database
+- DigitalOcean - Cloud hosting provider used to host servers and the database
 - Docker - Containerization platform
-- Docker Hub - Cloud-based registy for storging and sharing Docker contianer images
+- Docker Hub - Cloud-based registry for storing and sharing Docker Images
 - Nginx - High performance web server and reverse proxy
 - Keepalived - High availability and failover service
 - Certbot - Tool for automatically issuing and renewing free SSL/TLS certificates
-- Grafana - Visualization and monitoring platform
-- Prometheus - Monitorinng platform used to collect and store metrics infrastructure and applications
-- Loki - Log aggregation system
-- Alloy - Telemetry collector used to gather metrics and logs
-- Ubunto - Linux based opperation system used on our servers
+- Grafana - Visualization platform for logs and monitoring
+- Prometheus - Monitoring service used to collect and store metrics from infrastructure and applications
+- Loki - Log aggregation and storage system
+- Alloy - Telemetry collector used to collect and forward logs
+- Ubuntu - Linux distribution used on our servers
 - MySQL - Relational database management system
 - Vagrant - Tool for creating and managing reproducible virtualized development environments
 
 **Static Analysis**
 
-- Hadolint - Linter for Docker files
+- Hadolint - Linter for Dockerfiles
 - CSharpier - C# code formatter
-- CodeQL - Static analisys engine used to identiify security vulnerabilities and code quality issues
+- CodeQL - Static analysis engine used to identify security vulnerabilities and code quality issues
 - Roslyn - .NET compiler platform for code analysis
 - Docker Scout - Security and vulnerability analysis tool for Docker
 - SonarCloud - Cloud-based code quality and security analysis platform
@@ -108,7 +112,7 @@ Besides the .NET packages used to make the minitwit application run, which can b
 **Development**
 
 - Git - Distributed version control system
-- Github - Web-based platform for hosting Git repositories
+- GitHub - Web-based platform for hosting Git repositories
 - .NET - Microsoft’s development platform and runtime used to make the minitwit application
 
 ## System States
