@@ -253,7 +253,7 @@ After discovering that the application was unavailable, the first step was to in
 ![Database load before indexing.](report/images/database_fetch.png)
 
 
-## Reflect and describe what was the "DevOps" style of work
+## Reflection and description of "DevOps" style of work
 
 _Authors: Sara, Marie, Nikolej_
 
