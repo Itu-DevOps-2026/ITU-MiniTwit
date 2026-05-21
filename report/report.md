@@ -125,10 +125,10 @@ Several analysis tools were also configured with strict settings to enforce high
 At present, the entire project complies with these quality requirements and can thus be considered stable. 
 Any crashes or critical issues encountered during development were thoroughly investigated, and the underlying causes were addressed accordingly.
 
-There have been a few compromises and temporary bending of these quality gating rules. 
-The project is developed on top of the Chirp! platform, which was specifically made for dotnet 8, that has become deprecated and outdated since then, having moved onto dotnet 10.
-This means that the Docker Scout scan of the image strongly recommends us to update. We have therefore chosen to make the analysis ignore said category explicitly. 
-This is not a breaking issue, as long as we keep this in mind.
+There have been a few necessary compromises to these quality gating rules. 
+The project is developed on top of the Chirp! platform, which was originally designed for .NET 8. Since then, newer .NET versions have been released, and .NET 8 is not considered outdated.
+As a result, As a result, the Docker Scout analysis consistently recommends upgrading the runtime environment.
+Given the project constraints and dependencies on the underlying platform, we chose to explicitly exclude this specific category from the analysis checks. While this represents a deviation from the otherwise strict quality requirements, it is not considered a critical issue as long as the limitation is acknowledged and taken into account during maintenance and future development.
 
 Below is the latest static analysis checks at the time of writing.
 ![MiniTwit Deployment Diagram](images/Analysis_checks.png)
