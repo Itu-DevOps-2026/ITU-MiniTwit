@@ -106,11 +106,6 @@ The reverse proxy terminates incoming HTTPS traffic and forwards requests intern
 This improves security by encrypting communication between clients and the server and by reducing direct exposure of the application itself.
 We used Let’s Encrypt certificates together with automatic renewal mechanisms to avoid manual certificate management.
 
-**Firewall.**
-To protect the servers themselves, we configured a UFW software firewall. We followed the principle of least privilege by allowing only required traffic such as SSH and HTTP/HTTPS while denying unnecessary incoming connections.
-This was important to avoid unintentionally exposing services externally if firewall rules are misconfigured.
-We also considered firewall logging to detect suspicious or blocked traffic patterns, but because of lack of time, this was omitted.
-
 **CI/CD.**
 In the CI/CD pipeline, we integrated automated security analysis tools to support a shift-left security approach, where vulnerabilities are detected before deployment.
 We added GitHub CodeQL analysis to statically scan the application source code for known security vulnerabilities and insecure coding patterns.
