@@ -44,7 +44,7 @@ The CI/CD process is based on GitHub Actions workflows that run on the `main` br
 - `Deploy To DO` — runs on pushes to `main` and can also be triggered manually. It builds and pushes the Docker images and deploys them to the production Digital Ocean Droplets.
 - `automatic-weekly-release` — runs on schedule every Tuesday at 08:00 UTC and can be started manually. It builds the project, runs tests, packages release artifacts, and creates a GitHub release.
 
-![CI-CD pipeline](images\CI-CD.png)
+![CI-CD pipeline](images/CI-CD.png)
 ## Monitoring
 
 _Authors: Marie_
