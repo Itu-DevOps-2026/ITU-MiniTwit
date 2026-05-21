@@ -76,40 +76,40 @@ Besides the .NET packages used to make the minitwit application run, which can b
 
 **Workflow**
 
-- Github Actions
-- rsync
+- Github Actions - CI/CD automation platform to run workflows
+- rsync - File synchronization tool
 
 **Deployed**
 
-- Digital Ocean
-- Docker
-- Docker Hub
-- nginx
-- keepalived
-- certbot
-- Grafana
-- Prometheus
-- Loki
-- Alloy
-- Ubunto
-- MySQL
-- Vagrant
+- Digital Ocean - Cloud hosting provider used to hold servers and database
+- Docker - Containerization platform
+- Docker Hub - Cloud-based registy for storging and sharing Docker contianer images
+- Nginx - High performance web server and reverse proxy
+- Keepalived - High availability and failover service
+- Certbot - Tool for automatically issuing and renewing free SSL/TLS certificates
+- Grafana - Visualization and monitoring platform
+- Prometheus - Monitorinng platform used to collect and store metrics infrastructure and applications
+- Loki - Log aggregation system
+- Alloy - Telemetry collector used to gather metrics and logs
+- Ubunto - Linux based opperation system used on our servers
+- MySQL - Relational database management system
+- Vagrant - Tool for creating and managing reproducible virtualized development environments
 
 **Static Analysis**
 
-- Hadolint
-- CSharpier
-- CodeQL
-- Roslyn
-- Docker Scout
-- SonarCloud
-- Codacy
+- Hadolint - Linter for Docker files
+- CSharpier - C# code formatter
+- CodeQL - Static analisys engine used to identiify security vulnerabilities and code quality issues
+- Roslyn - .NET compiler platform for code analysis
+- Docker Scout - Security and vulnerability analysis tool for Docker
+- SonarCloud - Cloud-based code quality and security analysis platform
+- Codacy - Automated code review and quality monitoring platform
 
 **Development**
 
-- Git
-- Github
-- .NET
+- Git - Distributed version control system
+- Github - Web-based platform for hosting Git repositories
+- .NET - Microsoft’s development platform and runtime used to make the minitwit application
 
 ## System States
 
