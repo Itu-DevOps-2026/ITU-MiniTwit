@@ -146,12 +146,12 @@ and subsequently implementing an update strategy in the CI/CD pipeline. For inst
 
 ## Evolution and refactoring
 
-_Authors: Frederik, Sara_
+_Authors: Frederik, Sara, Nikolej_
 
 For the simulator to function correctly, several new endpoints specified in the Swagger documentation had to be implemented. 
 To simplify this process, the OpenAPI Generator CLI tool was used to generate the initial endpoint structure, after which the individual endpoints were adapted to meet the required functionality and expected request behavior. Furthermore, token-based authorization was implemented for the endpoints that required authentication.
 
-The database for the application was a SQLite database running in the MiniTwit application. As a consequence, all persisted data was lost whenever a new deploy of the application occurred. There was therefore a need to migrate to a new database type so the data is persisted. It was chosen to migrate to a MySQL database which was hosted using DigitalOcean. This was chosen due to its relative simplicity and time effectiveness.
+The system used a SQLite database running in the MiniTwit application. As a consequence, all persisted data was lost whenever a new deployment of the application occurred. There was therefore a need to migrate to a new database type to enable persitance. It was chosen to migrate to a MySQL database which was hosted on DigitalOcean. This was chosen due to its relative simplicity and time effectiveness.
 
 ## Operations
 
@@ -165,19 +165,19 @@ _Authors: Frederik_
 
 During the period following the start of the simulator, several errors and faults were identified. User registration performed by the simulator was not functioning as intended, authentication for multiple endpoints behaved incorrectly, and several endpoints returned invalid response types or response bodies. To fix these issues, swarming was used to quickly discover where things were going wrong. A complete overview of the issues can be found at [#29](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/29), [#32](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/32), [#34](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/34) and [#41](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/41)
 
-We were made aware that Grafana was returning an internal server error when users attempted to log in. Investigation revealed that Prometheus had exhausted the storage capacity of the droplet, preventing Grafana from accessing its internal volume correctly.
+We were notified that Grafana was returning an internal server error when users attempted to log in. Investigation revealed that Prometheus had exhausted the storage capacity of the droplet, preventing Grafana from accessing its internal volume correctly.
 
 To resolve the issue, a Docker data directory used for temporary storage was cleared, after which the Docker containers on the virtual machine were restarted. To prevent similar incidents in the future, storage retention policies were configured for Prometheus, and Prometheus was assigned a dedicated volume for persistent storage. To see the whole bug report see issue [#81](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/81).
 
-After discovering that the application was unavailable, the first step was to inspect the logs.  The logs revealed that the outage was caused by thread pool starvation. Further investigation showed that certain request to the application was taking upwards of 46 minutes. By analyzing at the database activity, it became evident that queries were scanning more than 200,000 rows per second. It was therefore decided that the database required proper indexing to mitigate the issue. After the necessary indexes were added and the application was restarted, the system returned to stable operation and performed as expected. The full bug report can be found on issue [#99](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/99)
+After discovering that the application was unavailable, the first step was to inspect the logs.  The logs revealed that the outage was caused by thread pool starvation. Further investigation showed that certain requests to the application was taking upwards of 46 minutes. By analyzing at the database activity, it became evident that queries were scanning more than 200,000 rows per second. It was therefore decided that the database required proper indexing to mitigate the issue. After the necessary indexes were added and the application was restarted, the system returned to stable operation and performed as expected. The full bug report can be found on issue [#99](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/99)
 
 ![Database load](images/database_fetch.png)
 
-Database load before indexing
+_Database load before indexing._
 
 ## Reflect and describe what was the "DevOps" style of work
 
-_Authors: Sara_, Marie, Nikolej_
+_Authors: Sara, Marie, Nikolej_
 
 Compared to earlier software projects, this course introduced us to several DevOps practices that changed both our workflow and our understanding of software development. Many of these practices reflected the principles behind the Three Ways of DevOps[@kim2021devops]: improving flow, enabling fast feedback, and encouraging continuous improvement through automation, monitoring, and maintenance.
 A major difference compared to earlier projects was the amount of automation involved in the workflow. Tasks such as testing, linting, building containers, generating reports, and deployment were automated through pipelines and scripts. This reduced repetitive manual work and improved consistency across the project.
