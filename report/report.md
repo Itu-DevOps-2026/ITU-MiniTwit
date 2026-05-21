@@ -133,9 +133,11 @@ This follows a defense-in-depth strategy, where multiple independent security me
 
 ## Availability and Scaling
 
-_Authors: Frederik_
+_Authors: Frederik, Marie_
 
-To increase availability of the system a simple load balancing setup has been made. This can also be seen in the image from architecture and design. Here a load balancer balances the load of each server running the application. To help further for availability a second backup load balancer exists to take over if the primary fails. For scaling the application has not been scaled further than being on 2 servers. It should have been so each server had at least 2 running instances of the application and a corresponding update strategy should have been implemented in the CI/CD pipeline. If it had been implemented the blue-green upgrade strategy would have been implemented.
+To increase availability of the system a simple load balancing setup has been made. This can also be seen in the image from architecture and design. Here a load balancer balances the load of each server running the application. To help further for availability, a second backup load balancer exists to take over if the primary fails. 
+
+The application has not been scaled further than being on two servers. It should have been so that each server had at least 2 running instances of the application and a corresponding update strategy should have been implemented in the CI/CD pipeline. If it had been implemented the blue-green upgrade strategy would have been implemented.
 
 # Reflection
 
