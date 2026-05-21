@@ -136,7 +136,7 @@ As a result, the Docker Scout analysis consistently recommends upgrading the run
 Given the project constraints and dependencies on the underlying platform, we chose to explicitly exclude this specific category from the analysis checks. While this represents a deviation from the otherwise strict quality requirements, it is not considered a critical issue as long as the limitation is acknowledged and taken into account during maintenance and future development.
 
 Below is the latest static analysis checks.
-![MiniTwit Deployment Diagram](images/Analysis_checks.png)
+![MiniTwit Deployment Diagram](report/images/Analysis_checks.png)
 
 _System checks on the recent-most change_
 
@@ -162,7 +162,7 @@ The CI/CD process is based on GitHub Actions workflows that run on the `main` br
 - `Deploy To DO` — runs on pushes to `main` and can also be triggered manually. It builds and pushes the Docker images and deploys them to the DigitalOcean production Droplets.
 - `automatic-weekly-release` — runs on schedule every Tuesday at 08:00 UTC and can be started manually. It builds the project, runs tests, packages release artifacts, and creates a GitHub release.
 
-![CI-CD pipeline](images/CI-CD.png)
+![CI-CD pipeline](report/images/CI-CD.png)
 
 _CI-CD pipeline_
 
@@ -289,7 +289,7 @@ To resolve the issue, a Docker data directory used for temporary storage was cle
 
 After discovering that the application was unavailable, the first step was to inspect the logs.  The logs revealed that the outage was caused by thread pool starvation. Further investigation showed that certain requests to the application was taking upwards of 46 minutes. By analyzing at the database activity, it became evident that queries were scanning more than 200,000 rows per second. It was therefore decided that the database required proper indexing to mitigate the issue. After the necessary indexes were added and the application was restarted, the system returned to stable operation and performed as expected. The full bug report can be found on issue [#99](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/99)
 
-![Database load](images/database_fetch.png)
+![Database load](report/images/database_fetch.png)
 
 _Database load before indexing._
 
@@ -318,7 +318,7 @@ Identifying bottlenecks or failures that would otherwise have been difficult to 
 Luckily, we were never forced to take the whole system down and bring it back online.
 Towards the end of the project, we did attempt to ensure `vagrant up` could do exactly that, recreating our infrastructure from scratch.
 Ultimately, there were some issues that we did not have time to fix, hence the [pull request #90](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/pull/90) remains open.
-A video demo of `vagrant up` can be found [here](images/group_e_vagrant_up_demo.gif).
+A video demo of `vagrant up` can be found [here](report/images/group_e_vagrant_up_demo.gif).
 
 # Use of Generative AI
 _Authors: Nikolej, Sara_
