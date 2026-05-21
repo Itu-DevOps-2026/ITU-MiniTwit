@@ -172,8 +172,6 @@ this setup improves observability significantly, allowing easier searching and f
 The logging setup proved to be especially useful if for instance the simulation suddenly reports failed requests.
 The MiniTwit container logs include errors, HTTP requests and database queries,
 which allows us to pinpoint the problem quickly.
-Or if the monitoring setup indicates something unexpected,
-the aggregated logging platform allows us to ascertain whether it is a problem with the monitoring stack or the application itself.
 
 
 ## Security
