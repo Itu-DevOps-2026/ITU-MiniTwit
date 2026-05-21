@@ -69,7 +69,7 @@ The monitoring does not supply data to measure user experience or data to benefi
 There are many ways monitoring could be improved.
 For one, database monitoring would have been especially beneficial both for the operational side and to provide metrics for the business side e.g. number of users in the system.
 
-Lastly, the monitoring dashboards provided by DigitalOcean to monitor the VMs has been regularly used.
+Lastly, the monitoring dashboards provided by DigitalOcean to monitor the Droplets has been regularly used.
 
 ## Logging
 
