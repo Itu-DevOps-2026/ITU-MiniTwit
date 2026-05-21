@@ -13,6 +13,8 @@ author: |
 date: \today
 ---
 
+\clearpage
+
 # System
 
 ## Architecture and Design
@@ -342,10 +344,15 @@ At the same time, we met certain limitations when using AI. Suggested fixes some
 Additionally, relying on AI summaries may have reduced some of the deeper understanding that can come from manually reading documentation or solving problems independently, like spending hours solving a tiny bug. 
 As a result, we found that generative AI was most useful as a supporting tool rather than a replacement for critical thinking, testing, and technical understanding.
 
+
+\clearpage
+
 # References
 
 ::: {#refs}
 :::
+
+\clearpage
 
 # Appendix
 
