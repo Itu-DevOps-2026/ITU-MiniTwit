@@ -55,7 +55,7 @@ If one server goes down, logs and metrics may be lost.
 This could be fixed by having a centralized monitoring stack e.g. on a separate device that all application nodes
 export to.
 
-Conversely, since both production serves run identical containerized environments,
+Conversely, since both production servers run identical containerized environments,
 the system is easily reproducible and scalable.
 
 While the monitoring and logging data is not strictly centralized, the app database itself is.
@@ -77,7 +77,7 @@ which can be seen [here](#net-dependencies), the most important dependencies can
 
 ![Dependencies](report/images/dependencies.png)
 
-## System States
+## System State
 
 _Authors: Vitus, Sara_
 
@@ -87,7 +87,7 @@ Several analysis tools were also configured with strict settings to enforce high
 At present, the entire project complies with these quality requirements and can thus be considered stable.
 
 There have been a few necessary compromises to these quality gating rules.
-The project is developed on top of the Chirp! platform, which was originally designed for .NET 8. Since then, newer .NET versions have been released, and .NET 8 is not considered outdated.
+The project is developed on top of the Chirp! platform, which was originally designed for .NET 8. Since then, newer .NET versions have been released, and .NET 8 is now considered outdated.
 As a result, the Docker Scout analysis consistently recommends upgrading the runtime environment.
 Given the project constraints and dependencies on the underlying platform, we chose to explicitly exclude this specific category from the analysis checks. While this represents a deviation from the otherwise strict quality requirements, it is not considered a critical issue as long as the limitation is acknowledged and taken into account during maintenance and future development.
 
@@ -100,7 +100,7 @@ Below is the latest static analysis checks.
 
 ## CI/CD
 
-_Authors: Vitus, Frederik, Nikolej_
+_Authors: Vitus, Frederik, Nikolej, Sara, Marie_
 
 The CI/CD process is based on GitHub Actions workflows that run on the `main` branch or on a scheduled timer. The MiniTwit repository currently uses the following active workflows to complete CI/CD:
 
@@ -113,7 +113,7 @@ The CI/CD process is based on GitHub Actions workflows that run on the `main` br
   - CodeQL analysis to surface static security issues.
   - Docker Scout scanning for critical vulnerabilities on the DockerHub image.
 - `build-and-test` — runs on push and pull request events for `main`. It restores dependencies, performs a clean build, and runs the test suite.
-- `SonarCloud & Codacy` — provides external static analysis, code smell detection, and quality gating on Pull Requests.
+- `SonarCloud & Codacy` — provides external static analysis, code smell detection, and quality gating on pull requests.
 - `Deploy to Staging VM` — runs on push and pull request events for `main` after the primary checks pass. Builds and pushes the Docker images and deploys them to the DigitalOcean staging Droplet.
 - `Deploy To DO` — runs on pushes to `main` and can also be triggered manually. It builds and pushes the Docker images and deploys them to the DigitalOcean production Droplets.
 - `automatic-weekly-release` — runs on schedule every Tuesday at 08:00 UTC and can be started manually. It builds the project, runs tests, packages release artifacts, and creates a GitHub release.
@@ -127,13 +127,13 @@ The CI/CD process is based on GitHub Actions workflows that run on the `main` br
 _Authors: Marie, Sara, Nikolej_
 
 Monitoring is set up using Prometheus [@prometheus_docs] and Grafana [@grafana_docs] for visualizing and querying metrics,
-by adding the `app.MapMetrics();` and `app.UseHttpMetrics();` middleware the pipeline.
+by adding the `app.MapMetrics();` and `app.UseHttpMetrics();` middleware to the pipeline.
 `app.MapMetrics();` exposes the HTTP endpoint for Prometheus to scrape and `app.UseHttpMetrics();` collects Prometheus metrics for processed HTTP requests (from documentation of UseHttpMetrics).
 
 The setup is pull-based as the application exposes metrics which are then pulled by Prometheus.
 
 In Grafana, the monitoring has been split up into two dashboards; application metrics and infrastructure metrics (see video [Monitoring Dashboards](../README.md:80)).
-Application metrics focuses mainly on request rates. It displays CPU usage in seconds, the amount of HTTP request received, and statistics on different types of requests.
+Application metrics focuses mainly on request rates. It displays CPU time usage, the amount of HTTP request received, and statistics on different types of requests.
 Infrastructure metrics focus on the server side and display dashboards containing information about: memory usage, CPU usage and process uptime.
 
 The application's monitoring is at the reactive level [@turnbull2014art],
@@ -146,12 +146,11 @@ For one, database monitoring would have been especially beneficial both for the 
 
 ## Logging
 
-_Authors: Nikolej_
+_Authors: Nikolej, Sara_
 
 The system uses a minimal push-based logging stack utilizing Alloy [@alloy_docs], Loki [@loki_docs] and Grafana [@grafana_docs],
 focusing on aggregation and visualization rather than analysis.
-The Grafana-Loki stack was primarily chosen because it is cheap to run
-and for its native support for Grafana, which the existing monitoring system was already using.
+The Grafana-Loki stack was primarily chosen because it is cheap to run and because the existing monitoring setup already relied on Grafana.
 
 Alloy collects logs from running Docker containers through the Docker socket `host = unix:///var/run/docker.sock`,
 and populates them with metadata like labels before forwarding to Loki for storage.
@@ -161,11 +160,8 @@ Our chosen focus on aggregation and visualization is accomplished by grouping lo
 The default Grafana Logs Drilldown page is more than sufficient for this purpose,
 hence there are no custom dashboards.
 
-By providing a centralized view of all system logs,
-this setup improves observability significantly, allowing easier searching and faster response in case of errors.
-The logging setup proved to be especially useful if for instance the simulation suddenly reports failed requests.
-The MiniTwit container logs include errors, HTTP requests and database queries,
-which allows us to pinpoint the problem quickly.
+By providing a centralized view of all system logs, this setup significantly improves observability and enables faster troubleshooting and incident response. 
+The logging infrastructure proved particularly useful when the simulator reported failed requests, as the MiniTwit container logs include errors, HTTP requests, and database queries, allowing problems to be identified and diagnosed quickly.
 
 
 ## Security
@@ -204,11 +200,11 @@ This follows a defense-in-depth strategy, where multiple independent security me
 
 _Authors: Frederik, Nikolej, Sara, Marie_
 
-To increase the availability of the system a dual load balancer (LB) setup was implemented.
+To increase the availability of the system, a dual load balancer (LB) setup was implemented.
 The primary load balancer initially handles all traffic, but is replaced by the secondary in case of failure.
 This is enabled through the heartbeat messages exchanged between the two using VRRP.
 The secondary then takes ownership of the reserved IP and resumes operation.
-Essentially keeping the system online and reduces one potential single point of failure.
+This helps keep the system online and reduces a potential single point of failure.
 
 The same principle is applied to the application layer, by using two MiniTwit production servers.
 Both run the exact same services and both are connected to the same database,
@@ -229,7 +225,7 @@ _Authors: Frederik, Sara, Nikolej_
 For the simulator to function correctly, several new endpoints specified in the Swagger documentation had to be implemented. 
 To simplify this process, the OpenAPI Generator CLI tool was used to generate the initial endpoint structure, after which the individual endpoints were adapted to meet the required functionality and expected request behavior. Furthermore, token-based authorization was implemented for the endpoints that required authentication.
 
-The system used a SQLite database running in the MiniTwit application. As a consequence, all persisted data was lost whenever a new deployment of the application occurred. There was therefore a need to migrate to a new database type to enable persitance. It was chosen to migrate to a MySQL database which was hosted on DigitalOcean. This was chosen due to its relative simplicity and time effectiveness.
+The system used a SQLite database running in the MiniTwit application. As a consequence, all persisted data was lost whenever a new deployment of the application occurred. There was therefore a need to migrate to a new database type to enable persistence. It was chosen to migrate to a MySQL database which was hosted on DigitalOcean. This was chosen due to its relative simplicity and the limited development time available.
 
 ## Operations
 
@@ -247,7 +243,7 @@ We were notified that Grafana was returning an internal server error when users 
 
 To resolve the issue, a Docker data directory used for temporary storage was cleared, after which the Docker containers on the virtual machine were restarted. To prevent similar incidents in the future, storage retention policies were configured for Prometheus, and Prometheus was assigned a dedicated volume for persistent storage. To see the whole bug report see issue [#81](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/81).
 
-After discovering that the application was unavailable, the first step was to inspect the logs.  The logs revealed that the outage was caused by thread pool starvation. Further investigation showed that certain requests to the application was taking upwards of 46 minutes. By analyzing at the database activity, it became evident that queries were scanning more than 200,000 rows per second. It was therefore decided that the database required proper indexing to mitigate the issue. After the necessary indexes were added and the application was restarted, the system returned to stable operation and performed as expected. The full bug report can be found on issue [#99](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/99)
+After discovering that the application was unavailable, the first step was to inspect the logs. The logs revealed that the outage was caused by thread pool starvation. Further investigation showed that certain requests to the application were taking upwards of 46 minutes. By analyzing the database activity, it became evident that queries were scanning more than 200,000 rows per second. It was therefore decided that the database required proper indexing to mitigate the issue. After the necessary indexes were added and the application was restarted, the system returned to stable operation and performed as expected. The full bug report can be found on issue [#99](https://github.com/Itu-DevOps-2026/ITU-MiniTwit/issues/99)
 
 ![Database load before indexing.](report/images/database_fetch.png)
 
@@ -271,7 +267,7 @@ Using CD made our deployments faster, easily reproducable and less error-prone. 
 
 **Monitoring & Software Maintenance** 
 Monitoring through collecting logs and metrics made a big difference for us compared to earlier projects. Using tools such as Grafana and Prometheus gave us a much better understading of the system's runtime behaviour, and once set up correctly, the logs made a big difference in debugging.
-Identifying bottlenecks or failures that would otherwise have been difficult to detect, became significantly easier and made us focus more on maintaining the software in production, rather than only focussing on implementing functionality. Reliability and stability became important parts of the development process rather than something considered only at the end.
+Identifying bottlenecks or failures that would otherwise have been difficult to detect, became significantly easier and made us focus more on maintaining the software in production, rather than only focusing on implementing functionality. Reliability and stability became important parts of the development process rather than something considered only at the end.
 
 **Infrastructure as Code (IaC)**
 Luckily, we were never forced to take the whole system down and bring it back online.
