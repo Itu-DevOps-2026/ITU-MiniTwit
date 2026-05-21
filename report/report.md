@@ -82,42 +82,7 @@ which can be seen [here](#net-dependencies), the most important dependencies can
 
 *Note: Some, like Docker, can fall into more than one category.*
 
-**Workflow**
-
-- GitHub Actions - CI/CD automation platform to run workflows
-- rsync - File synchronization tool
-
-**Deployed**
-
-- DigitalOcean - Cloud hosting provider used to host servers and the database
-- Docker - Containerization platform
-- Docker Hub - Cloud-based registry for storing and sharing Docker Images
-- Nginx - High performance web server and reverse proxy
-- Keepalived - High availability and failover service
-- Certbot - Tool for automatically issuing and renewing SSL/TLS certificates
-- Grafana - Visualization platform for logs and monitoring
-- Prometheus - Monitoring service used to collect and store metrics from infrastructure and applications
-- Loki - Log aggregation and storage system
-- Alloy - Telemetry collector used to collect and forward logs
-- Ubuntu - Linux distribution used on our servers
-- MySQL - Relational database management system
-- Vagrant - Tool for creating and managing reproducible virtualized development environments
-
-**Static Analysis**
-
-- Hadolint - Linter for Dockerfiles
-- CSharpier - C# code formatter
-- CodeQL - Static analysis engine used to identify security vulnerabilities and code quality issues
-- Roslyn - .NET compiler platform for code analysis
-- Docker Scout - Security and vulnerability analysis tool for Docker
-- SonarCloud - Cloud-based code quality and security analysis platform
-- Codacy - Automated code review and quality monitoring platform
-
-**Development**
-
-- Git - Distributed version control system
-- GitHub - Web-based platform for hosting Git repositories
-- .NET - Microsoft’s development platform and runtime used to make the minitwit application
+![Dependencies](report/images/dependencies.png)
 
 ## System States
 
