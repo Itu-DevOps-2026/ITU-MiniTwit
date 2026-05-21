@@ -119,7 +119,7 @@ The most important dependencies can be seen below, categorized by type.
 
 _Authors: Vitus_
 
-The project is currently in a good state quality wise.
+The project is currently in a strong state with respect to software quality
 We have from the beginning focused on always having our tests and static analysis tools accept incoming changes before being allowed to be merged into a production state. 
 Even going as far as to set multiple analysis tools to strict. 
 As of now, the entire project is compliant with these criteria, and can thus be considered stable. 
