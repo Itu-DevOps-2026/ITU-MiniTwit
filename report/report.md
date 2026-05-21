@@ -1,16 +1,21 @@
 ﻿---
 title: "ITU-MiniTwit - Group e - Report"
 subtitle: |
-  DevOps, Software Evolution and Software Maintenance, BSc (Spring 2026)
-  **Course code:** BSDSESM1KU
+  DevOps, Software Evolution and Software Maintenance, BSc (Spring 2026)  
+  **Course code:** BSDSESM1KU  
+  **Repository:** https://github.com/Itu-DevOps-2026/ITU-MiniTwit
 author: |
   Frederik Hørup Petersen <frap@itu.dk>  
   Marie Højsted Johansen <majoh@itu.dk>  
   Nikolej Vinther Lundquist <nivl@itu.dk>  
-  Sara Louise Høg Bagger <salb@itu.dk>
+  Sara Louise Høg Bagger <salb@itu.dk>  
   Vitus Brodersen <vitb@itu.dk>
-date: \today
+date: May 22, 2026
 ---
+
+\clearpage
+
+\tableofcontents
 
 \clearpage
 
