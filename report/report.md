@@ -44,19 +44,7 @@ This setup is designed to prioritize availability.
 One can imagine the stakeholders of a social media platform pushing for availability,
 since every second of downtime is potential earnings lost.
 
-The dual load balancer (LB) setup was chosen for this reason.
-The primary load balancer initially handles all traffic, but is replaced by the secondary in case of failure.
-This is enabled through the heartbeat messages exchanged between the two using VRRP.
-The secondary then takes ownership of the reserved IP and resumes operation.
-Essentially keeping the system online and reduces one potential single point of failure.
-
-The same principle is applied to the application layer, by using two MiniTwit production servers.
-Both run the exact same services and both are connected to the same database,
-which enables traffic to be served by either instance.
-This provides redundancy in case one server fails,
-allowing the team to bring it back up while the other instance continues to handle traffic.
-
-However one major drawback to this setup is the duplicated monitoring stack.
+However, one major drawback to this setup is the duplicated monitoring stack.
 Logs and metrics for each server are separate, which compromises observability consistency.
 If one server goes down, logs and metrics may be lost.
 This could be fixed by having a centralized monitoring stack e.g. on a separate device that all application nodes
@@ -210,12 +198,21 @@ This follows a defense-in-depth strategy, where multiple independent security me
 
 _Authors: Frederik, Nikolej, Sara, Marie_
 
-To increase the availability of the system, a simple load balancing setup was implemented (see the diagram in the deployment section).
-One primary load balancer initially handles all traffic, but is automatically replaced by a secondary backup in case of failure.
-Additionally, the system was scaled to run two application instances simultaneously on seperate DigitalOcean Droplets.
+To increase the availability of the system a dual load balancer (LB) setup was implemented.
+The primary load balancer initially handles all traffic, but is replaced by the secondary in case of failure.
+This is enabled through the heartbeat messages exchanged between the two using VRRP.
+The secondary then takes ownership of the reserved IP and resumes operation.
+Essentially keeping the system online and reduces one potential single point of failure.
+
+The same principle is applied to the application layer, by using two MiniTwit production servers.
+Both run the exact same services and both are connected to the same database,
+which enables traffic to be served by either instance.
+This provides redundancy in case one server fails,
+allowing the team to bring it back up while the other instance continues to handle traffic.
 
 This could be improved by running at least 2 instances of the application on each of the two Droplets,
 and subsequently implementing an update strategy in the CI/CD pipeline. For instance, the blue-green upgrade strategy.
+
 
 # Reflection
 
